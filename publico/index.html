@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Body and Soul | Inicio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita+Swashed:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+<header class="main-header">
+  <div class="container header-container">
+
+    <div class="header-left">
+      <a href="index.html">
+        <img src="img/logo.PNG" class="logo" alt="Body and Soul">
+      </a>
+
+      <select class="categories-select">
+        <option value="">Categorias</option>
+        <option>Deporte</option>
+        <option>Bienestar</option>
+        <option>Yoga</option>
+        <option>Pilates</option>
+        <option>Spa</option>
+      </select>
+    </div>
+
+    <div class="header-title">
+      <h1>Bienvenida a Body and Soul</h1>
+    </div>
+
+    <div class="header-right">
+      <a href="login.html" class="btn btn-outline">Iniciar sesión</a>
+    </div>
+
+  </div>
+</header>
+
+  <main>
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-box">
+          <div class="hero-text">
+            <span class="section-tag">Descubre experiencias</span>
+            <h2>¿Buscando algún plan entretenido?</h2>
+            <p>
+              Encuentra actividades de deporte, bienestar y experiencias que te ayuden
+              a cuidarte por dentro y por fuera.
+            </p>
+          </div>
+
+          <div class="search-panel">
+            <form class="search-form" action="#" method="get">
+              <label for="buscador" class="sr-only">Buscar actividad</label>
+              <input
+                type="text"
+                id="buscador"
+                name="buscador"
+                class="search-input"
+                placeholder="Busca una actividad, centro o experiencia"
+              />
+
+              <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+
+            <div class="filters-box">
+              <h3>Filtros</h3>
+
+              <div class="filters-grid">
+                <div class="form-group">
+                  <label for="categoria">Categoría</label>
+                  <select id="categoria" name="categoria">
+                    <option value="">Todas</option>
+                    <option value="deporte">Deporte</option>
+                    <option value="bienestar">Bienestar</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="precio">Rango de precio</label>
+                  <select id="precio" name="precio">
+                    <option value="">Cualquiera</option>
+                    <option value="0-10">0€ - 10€</option>
+                    <option value="10-25">10€ - 25€</option>
+                    <option value="25-50">25€ - 50€</option>
+                    <option value="50+">Más de 50€</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-secondary">Aplicar filtros</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Top actividades</span>
+          <h2>Actividades más reservadas</h2>
+          <p>
+            Estas son algunas de las experiencias favoritas de nuestras usuarias.
+          </p>
+        </div>
+
+        <div class="activities-grid">
+          <article class="activity-card">
+            <div class="activity-image-wrapper">
+              <img src="img/yoga1.jpg" alt="Clase de yoga" class="activity-image">
+            </div>
+
+            <div class="activity-content">
+              <div class="activity-rating" aria-label="Puntuación 4,8 de 5">
+                <span class="stars">★★★★★</span>
+                <span class="rating-value">4.8</span>
+              </div>
+
+              <h3>Yoga Flow</h3>
+              <p>
+                Clase guiada para mejorar flexibilidad, respiración y equilibrio en un entorno relajante.
+              </p>
+
+              <a href="actividad.html" class="btn btn-primary btn-full">Ir a la actividad</a>
+            </div>
+          </article>
+
+          <article class="activity-card">
+            <div class="activity-image-wrapper">
+              <img src="img/pilates1.jpg" alt="Sesión de pilates" class="activity-image">
+            </div>
+
+            <div class="activity-content">
+              <div class="activity-rating" aria-label="Puntuación 4,7 de 5">
+                <span class="stars">★★★★★</span>
+                <span class="rating-value">4.7</span>
+              </div>
+
+              <h3>Pilates Core</h3>
+              <p>
+                Entrenamiento centrado en fuerza, postura y control corporal con sesiones adaptadas.
+              </p>
+
+              <a href="actividad.html" class="btn btn-primary btn-full">Ir a la actividad</a>
+            </div>
+          </article>
+
+          <article class="activity-card">
+            <div class="activity-image-wrapper">
+              <img src="img/spa1.jpg" alt="Experiencia de spa y bienestar" class="activity-image">
+            </div>
+
+            <div class="activity-content">
+              <div class="activity-rating" aria-label="Puntuación 4,9 de 5">
+                <span class="stars">★★★★★</span>
+                <span class="rating-value">4.9</span>
+              </div>
+
+              <h3>Spa Relax</h3>
+              <p>
+                Un plan perfecto para desconectar con circuito termal y tratamientos pensados para tu bienestar.
+              </p>
+
+              <a href="actividad.html" class="btn btn-primary btn-full">Ir a la actividad</a>
+            </div>
+          </article>
+
+          <article class="activity-card">
+            <div class="activity-image-wrapper">
+              <img src="img/box-fitness1.png" alt="Actividad deportiva de boxeo fitness" class="activity-image">
+            </div>
+
+            <div class="activity-content">
+              <div class="activity-rating" aria-label="Puntuación 4,6 de 5">
+                <span class="stars">★★★★☆</span>
+                <span class="rating-value">4.6</span>
+              </div>
+
+              <h3>Box Fitness</h3>
+              <p>
+                Sesión intensa y divertida para liberar estrés, mejorar resistencia y mantenerte activa.
+              </p>
+
+              <a href="actividad.html" class="btn btn-primary btn-full">Ir a la actividad</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <p>&copy; 2026 Body and Soul. Todos los derechos reservados.</p>
+      </div>
+
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram" class="social-link">IG</a>
+        <a href="#" aria-label="Facebook" class="social-link">f</a>
+        <a href="#" aria-label="X" class="social-link">X</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
