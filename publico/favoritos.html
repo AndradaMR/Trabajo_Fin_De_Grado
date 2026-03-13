@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Body and Soul | Favoritos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/favoritos.css">
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="container header-container">
+
+      <div class="header-left">
+        <a href="index.html" class="logo-link" aria-label="Ir al inicio">
+          <img src="assets/logo-body-and-soul.png" class="logo" alt="Body and Soul">
+        </a>
+
+        <div class="nav-categories">
+          <label for="categorias" class="sr-only">Categorías</label>
+          <select id="categorias" class="categories-select">
+            <option value="">Categorías</option>
+            <option value="deporte">Deporte</option>
+            <option value="bienestar">Bienestar</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="header-title">
+        <h1>Bienvenida a Body and Soul</h1>
+      </div>
+
+      <div class="header-right">
+        <a href="perfil.html" class="btn btn-outline">Mi perfil</a>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="favorites-page">
+    <section class="favorites-section">
+      <div class="container">
+
+        <div class="favorites-intro">
+          <span class="section-tag">Área personal</span>
+          <h2>Mis favoritos</h2>
+          <p>
+            Aquí tienes las actividades que has guardado para revisarlas más tarde, compararlas
+            o reservarlas cuando quieras.
+          </p>
+        </div>
+
+        <div class="favorites-grid">
+
+          <!-- CARD 1 -->
+          <article class="favorite-card">
+            <div class="favorite-image-wrapper">
+              <img src="assets/yoga-favorito.jpg" alt="Clase de yoga flow">
+              <button class="favorite-icon-btn" type="button" aria-label="Quitar de favoritos">
+                ♥
+              </button>
+            </div>
+
+            <div class="favorite-content">
+              <p class="favorite-category">Bienestar · Yoga</p>
+
+              <div class="favorite-top">
+                <h3>Yoga Flow</h3>
+                <span class="favorite-rating">★ 4.8</span>
+              </div>
+
+              <p class="favorite-description">
+                Una experiencia de respiración, movimiento y relajación para conectar cuerpo y mente.
+              </p>
+
+              <div class="favorite-info">
+                <span><strong>Duración:</strong> 60 min</span>
+                <span><strong>Ubicación:</strong> Madrid Centro</span>
+              </div>
+
+              <div class="favorite-actions">
+                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
+                <a href="reserva.html" class="btn btn-primary">Reservar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- CARD 2 -->
+          <article class="favorite-card">
+            <div class="favorite-image-wrapper">
+              <img src="assets/spa-favorito.jpg" alt="Circuito spa premium">
+              <button class="favorite-icon-btn" type="button" aria-label="Quitar de favoritos">
+                ♥
+              </button>
+            </div>
+
+            <div class="favorite-content">
+              <p class="favorite-category">Bienestar · Spa</p>
+
+              <div class="favorite-top">
+                <h3>Circuito termal premium</h3>
+                <span class="favorite-rating">★ 4.9</span>
+              </div>
+
+              <p class="favorite-description">
+                Piscina climatizada, sauna y jacuzzi en una experiencia completa de bienestar.
+              </p>
+
+              <div class="favorite-info">
+                <span><strong>Duración:</strong> 90 min</span>
+                <span><strong>Ubicación:</strong> Pozuelo</span>
+              </div>
+
+              <div class="favorite-actions">
+                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
+                <a href="reserva.html" class="btn btn-primary">Reservar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- CARD 3 -->
+          <article class="favorite-card">
+            <div class="favorite-image-wrapper">
+              <img src="assets/padel-favorito.jpg" alt="Pista de pádel indoor">
+              <button class="favorite-icon-btn" type="button" aria-label="Quitar de favoritos">
+                ♥
+              </button>
+            </div>
+
+            <div class="favorite-content">
+              <p class="favorite-category">Deporte · De raqueta</p>
+
+              <div class="favorite-top">
+                <h3>Pista de pádel indoor</h3>
+                <span class="favorite-rating">★ 4.7</span>
+              </div>
+
+              <p class="favorite-description">
+                Reserva de pista cubierta con vestuarios, iluminación y zona de descanso.
+              </p>
+
+              <div class="favorite-info">
+                <span><strong>Duración:</strong> 90 min</span>
+                <span><strong>Ubicación:</strong> Alcobendas</span>
+              </div>
+
+              <div class="favorite-actions">
+                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
+                <a href="reserva.html" class="btn btn-primary">Reservar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- CARD 4 -->
+          <article class="favorite-card">
+            <div class="favorite-image-wrapper">
+              <img src="assets/pilates-favorito.jpg" alt="Clase de pilates reformer">
+              <button class="favorite-icon-btn" type="button" aria-label="Quitar de favoritos">
+                ♥
+              </button>
+            </div>
+
+            <div class="favorite-content">
+              <p class="favorite-category">Deporte · Pilates</p>
+
+              <div class="favorite-top">
+                <h3>Pilates Reformer</h3>
+                <span class="favorite-rating">★ 4.6</span>
+              </div>
+
+              <p class="favorite-description">
+                Sesión guiada en máquina reformer para mejorar fuerza, postura y control corporal.
+              </p>
+
+              <div class="favorite-info">
+                <span><strong>Duración:</strong> 50 min</span>
+                <span><strong>Ubicación:</strong> Chamberí</span>
+              </div>
+
+              <div class="favorite-actions">
+                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
+                <a href="reserva.html" class="btn btn-primary">Reservar</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <p>&copy; 2026 Body and Soul. Todos los derechos reservados.</p>
+      </div>
+
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram" class="social-link">IG</a>
+        <a href="#" aria-label="Facebook" class="social-link">f</a>
+        <a href="#" aria-label="X" class="social-link">X</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
