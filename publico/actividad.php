@@ -18,7 +18,7 @@
     <div class="container header-container">
 
       <div class="header-left">
-        <a href="index.html" class="logo-link" aria-label="Ir al inicio">
+        <a href="index.php" class="logo-link" aria-label="Ir al inicio">
           <img src="assets/logo-body-and-soul.png" class="logo" alt="Body and Soul">
         </a>
 
@@ -37,7 +37,7 @@
       </div>
 
       <div class="header-right">
-        <a href="login.html" class="btn btn-outline">Iniciar sesión</a>
+        <a href="login.php" class="btn btn-outline">Iniciar sesión</a>
       </div>
 
     </div>
@@ -48,9 +48,9 @@
       <div class="container">
 
         <div class="activity-breadcrumb">
-          <a href="bienestar.html">Bienestar</a>
+          <a href="bienestar.php">Bienestar</a>
           <span>/</span>
-          <a href="bienestar.html#yoga">Yoga</a>
+          <a href="bienestar.php#yoga">Yoga</a>
         </div>
 
         <div class="activity-layout">
@@ -118,7 +118,7 @@
                 </div>
               </div>
 
-              <a href="reserva.html" class="btn btn-primary btn-full reserve-btn">
+              <a href="reserva.php" class="btn btn-primary btn-full reserve-btn">
                 Reservar actividad
               </a>
             </div>
@@ -129,19 +129,10 @@
     </section>
   </main>
 
-  <footer class="main-footer">
-    <div class="container footer-container">
-      <div class="footer-brand">
-        <p>&copy; 2026 Body and Soul. Todos los derechos reservados.</p>
-      </div>
 
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram" class="social-link">IG</a>
-        <a href="#" aria-label="Facebook" class="social-link">f</a>
-        <a href="#" aria-label="X" class="social-link">X</a>
-      </div>
-    </div>
-  </footer>
+ <?php
+require_once("footer.php");
+?>
 
 </body>
 </html>

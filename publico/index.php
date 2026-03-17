@@ -1,47 +1,9 @@
+<?php
+$titulo="<h1>Bienvenido a Body and Soul</h1>";
+require_once("head.php");
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Body and Soul | Inicio</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita+Swashed:wght@700;800;900&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/index.css" />
-</head>
-<body>
-<header class="main-header">
-  <div class="container header-container">
-
-    <div class="header-left">
-      <a href="index.html">
-        <img src="img/logo.PNG" class="logo" alt="Body and Soul">
-      </a>
-
-      <select class="categories-select">
-        <option value="">Categorias</option>
-        <option>Deporte</option>
-        <option>Bienestar</option>
-        <option>Yoga</option>
-        <option>Pilates</option>
-        <option>Spa</option>
-      </select>
-    </div>
-
-    <div class="header-title">
-      <h1>Bienvenida a Body and Soul</h1>
-    </div>
-
-    <div class="header-right">
-      <a href="login.html" class="btn btn-outline">Iniciar sesión</a>
-    </div>
-
-  </div>
-</header>
+?>
 
   <main>
     <section class="hero-section">
@@ -51,8 +13,7 @@
             <span class="section-tag">Descubre experiencias</span>
             <h2>¿Buscando algún plan entretenido?</h2>
             <p>
-              Encuentra actividades de deporte, bienestar y experiencias que te ayuden
-              a cuidarte por dentro y por fuera.
+              Encuentra actividades de deporte, bienestar y experiencias que te ayuden a cuidarte por dentro y por fuera.
             </p>
           </div>
 
@@ -129,7 +90,7 @@
                 Clase guiada para mejorar flexibilidad, respiración y equilibrio en un entorno relajante.
               </p>
 
-              <a href="actividad.html" class="btn btn-primary btn-full">Ir a la actividad</a>
+              <a href="actividad.php" class="btn btn-primary btn-full">Ir a la actividad</a>
             </div>
           </article>
 
@@ -149,7 +110,7 @@
                 Entrenamiento centrado en fuerza, postura y control corporal con sesiones adaptadas.
               </p>
 
-              <a href="actividad.html" class="btn btn-primary btn-full">Ir a la actividad</a>
+              <a href="actividad.php" class="btn btn-primary btn-full">Ir a la actividad</a>
             </div>
           </article>
 
@@ -169,7 +130,7 @@
                 Un plan perfecto para desconectar con circuito termal y tratamientos pensados para tu bienestar.
               </p>
 
-              <a href="actividad.html" class="btn btn-primary btn-full">Ir a la actividad</a>
+              <a href="actividad.php" class="btn btn-primary btn-full">Ir a la actividad</a>
             </div>
           </article>
 
@@ -189,7 +150,7 @@
                 Sesión intensa y divertida para liberar estrés, mejorar resistencia y mantenerte activa.
               </p>
 
-              <a href="actividad.html" class="btn btn-primary btn-full">Ir a la actividad</a>
+              <a href="actividad.php" class="btn btn-primary btn-full">Ir a la actividad</a>
             </div>
           </article>
         </div>
@@ -197,19 +158,21 @@
     </section>
   </main>
 
-  <footer class="main-footer">
-    <div class="container footer-container">
-      <div class="footer-brand">
-        <p>&copy; 2026 Body and Soul. Todos los derechos reservados.</p>
-      </div>
+ <?php
+require_once("footer.php");
+?>
 
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram" class="social-link">IG</a>
-        <a href="#" aria-label="Facebook" class="social-link">f</a>
-        <a href="#" aria-label="X" class="social-link">X</a>
-      </div>
-    </div>
-  </footer>
+<script>
+document.getElementById("categoria").addEventListener("change", function() {
+  
+  if(this.value !== ""){
+    if(this.value=="deporte"){
+      window.location.href="categoria-deporte.php";
+    }
+  }
+
+});
+</script>
 
 </body>
 </html>
