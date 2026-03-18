@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once("bd/bd.php");
+require_once("../bd/bd.php");
 $bbdd= new db("localhost",3306,"pruebatfg","root","");
 
 //require_once("bdreservas/bd.php");
