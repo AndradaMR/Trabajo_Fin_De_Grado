@@ -42,6 +42,16 @@ if(isset($_POST["apellido"])){
     }
 }
 
+$telefono="";
+$errortelefono="";
+if(isset($_POST["telefono"])){
+    $telefono=htmlentities($_POST["telefono"]);
+    if($telefono==""){
+        $errortelefono="El campo telefono no puede estar vacio";
+        $banderaerror=True;
+    }
+}
+
 $contraseña="";
 $contraerror="";
 if(isset($_POST["contraseña"])){
@@ -65,7 +75,7 @@ if(isset($_POST["confirm_password"])){
 }
 
 if($banderaerror==False&&isset($_POST["enviar"])){
-    $bbdd->RegistrarUsuario($email,$contraseña,$nombre,$apellido);
+    $bbdd->RegistrarUsuario($email,$contraseña,$nombre,$apellido,$telefono);
     header("Location: login.php"); //Me voy al inicio de sesion cuadno me registro
     exit();
     }
@@ -116,6 +126,17 @@ if($banderaerror==False&&isset($_POST["enviar"])){
                   placeholder="Introduce tu correo"
                 >
                 <small><?php echo $erroremail; ?></small>
+              </div>
+
+              <div class="form-group">
+                <label for="telefono">Telefono</label>
+                <input
+                  type="tel"
+                  id="telefono"
+                  name="telefono"
+                  placeholder="Introduce tu telefono"
+                >
+                <small><?php echo $errortelefono; ?></small>
               </div>
 
               <div class="form-group">

@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let email = document.getElementById("email");
     let contraseña = document.getElementById("contraseña");
     let confirmPassword = document.getElementById("confirm-password");
-    let telefono = document.getElementById("telefono");
 
     formulario.addEventListener("submit", function (e) {
         let banderaerror = false;
@@ -19,17 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
         let valorEmail = email.value.trim();
         let valorContraseña = contraseña.value.trim();
         let valorConfirmPassword = confirmPassword.value.trim();
-        let telefonoValor = telefono.value.trim();
-
 
         // Expresión regular email
         let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
         // Al menos un número y un carácter especial, mínimo 6 caracteres
         let regexContraseña = /^(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>_\-\\\/\[\]+;']).{6,}$/;
-
-        // Expresión regular teléfono: exactamente 9 dígitos
-        let regexTelefono = /^\d{9}$/;
 
         // comprobación de valores del nombre
         if (valorNombre === "") {
@@ -55,15 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
             banderaerror = true;
         } else if (!regexEmail.test(valorEmail)) {
             mostrarError(email, "Introduce un email válido");
-            banderaerror = true;
-        }
-
-         // comprobación de valores del teléfono
-        if (telefonoValor === "") {
-            mostrarError(telefono, "El teléfono no puede estar vacío");
-            banderaerror = true;
-        } else if (!regexTelefono.test(telefonoValor)) {
-            mostrarError(telefono, "Introduce un teléfono válido de 9 dígitos");
             banderaerror = true;
         }
 

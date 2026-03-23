@@ -1,0 +1,92 @@
+[
+    {
+        "nombre_empresa": "empresa1",
+        "servicios": [
+            {
+                "nombre_servicio": "Ruta guiada de senderismo",
+                "descripcion": "Excursión guiada por la sierra con monitor especializado",
+                "lugar": "Sierra de Guadarrama",
+                "precio": "25.00",
+                "imagenes": [
+                    "imagenes\/senderismo1.jpg",
+                    "imagenes\/senderismo2.jpg"
+                ],
+                "detalles": [
+                    {
+                        "fecha": "2026-04-10",
+                        "hora_inicio": "10:00:00",
+                        "hora_fin": "12:00:00",
+                        "plazas_maximas": 15
+                    },
+                    {
+                        "fecha": "2026-04-11",
+                        "hora_inicio": "16:00:00",
+                        "hora_fin": "18:00:00",
+                        "plazas_maximas": 15
+                    }
+                ]
+            },
+            {
+                "nombre_servicio": "Escalada para principiantes",
+                "descripcion": "Curso de iniciación a la escalada en roca",
+                "lugar": "La Pedriza",
+                "precio": "40.00",
+                "imagenes": [
+                    "imagenes\/escalada1.jpg"
+                ],
+                "detalles": [
+                    {
+                        "fecha": "2026-04-12",
+                        "hora_inicio": "09:00:00",
+                        "hora_fin": "11:00:00",
+                        "plazas_maximas": 10
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "nombre_empresa": "empresa2",
+        "servicios": [
+            {
+                "nombre_servicio": "Clase de Yoga al aire libre",
+                "descripcion": "Sesión de yoga para todos los niveles",
+                "lugar": "Parque del Retiro",
+                "precio": "15.00",
+                "imagenes": [
+                    "imagenes\/yoga1.jpg"
+                ],
+                "detalles": [
+                    {
+                        "fecha": "2026-04-13",
+                        "hora_inicio": "19:00:00",
+                        "hora_fin": "20:30:00",
+                        "plazas_maximas": 20
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "nombre_empresa": "Empresa3",
+        "servicios": [
+            {
+                "nombre_servicio": "Circuito spa",
+                "descripcion": "Circuito spa para dos personas, con vistas a la montaña nevada.",
+                "lugar": "calle peral 4",
+                "precio": "50.00",
+                "imagenes": [
+                    "\"..\/img\/bienestar\/spa\/spa1.jpg\""
+                ],
+                "detalles": [
+                    {
+                        "fecha": "2026-03-20",
+                        "hora_inicio": "12:00:00",
+                        "hora_fin": "14:00:00",
+                        "plazas_maximas": 34
+                    }
+                ]
+            }
+        ]
+    }
+]
