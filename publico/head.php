@@ -2,7 +2,10 @@
 session_start();
 
 require_once("../bd/bd.php");
-$bbdd= new db("localhost",3306,"pruebatfg","root","");
+$bbdd= new db("localhost",3306,"plataforma_servicios","root","");
+
+require_once("../bd/bdact.php");
+$bdact= new bdact("localhost",3306,"plataforma_servicios","root","");
 
 //require_once("bdreservas/bd.php");
 //$bbdd= new dbreservas("localhost",3306,"pruebatfg","root","");
@@ -37,6 +40,8 @@ if(isset($_GET["cerrar"])){
   exit();
 }
 
+$categorias = $bdact->obtenerCategoriasPadre();
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -49,10 +54,15 @@ if(isset($_GET["cerrar"])){
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita+Swashed:wght@700;800;900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/index.css" />
-  <link rel="stylesheet" href="css/login.css">
-  <link rel="stylesheet" href="css/perfil.css">
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/public-styles/index.css" />
+  <link rel="stylesheet" href="../css/public-styles/login.css">
+  <link rel="stylesheet" href="../css/public-styles/perfil.css">
+   <link rel="stylesheet" href="../css/public-styles/categoria.css">
+
+
+  
+<script src="js/redirecciones.js"></script>
 </head>
 
 <body>
@@ -61,14 +71,23 @@ if(isset($_GET["cerrar"])){
 
     <div class="header-left">
       <a href="index.php">
-        <img src="img/logo.PNG" class="logo" alt="Body and Soul">
+        <img src="../img/logo.PNG" class="logo" alt="Body and Soul">
       </a>
 
-      <select class="categories-select">
+      <select  id="categoria" name="id_categoria" class="categories-select">
         <option value="">Categorias</option>
-        <option>Deporte</option>
-        <option>Bienestar</option>
+         <?php foreach ($categorias as $categoria){
+          ?>
+        <option value="<?= $categoria["nombre"]; ?>">
+            <?= htmlspecialchars($categoria["nombre"]); ?>
+        </option>
+        <?php 
+         }
+         ?>
       </select>
+
+   
+</select>
     </div>
 
     <div class="header-title">

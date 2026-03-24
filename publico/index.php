@@ -6,6 +6,7 @@ require_once("head.php");
 ?>
 
   <main>
+    
     <section class="hero-section">
       <div class="container">
         <div class="hero-box">
@@ -37,7 +38,7 @@ require_once("head.php");
               <div class="filters-grid">
                 <div class="form-group">
                   <label for="categoria">Categoría</label>
-                  <select id="categoria" name="categoria">
+                  <select id="categoriafiltro" name="categoria">
                     <option value="">Todas</option>
                     <option value="deporte">Deporte</option>
                     <option value="bienestar">Bienestar</option>
@@ -161,18 +162,6 @@ require_once("head.php");
  <?php
 require_once("footer.php");
 ?>
-
-<script>
-document.getElementById("categoria").addEventListener("change", function() {
-  
-  if(this.value !== ""){
-    if(this.value=="deporte"){
-      window.location.href="categoria-deporte.php";
-    }
-  }
-
-});
-</script>
 
 </body>
 </html>
