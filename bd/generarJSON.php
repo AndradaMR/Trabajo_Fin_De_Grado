@@ -126,7 +126,7 @@ LA ESTRUCTURA QUE VA A SEGUIR EL JSON ES LA SIGUIENTE:
         mkdir($rutaCarpeta, 0777, true);
     }
 
-    // 9. Guardar archivo
+    // Guardar cambios
     $rutaArchivo = $rutaCarpeta . "/actividades.json";
     file_put_contents($rutaArchivo, $json);
 
