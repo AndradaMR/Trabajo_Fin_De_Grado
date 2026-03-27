@@ -28,8 +28,6 @@ require_once("head.php");
                 class="search-input"
                 placeholder="Busca una actividad, centro o experiencia"
               />
-
-              <button type="submit" class="btn btn-primary">Buscar</button>
             </form>
 
             <div class="filters-box">
@@ -37,12 +35,17 @@ require_once("head.php");
 
               <div class="filters-grid">
                 <div class="form-group">
-                  <label for="categoria">Categoría</label>
-                  <select id="categoriafiltro" name="categoria">
-                    <option value="">Todas</option>
-                    <option value="deporte">Deporte</option>
-                    <option value="bienestar">Bienestar</option>
-                  </select>
+                  <select  id="categoria" name="id_categoria" class="categories-select">
+                    <option value="">Categorias</option>
+                    <?php foreach ($categorias as $categoria){
+                      ?>
+                    <option value="<?= $categoria["nombre"]; ?>">
+                        <?= htmlspecialchars($categoria["nombre"]); ?>
+                    </option>
+                    <?php 
+                    }
+                    ?>
+                </select>
                 </div>
 
                 <div class="form-group">
@@ -57,7 +60,7 @@ require_once("head.php");
                 </div>
               </div>
 
-              <button type="button" class="btn btn-secondary">Aplicar filtros</button>
+              <button type="button" class="btn btn-secondary">Buscar</button>
             </div>
           </div>
         </div>
