@@ -60,6 +60,7 @@ $categorias = $bdact->obtenerCategoriasPadre();
   <link rel="stylesheet" href="../css/public-styles/login.css">
   <link rel="stylesheet" href="../css/public-styles/perfil.css">
    <link rel="stylesheet" href="../css/public-styles/categoria.css">
+   <link rel="stylesheet" href="../css/public-styles/actividad.css">
   
 <script>
 
