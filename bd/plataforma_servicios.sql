@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-03-2026 a las 21:52:25
+-- Tiempo de generación: 27-03-2026 a las 11:28:09
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -38,7 +38,7 @@ CREATE TABLE `categoria` (
 --
 
 INSERT INTO `categoria` (`id_categoria`, `nombre`, `id_categoria_padre`) VALUES
-(1, 'Aventura', NULL),
+(1, 'Deporte', NULL),
 (2, 'Bienestar', NULL),
 (4, 'Escalada', 1),
 (5, 'Senderismo', 1),
@@ -57,7 +57,7 @@ CREATE TABLE `detalle_actividad` (
   `hora_inicio` time NOT NULL,
   `hora_fin` time NOT NULL,
   `plazas_maximas` int(11) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `detalle_actividad`
@@ -127,15 +127,13 @@ CREATE TABLE `resena` (
   `puntuacion` int(11) NOT NULL,
   `comentario` text DEFAULT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp()
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `resena`
 --
 
 INSERT INTO `resena` (`id_resena`, `id_usuario`, `id_servicio`, `puntuacion`, `comentario`, `fecha`) VALUES
-(1, 1, 1, 5, 'Ruta increíble, muy recomendable.', '2026-04-10 18:00:00'),
-(2, 2, 1, 4, 'Muy buena experiencia.', '2026-04-10 19:00:00'),
 (3, 4, 2, 5, 'Los monitores explican muy bien.', '2026-04-12 13:30:00');
 
 -- --------------------------------------------------------
@@ -158,8 +156,6 @@ CREATE TABLE `reserva` (
 --
 
 INSERT INTO `reserva` (`id_reserva`, `id_usuario`, `id_servicio`, `fecha_hora`, `estado`, `id_detalle_actividad`) VALUES
-(1, 1, 1, '2026-04-10 10:00:00', 'confirmada', 1),
-(2, 2, 1, '2026-04-10 10:00:00', 'pendiente', 1),
 (3, 4, 2, '2026-04-12 09:00:00', 'confirmada', 3);
 
 -- --------------------------------------------------------
@@ -240,22 +236,26 @@ INSERT INTO `solicitud_empresa` (`id_solicitud`, `id_empresa`, `nombre`, `email`
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(30) NOT NULL,
   `email` varchar(150) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
   `telefono` varchar(20) DEFAULT NULL,
   `id_rol` int(11) NOT NULL,
-  `fecha_registro` datetime NOT NULL DEFAULT current_timestamp()
+  `fecha_registro` datetime NOT NULL DEFAULT current_timestamp(),
+  `intentos` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre`, `email`, `contrasena`, `telefono`, `id_rol`, `fecha_registro`) VALUES
-(1, 'Laura', 'laura@email.com', 'Laura', '611234567', 3, '2026-03-01 10:15:00'),
-(2, 'Andrada', 'carlos@email.com', 'Andrada', '622345678', 3, '2026-03-02 12:20:00'),
-(3, 'Cris', 'admin@email.com', 'Cris', '600000000', 3, '2026-03-01 09:00:00'),
-(4, 'Usuario1', 'user1@email.com', 'hash789', '600000000', 1, '2026-03-01 09:00:00');
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `telefono`, `id_rol`, `fecha_registro`, `intentos`) VALUES
+(4, 'Usuario1', '', 'user1@email.com', 'hash789', '600000000', 1, '2026-03-01 09:00:00', 0),
+(6, 'Jonny', 'Mangas', 'Jonny@gmail.com', '$2y$10$fIn2ZYgWvTCt08v2TZT2JuhYc3xVQz6oHKLAcOxSt11rRY9xSKTcW', '666788900', 1, '2026-03-18 22:03:13', 0),
+(7, 'Laura', 'Basurto', 'laura@gmail.com', '$2y$10$TFgCAQxgbCeLXLO1NBb11.rC7j4tAsBnZC7tsp/rO4BglsMfHOBXe', '657664762', 3, '2026-03-18 22:05:57', 0),
+(8, 'Andrada', 'Robitu', 'andrada@gmail.com', '$2y$10$y9ywBfU28rrAMvkqvuQXfu7t9dfuqysoOBaJpz4l4YHc2yWcfWUSC', '787898876', 3, '2026-03-23 20:39:25', 0),
+(9, 'Cris', 'Gonzalez', 'cris@gmail.com', '$2y$10$dMZF/s6KBhkFn20r2Qf2JuYohFPrG6vAYDnITilxDQ2w7E0sePF4u', '198345654', 3, '2026-03-23 20:41:18', 0),
+(10, 'maria', 'perez', 'maria@gmail.com', '$2y$10$.YRpfY37pn/8Al3NG.4EU.bh43aq7UiMIsfPtPK5Er6t.o/tVXETy', '987876776', 1, '2026-03-23 20:54:59', 0);
 
 --
 -- Índices para tablas volcadas
@@ -353,7 +353,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `detalle_actividad`
 --
 ALTER TABLE `detalle_actividad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `empresa`
@@ -371,7 +371,7 @@ ALTER TABLE `imagen_servicio`
 -- AUTO_INCREMENT de la tabla `resena`
 --
 ALTER TABLE `resena`
-  MODIFY `id_resena` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_resena` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva`
@@ -401,7 +401,7 @@ ALTER TABLE `solicitud_empresa`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
