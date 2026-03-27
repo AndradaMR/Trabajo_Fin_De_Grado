@@ -1,47 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Body and Soul | Detalle de actividad</title>
+<?php
+$titulo="<h1>Bienvenido a Body and Soul</h1>";
+require_once("head.php");
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita:wght@700;800;900&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/public-styles/actividad.css">
-</head>
-<body>
-
-  <header class="main-header">
-    <div class="container header-container">
-
-      <div class="header-left">
-        <a href="index.php" class="logo-link" aria-label="Ir al inicio">
-          <img src="assets/logo-body-and-soul.png" class="logo" alt="Body and Soul">
-        </a>
-
-        <div class="nav-categories">
-          <label for="categorias" class="sr-only">Categorías</label>
-          <select id="categorias" class="categories-select">
-            <option value="">Categorías</option>
-            <option value="deporte">Deporte</option>
-            <option value="bienestar">Bienestar</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="header-title">
-        <h1>Bienvenida a Body and Soul</h1>
-      </div>
-
-      <div class="header-right">
-        <a href="login.php" class="btn btn-outline">Iniciar sesión</a>
-      </div>
-
-    </div>
-  </header>
+?>
 
   <main class="activity-page">
     <section class="activity-section">

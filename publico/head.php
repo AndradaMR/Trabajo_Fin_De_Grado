@@ -11,6 +11,7 @@ $bdact= new bdact("localhost",3306,"plataforma_servicios","root","");
 //$bbdd= new dbreservas("localhost",3306,"pruebatfg","root","");
 
 if(isset($_SESSION["usuario"])){
+
   $usuario=$bbdd->ObtenerUsuario($_SESSION["usuario"]);
 
   $nombre=$usuario["nombre"];
@@ -59,10 +60,25 @@ $categorias = $bdact->obtenerCategoriasPadre();
   <link rel="stylesheet" href="../css/public-styles/login.css">
   <link rel="stylesheet" href="../css/public-styles/perfil.css">
    <link rel="stylesheet" href="../css/public-styles/categoria.css">
-
-
+   <link rel="stylesheet" href="../css/public-styles/actividad.css">
   
-<script src="js/redirecciones.js"></script>
+<script>
+
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    document.getElementById("categoria").addEventListener("change", function() {
+
+    let categoria = this.value;
+    if (categoria !== "") {
+        window.location.href = "categoria.php?cat="+encodeURIComponent(categoria);
+        this.selected;
+    }
+    
+});
+
+});
+
+</script>
 </head>
 
 <body>
