@@ -43,6 +43,17 @@ if(isset($_GET["cerrar"])){
 
 $categorias = $bdact->obtenerCategoriasPadre();
 
+$actividadesmasreservadas = $bdact->obtenerActividadesMasReservadas();
+
+$subcategoriasPorPadre = [];
+
+//Guardamos un array asociativo con todas las categorias padre como clave y sus subcategorias
+foreach ($categorias as $categoria) {
+    $subcategoriasPorPadre[$categoria["nombre"]] = $bdact->obtenerSubcat($categoria["id_categoria"]);
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -102,20 +113,3 @@ $categorias = $bdact->obtenerCategoriasPadre();
   </div>
 
 </header>
-
-  <div class="categories-bar">
-  <div class="container categories-bar-inner">
-    <div class="categories-box">
-      <label for="categoria" class="categories-label">Explora por categorías</label>
-
-      <select id="categoria" name="id_categoria" class="categories-select">
-        <option value="">Categorías</option>
-        <?php foreach ($categorias as $categoria){ ?>
-          <option value="<?= $categoria["nombre"]; ?>">
-            <?= htmlspecialchars($categoria["nombre"]); ?>
-          </option>
-        <?php } ?>
-      </select>
-    </div>
-  </div>
-</div>

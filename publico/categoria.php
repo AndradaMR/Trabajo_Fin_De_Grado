@@ -13,6 +13,7 @@ if(isset($_GET["cat"])){
 //CUANDO LA TENGAMOS LA PONEMOS ABAJO EN EL P
 //$descripcion=$bdact->obtenerdescripcioncat($idcatpadre);
 
+//Obtenemos SOLO las subcategorias de la categoria donde estamos
 $subcategorias=$bdact->obtenerSubcat($idcatpadre);
 
 ?>

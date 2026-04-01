@@ -5,7 +5,7 @@
       </div>
 
       <div class="footer-social">
-        <a href="#" aria-label="Instagram" class="social-link">IG</a>
+        <a href="https://www.instagram.com/bodyandsoules/" aria-label="Instagram" class="social-link">IG</a>
         <a href="#" aria-label="Facebook" class="social-link">f</a>
         <a href="#" aria-label="X" class="social-link">X</a>
       </div>
