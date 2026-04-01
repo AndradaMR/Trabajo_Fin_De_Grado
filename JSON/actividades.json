@@ -1,9 +1,11 @@
 [
     {
+        "id_empresa": 1,
         "nombre_empresa": "empresa1",
         "servicios": [
             {
-                "id_actividad": 1,
+                "id_servicio": 1,
+                "id_categoria": 5,
                 "nombre_servicio": "Ruta guiada de senderismo",
                 "categoria": "Deporte",
                 "subcategoria": "Senderismo",
@@ -32,7 +34,8 @@
                 ]
             },
             {
-                "id_actividad": 2,
+                "id_servicio": 2,
+                "id_categoria": 4,
                 "nombre_servicio": "Escalada para principiantes",
                 "categoria": "Deporte",
                 "subcategoria": "Escalada",
@@ -52,14 +55,41 @@
                         "plazas_maximas": 10
                     }
                 ]
+            },
+            {
+                "id_servicio": 4,
+                "id_categoria": 2,
+                "nombre_servicio": "Sesión de span con piedras calientes y champan.",
+                "descripcion": "Sesión de span con piedras calientes y champan, ideal para parejas. ",
+                "lugar": "Calle Pepito Flores",
+                "precio": "54.56",
+                "imagenes": [
+                    "fsdfsfsgdrgdf"
+                ],
+                "detalles": [
+                    {
+                        "fecha": "2026-04-17",
+                        "hora_inicio": "00:00:00",
+                        "hora_fin": "00:00:00",
+                        "plazas_maximas": 0
+                    },
+                    {
+                        "fecha": "2026-04-09",
+                        "hora_inicio": "09:30:29",
+                        "hora_fin": "11:30:12",
+                        "plazas_maximas": 3
+                    }
+                ]
             }
         ]
     },
     {
+        "id_empresa": 2,
         "nombre_empresa": "empresa2",
         "servicios": [
             {
-                "id_actividad": 3,
+                "id_servicio": 3,
+                "id_categoria": 6,
                 "nombre_servicio": "Clase de Yoga al aire libre",
                 "categoria": "Bienestar",
                 "subcategoria": "Yoga",
@@ -77,33 +107,6 @@
                         "hora_inicio": "19:00:00",
                         "hora_fin": "20:30:00",
                         "plazas_maximas": 20
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "nombre_empresa": "Empresa3",
-        "servicios": [
-            {
-                "id_actividad": 4,
-                "nombre_servicio": "Circuito spa",
-                "categoria": "Bienestar",
-                "subcategoria": "Spa",
-                "descripcion": "Circuito spa para dos personas, con vistas a la montaña nevada.",
-                "lugar": "calle peral 4",
-                "precio": "50.00",
-                "materiales": "Gorro, chanclas",
-                "duracion": "2 horas",
-                "imagenes": [
-                    "../img/bienestar/spa/spa1.jpg"
-                ],
-                "detalles": [
-                    {
-                        "fecha": "2026-03-20",
-                        "hora_inicio": "12:00:00",
-                        "hora_fin": "14:00:00",
-                        "plazas_maximas": 34
                     }
                 ]
             }
