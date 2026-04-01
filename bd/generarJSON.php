@@ -32,6 +32,7 @@ LA ESTRUCTURA QUE VA A SEGUIR EL JSON ES LA SIGUIENTE:
   }
 }
 */
+public function generarJSON(){
 
     //CON ESTO VAMOS A SACAR LA INFORMACIÓN QUE QUEREMOS GUARDER EN EL JSON DE LA BBDD. CON ELLO SACO TODO
     $sql = "SELECT e.nombre_empresa, e.id_empresa, s.id_servicio, s.nombre_servicio, s.descripcion,  s.lugar, s.precio, s.id_categoria, da.fecha, da.hora_inicio, da.hora_fin, da.plazas_maximas, imgs.url_imagen
@@ -58,22 +59,26 @@ LA ESTRUCTURA QUE VA A SEGUIR EL JSON ES LA SIGUIENTE:
 
         //si mi id de empresa no está en mi array de empresas la creo
         if(!isset($empresas[$id_empresa])){
-                $empresas[$id_empresa]=[
+            $empresas[$id_empresa]=[
+                "id_empresa" => $fila["id_empresa"],
                 "nombre_empresa"=> $fila["nombre_empresa"],
                 "servicios"=>[]
-                ];
+            ];
         }
 
          // Ahora vamos a crear los servicios 
         if (!isset($empresas[$id_empresa]["servicios"][$id_servicio])) {
             $empresas[$id_empresa]["servicios"][$id_servicio] = [
+                "id_servicio" => $fila["id_servicio"],
+                "id_categoria" => $fila["id_categoria"],
                 "nombre_servicio" => $fila["nombre_servicio"],
                 "descripcion" => $fila["descripcion"],
                 "lugar" => $fila["lugar"],
                 "precio" => $fila["precio"],
                 "imagenes" => [],
                 "detalles" => [],
-                "_detalles_vistos" => []
+                "_detalles_vistos" => [],
+                "_imagenes_vistas" => []
             ];
         }
 
@@ -130,7 +135,5 @@ LA ESTRUCTURA QUE VA A SEGUIR EL JSON ES LA SIGUIENTE:
     $rutaArchivo = $rutaCarpeta . "/actividades.json";
     file_put_contents($rutaArchivo, $json);
 
-  
-
-
+}
 ?>
