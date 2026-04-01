@@ -7,9 +7,13 @@
                 "id_servicio": 1,
                 "id_categoria": 5,
                 "nombre_servicio": "Ruta guiada de senderismo",
+                "categoria": "Deporte",
+                "subcategoria": "Senderismo",
                 "descripcion": "Excursión guiada por la sierra con monitor especializado",
                 "lugar": "Sierra de Guadarrama",
                 "precio": "25.00",
+                "materiales": "Materiales no requeridos.",
+                "duracion": "4 horas",
                 "imagenes": [
                     "imagenes\/senderismo1.jpg",
                     "imagenes\/senderismo2.jpg"
@@ -24,7 +28,7 @@
                     {
                         "fecha": "2026-04-11",
                         "hora_inicio": "16:00:00",
-                        "hora_fin": "18:00:00",
+                        "hora_fin": "20:00:00",
                         "plazas_maximas": 15
                     }
                 ]
@@ -33,9 +37,13 @@
                 "id_servicio": 2,
                 "id_categoria": 4,
                 "nombre_servicio": "Escalada para principiantes",
+                "categoria": "Deporte",
+                "subcategoria": "Escalada",
                 "descripcion": "Curso de iniciación a la escalada en roca",
                 "lugar": "La Pedriza",
                 "precio": "40.00",
+                "materiales": "Calzado adecuado.",
+                "duracion": "2 horas",
                 "imagenes": [
                     "imagenes\/escalada1.jpg"
                 ],
@@ -83,9 +91,13 @@
                 "id_servicio": 3,
                 "id_categoria": 6,
                 "nombre_servicio": "Clase de Yoga al aire libre",
+                "categoria": "Bienestar",
+                "subcategoria": "Yoga",
                 "descripcion": "Sesión de yoga para todos los niveles",
                 "lugar": "Parque del Retiro",
                 "precio": "15.00",
+                "materiales": "Esterilla, bloque de yoga y manta ligera",
+                "duracion": "90 minutos",
                 "imagenes": [
                     "imagenes\/yoga1.jpg"
                 ],

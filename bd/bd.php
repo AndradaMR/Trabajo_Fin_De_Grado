@@ -146,7 +146,20 @@ public function ModificarUsuarioConcontraseña($id, $nombre, $apellido, $email, 
     ]);
 }
 
+public function obtenerrolus($id){
+
+$sentencia="SELECT id_rol FROM usuario WHERE id_usuario = :id";
+    $ejecuccion=$this->pdo->prepare($sentencia);
+    $ejecuccion->execute([
+        ":id" => $id
+    ]);    
+
+    $rol = $ejecuccion->fetch(PDO::FETCH_ASSOC);
+    
+    return $rol["id_rol"];
+
 }
 
+}
 
 ?>

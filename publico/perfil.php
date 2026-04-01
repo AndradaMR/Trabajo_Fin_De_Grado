@@ -6,6 +6,10 @@ if(!isset($_SESSION["usuario"])){
   header("Location: index.php");
 }
 
+$id=$_SESSION["usuario"];
+
+$rol=$bbdd->obtenerrolus($id);
+
 ?>
 
   <main class="profile-page">
@@ -63,6 +67,22 @@ if(!isset($_SESSION["usuario"])){
               <p>Sal de tu cuenta de forma segura.</p>
             </div>
           </a>
+
+          <?php
+          
+          if($rol==3){
+            
+          ?>
+          
+            <a href="../Admin/dashboard.php" class="profile-card profile-card-logout">
+            <div class="profile-card-content">
+              <h3>Perfil de Administrador</h3>
+              <p>Gestiona usuarios, empresas y contenido de la plataforma.</p>
+            </div>
+          </a>
+          <?php
+          }
+          ?>
 
         </div>
 

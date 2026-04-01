@@ -1,56 +1,58 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Body and Soul | Detalle de actividad</title>
+<?php
+$titulo="<h1>Bienvenido a Body and Soul</h1>";
+require_once("head.php");
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita:wght@700;800;900&display=swap" rel="stylesheet">
+if (!isset($_GET['idact'])) {
+    echo "Actividad no encontrada";
+    exit;
+}else{
+  $id = (int) $_GET['idact'];
+}
 
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/actividad.css">
-</head>
-<body>
+$rutaJson = "../JSON/actividades.json";
+//VERIFICO QUE EXISTA EN ARCHIVO
+if (!file_exists($rutaJson)) {
+    echo "No se encuentra el archivo JSON";
+    exit;
+}
+$contenidoJson = file_get_contents($rutaJson);
+$datos = json_decode($contenidoJson, true);
 
-  <header class="main-header">
-    <div class="container header-container">
+if (!$datos) {
+    echo "Error al cargar los datos";
+    exit;
+}
 
-      <div class="header-left">
-        <a href="index.php" class="logo-link" aria-label="Ir al inicio">
-          <img src="assets/logo-body-and-soul.png" class="logo" alt="Body and Soul">
-        </a>
+$actividad = null;
+$empresaActividad = null;
+//CARGO LOS DATOS DE LA ACTIVIDAD CONCRETA
+foreach ($datos as $empresa) {
+    if (isset($empresa['servicios']) && is_array($empresa['servicios'])) {
+        foreach ($empresa['servicios'] as $servicio) {
+            if (isset($servicio['id_actividad']) && $servicio['id_actividad'] == $id) {
+                $actividad = $servicio;
+                $empresaActividad = $empresa['nombre_empresa'];
+                break 2;
+            }
+        }
+    }
+}
 
-        <div class="nav-categories">
-          <label for="categorias" class="sr-only">Categorías</label>
-          <select id="categorias" class="categories-select">
-            <option value="">Categorías</option>
-            <option value="deporte">Deporte</option>
-            <option value="bienestar">Bienestar</option>
-          </select>
-        </div>
-      </div>
+if (!$actividad) {
+    echo "Actividad no encontrada";
+    exit;
+}
 
-      <div class="header-title">
-        <h1>Bienvenida a Body and Soul</h1>
-      </div>
-
-      <div class="header-right">
-        <a href="login.php" class="btn btn-outline">Iniciar sesión</a>
-      </div>
-
-    </div>
-  </header>
+?>
 
   <main class="activity-page">
     <section class="activity-section">
       <div class="container">
 
         <div class="activity-breadcrumb">
-          <a href="bienestar.php">Bienestar</a>
+          <a href="categoria.php?cat=<?=$actividad['categoria']?>"><?=$actividad['categoria']?></a>
           <span>/</span>
-          <a href="bienestar.php#yoga">Yoga</a>
+          <a href="#"><?=$actividad['subcategoria']?></a>
         </div>
 
         <div class="activity-layout">
@@ -68,8 +70,8 @@
 
               <div class="activity-image-wrapper">
                 <img
-                  src="assets/yoga-detalle-1.jpg"
-                  alt="Clase de yoga en estudio luminoso"
+                  src="<?=$actividad['imagenes'][0]?>"
+                  alt="<?=$actividad['nombre_servicio']?>"
                   class="activity-main-image"
                 >
               </div>
@@ -83,42 +85,33 @@
           <!-- INFORMACIÓN -->
           <article class="activity-info-card">
             <div class="activity-info-header">
-              <h2>Yoga Flow</h2>
+              <h2><?=$actividad['nombre_servicio']?></h2>
             </div>
 
             <div class="activity-info-content">
               <div class="info-block">
                 <h3>Descripción</h3>
-                <p>
-                  Yoga Flow es una actividad pensada para conectar cuerpo y mente a través
-                  de una secuencia fluida de posturas, respiración consciente y momentos de
-                  relajación. La sesión combina trabajo de movilidad, equilibrio y fuerza suave,
-                  adaptándose tanto a personas principiantes como a quienes ya tienen experiencia.
-                  Es ideal para reducir el estrés, mejorar la flexibilidad y dedicarte un rato
-                  de autocuidado en un ambiente tranquilo y agradable.
-                </p>
+                <p><?=$actividad['descripcion']?></p>
               </div>
 
               <div class="info-grid">
                 <div class="info-item">
                   <h3>Duración</h3>
-                  <p>60 minutos</p>
+                  <p><?=$actividad['duracion']?></p>
                 </div>
 
                 <div class="info-item">
                   <h3>Ubicación</h3>
-                  <p>Centro Body and Soul, Madrid</p>
+                  <p><?=$actividad['lugar']?></p>
                 </div>
 
                 <div class="info-item info-item-full">
-                  <h3>Materiales empleados</h3>
-                  <p>
-                    Esterilla, bloque de yoga, cinta elástica y manta ligera para la relajación final.
-                  </p>
+                  <h3>Materiales necesarios</h3>
+                  <p><?=$actividad['materiales']?></p>
                 </div>
               </div>
 
-              <a href="reserva.php" class="btn btn-primary btn-full reserve-btn">
+              <a href="reserva.php?id=<?= $id ?>" class="btn btn-primary btn-full reserve-btn">
                 Reservar actividad
               </a>
             </div>
