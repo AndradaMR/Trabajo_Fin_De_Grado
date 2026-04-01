@@ -74,20 +74,7 @@ $categorias = $bdact->obtenerCategoriasPadre();
         <img src="../img/logo.PNG" class="logo" alt="Body and Soul">
       </a>
 
-      <select  id="categoria" name="id_categoria" class="categories-select">
-        <option value="">Categorias</option>
-         <?php foreach ($categorias as $categoria){
-          ?>
-        <option value="<?= $categoria["nombre"]; ?>">
-            <?= htmlspecialchars($categoria["nombre"]); ?>
-        </option>
-        <?php 
-         }
-         ?>
-      </select>
 
-   
-</select>
     </div>
 
     <div class="header-title">
@@ -97,4 +84,22 @@ $categorias = $bdact->obtenerCategoriasPadre();
       <?=$iniciosesion?>
     </div>
   </div>
+
 </header>
+
+  <div class="categories-bar">
+  <div class="container categories-bar-inner">
+    <div class="categories-box">
+      <label for="categoria" class="categories-label">Explora por categorías</label>
+
+      <select id="categoria" name="id_categoria" class="categories-select">
+        <option value="">Categorías</option>
+        <?php foreach ($categorias as $categoria){ ?>
+          <option value="<?= $categoria["nombre"]; ?>">
+            <?= htmlspecialchars($categoria["nombre"]); ?>
+          </option>
+        <?php } ?>
+      </select>
+    </div>
+  </div>
+</div>
