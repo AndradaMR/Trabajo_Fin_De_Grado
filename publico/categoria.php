@@ -17,6 +17,7 @@ $subcategorias=$bdact->obtenerSubcat($idcatpadre);
 
 ?>
 
+<script src="../js/desplazarbanner.js"></script>
 
   <main class="category-page">
     <section class="category-hero">
@@ -27,7 +28,18 @@ $subcategorias=$bdact->obtenerSubcat($idcatpadre);
           Aqui tenemos que añadir la descripcion de la nombrecat(añadir a la bbdd)(ya esta hecha la funcion)
         </p>
       </div>
+
+      <div class="subcategory-nav">
+        <?php foreach($subcategorias as $subcat){ ?>
+          <a href="#subcat-<?= $subcat["id_categoria"] ?>" class="subcategory-nav-item">
+            <?= htmlspecialchars($subcat["nombre"]) ?>
+          </a>
+        <?php } ?>
+    </div>
+
     </section>
+
+    
 
     <section class="subcategory-section">
       <div class="container">
@@ -37,8 +49,8 @@ $subcategorias=$bdact->obtenerSubcat($idcatpadre);
         $actividades=$bdact->obteneractividades($subcat["id_categoria"]);
         ?>
 
-        <!-- SUBCATEGORÍA 1 -->
-        <article class="subcategory-block">
+        <!-- SUBCATEGORÍAS -->
+        <article class="subcategory-block" id="subcat-<?= $subcat['id_categoria']?>">
           <div class="subcategory-header">
             <h3><?=$subcat["nombre"]?></h3>
           </div>
