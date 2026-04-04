@@ -35,8 +35,9 @@ require_once("head.php");
 
               <div class="filters-grid">
                 <div class="form-group">
+                  <label for="precio">Categorias</label>
                   <select  id="categoria" name="id_categoria" class="categories-select">
-                    <option value="">Categorias</option>
+                    <option value="">Selecciona una categoria</option>
                     <?php foreach ($categorias as $categoria){
                       ?>
                     <option value="<?= $categoria["nombre"]; ?>">
