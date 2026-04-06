@@ -70,8 +70,8 @@ foreach ($categorias as $categoria) {
   <link rel="stylesheet" href="../css/public-styles/index.css" />
   <link rel="stylesheet" href="../css/public-styles/login.css">
   <link rel="stylesheet" href="../css/public-styles/perfil.css">
-   <link rel="stylesheet" href="../css/public-styles/categoria.css">
-   <link rel="stylesheet" href="../css/public-styles/actividad.css">
+  <link rel="stylesheet" href="../css/public-styles/categoria.css">
+  <link rel="stylesheet" href="../css/public-styles/actividad.css">
   
 <script>
 
@@ -108,6 +108,12 @@ foreach ($categorias as $categoria) {
       <?=$titulo?>
     </div>
     <div class="header-right">
+      <!-- Acceso empresa -->
+      <a href="../Empresa/login-empresa.html" class="btn btn-outline">
+        Acceso empresa
+      </a>
+
+      <!-- Login usuario -->
       <?=$iniciosesion?>
     </div>
   </div>

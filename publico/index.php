@@ -52,7 +52,9 @@ require_once("head.php");
 
               <div class="filters-grid">
                 <div class="form-group">
+                  <label for="precio">Categorias</label>
                   <select  id="categoria_filtro" name="id_categoria" class="categories-select">
+                    <option value="">Selecciona una categoria</option>
                     <option value="">Categorias</option>
                     <?php foreach ($categorias as $categoria){
                       ?>
