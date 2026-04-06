@@ -45,7 +45,8 @@ public function obteneridcat($nombrecat){
 
 }
 
-//No tiene en cuenta si la cat es padre(ver como hacer con la descripcion de las cathijo)
+//AUN NO SE USA tiene en cuenta si la cat es padre(ver como hacer con la descripcion de las cathijo)
+//Debe obtener la descripcion de las categorias padre
 function obtenerdescripcioncat($idcat) {
     $sentencia = "SELECT descripcion FROM categoria WHERE id_categoria = :id_categoria_padre";
 
@@ -58,9 +59,10 @@ function obtenerdescripcioncat($idcat) {
     return $fila["descripcion"];
 }
 
+//Obtiene todas las subcategorias de la categoria padre dada
 public function obtenerSubcat($idcatpadre){
 
-    $sentencia = "SELECT * FROM categoria WHERE id_categoria_padre = :idcatpadre";
+    $sentencia = "SELECT * FROM categoria WHERE id_categoria_padre = :idcatpadre ORDER BY nombre ASC";
 
     $ejecuccion = $this->pdo->prepare($sentencia);
     $ejecuccion->execute([
@@ -72,6 +74,7 @@ public function obtenerSubcat($idcatpadre){
 
 }
 
+//Obteine las actividades de una subcategoria concreta
 public function obteneractividades($idcat){
 
     $sentencia = "SELECT * FROM servicio WHERE id_categoria = :idcat";
@@ -84,6 +87,34 @@ public function obteneractividades($idcat){
     $fila=$ejecuccion->fetchAll(PDO::FETCH_ASSOC);
     return $fila;
 
+}
+
+public function obtenerActividadesMasReservadas(){
+    $sentencia = "SELECT 
+                    s.id_servicio,
+                    s.nombre_servicio,
+                    s.descripcion,
+                    s.lugar,
+                    s.precio,
+                    s.id_categoria,
+                    COUNT(r.id_reserva) AS total_reservas
+                  FROM servicio s
+                  INNER JOIN reserva r ON s.id_servicio = r.id_servicio
+                  WHERE r.estado = 'confirmada'
+                  GROUP BY 
+                    s.id_servicio,
+                    s.nombre_servicio,
+                    s.descripcion,
+                    s.lugar,
+                    s.precio,
+                    s.id_categoria
+                  ORDER BY total_reservas DESC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+    $fila=$ejecucion->fetchAll(PDO::FETCH_ASSOC);
+
+    return $fila;
 }
 
 
