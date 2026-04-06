@@ -18,6 +18,23 @@ require_once("head.php");
             </p>
           </div>
 
+          <div class="categories-bar">
+          <div class="container categories-bar-inner">
+            <div class="categories-box">
+              <label for="categoria" class="categories-label">Explora por categorías</label>
+
+              <select id="categoria_top" name="id_categoria" class="categories-select">
+                <option value="">Categorías</option>
+                <?php foreach ($categorias as $categoria){ ?>
+                  <option value="<?= $categoria["nombre"]; ?>">
+                    <?= htmlspecialchars($categoria["nombre"]); ?>
+                  </option>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
+        </div>
+
           <div class="search-panel">
             <form class="search-form" action="#" method="get">
               <label for="buscador" class="sr-only">Buscar actividad</label>
@@ -36,8 +53,9 @@ require_once("head.php");
               <div class="filters-grid">
                 <div class="form-group">
                   <label for="precio">Categorias</label>
-                  <select  id="categoria" name="id_categoria" class="categories-select">
+                  <select  id="categoria_filtro" name="id_categoria" class="categories-select">
                     <option value="">Selecciona una categoria</option>
+                    <option value="">Categorias</option>
                     <?php foreach ($categorias as $categoria){
                       ?>
                     <option value="<?= $categoria["nombre"]; ?>">
@@ -47,6 +65,12 @@ require_once("head.php");
                     }
                     ?>
                 </select>
+                </div>
+
+                <div class="form-group">
+                  <select id="subcategoria_filtro" name="subcategoria" class="categories-select">
+                    <option value="">Subcategorías</option>
+                  </select>
                 </div>
 
                 <div class="form-group">
@@ -61,7 +85,7 @@ require_once("head.php");
                 </div>
               </div>
 
-              <button type="button" class="btn btn-secondary">Buscar</button>
+              <button id="filtrosbuscar" type="button" class="btn btn-secondary">Buscar</button>
             </div>
           </div>
         </div>
@@ -79,9 +103,14 @@ require_once("head.php");
         </div>
 
         <div class="activities-grid">
+          <?php
+          $numact=4;
+           foreach($actividadesmasreservadas as $act){
+          if($numact>0){
+          ?>
           <article class="activity-card">
             <div class="activity-image-wrapper">
-              <img src="img/yoga1.jpg" alt="Clase de yoga" class="activity-image">
+              <img src="img/yoga1.jpg" alt="<?=$act["nombre_servicio"]?>" class="activity-image">
             </div>
 
             <div class="activity-content">
@@ -89,79 +118,29 @@ require_once("head.php");
                 <span class="stars">★★★★★</span>
                 <span class="rating-value">4.8</span>
               </div>
-
-              <h3>Yoga Flow</h3>
+              <h3><?=$act["nombre_servicio"]?></h3>
               <p>
-                Clase guiada para mejorar flexibilidad, respiración y equilibrio en un entorno relajante.
+                <?=$act["descripcion"]?>
               </p>
-
-              <a href="actividad.php" class="btn btn-primary btn-full">Ir a la actividad</a>
+              <a href="actividad.php?idact=<?=$act["id_servicio"]?>" class="btn btn-primary btn-full">Ir a la actividad</a>
             </div>
           </article>
+          <?php
+           }
+           $numact--;
+          }
+          ?>
 
-          <article class="activity-card">
-            <div class="activity-image-wrapper">
-              <img src="img/pilates1.jpg" alt="Sesión de pilates" class="activity-image">
-            </div>
-
-            <div class="activity-content">
-              <div class="activity-rating" aria-label="Puntuación 4,7 de 5">
-                <span class="stars">★★★★★</span>
-                <span class="rating-value">4.7</span>
-              </div>
-
-              <h3>Pilates Core</h3>
-              <p>
-                Entrenamiento centrado en fuerza, postura y control corporal con sesiones adaptadas.
-              </p>
-
-              <a href="actividad.php" class="btn btn-primary btn-full">Ir a la actividad</a>
-            </div>
-          </article>
-
-          <article class="activity-card">
-            <div class="activity-image-wrapper">
-              <img src="img/spa1.jpg" alt="Experiencia de spa y bienestar" class="activity-image">
-            </div>
-
-            <div class="activity-content">
-              <div class="activity-rating" aria-label="Puntuación 4,9 de 5">
-                <span class="stars">★★★★★</span>
-                <span class="rating-value">4.9</span>
-              </div>
-
-              <h3>Spa Relax</h3>
-              <p>
-                Un plan perfecto para desconectar con circuito termal y tratamientos pensados para tu bienestar.
-              </p>
-
-              <a href="actividad.php" class="btn btn-primary btn-full">Ir a la actividad</a>
-            </div>
-          </article>
-
-          <article class="activity-card">
-            <div class="activity-image-wrapper">
-              <img src="img/box-fitness1.png" alt="Actividad deportiva de boxeo fitness" class="activity-image">
-            </div>
-
-            <div class="activity-content">
-              <div class="activity-rating" aria-label="Puntuación 4,6 de 5">
-                <span class="stars">★★★★☆</span>
-                <span class="rating-value">4.6</span>
-              </div>
-
-              <h3>Box Fitness</h3>
-              <p>
-                Sesión intensa y divertida para liberar estrés, mejorar resistencia y mantenerte activa.
-              </p>
-
-              <a href="actividad.php" class="btn btn-primary btn-full">Ir a la actividad</a>
-            </div>
-          </article>
         </div>
       </div>
     </section>
   </main>
+
+<script>
+let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAPED_UNICODE); ?>;
+</script>
+
+<script src="../js/filtros.js"></script>
 
  <?php
 require_once("footer.php");

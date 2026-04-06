@@ -218,11 +218,6 @@ h4 {
 /* select categorias */
 
 .categories-bar{
-  background: linear-gradient(
-    180deg,
-    rgba(46, 196, 182, 0.10),
-    rgba(255, 143, 163, 0.08)
-  );
   border-bottom: 1px solid rgba(27, 73, 101, 0.08);
   padding: 18px 0 22px;
 }
