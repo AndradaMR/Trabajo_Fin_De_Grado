@@ -41,18 +41,16 @@ if(isset($_GET["cerrar"])){
   exit();
 }
 
-$categorias = $bdact->obtenerCategoriasPadre();
-
 $actividadesmasreservadas = $bdact->obtenerActividadesMasReservadas();
 
+//Guardamos todas las categorias padre
+$categorias = $bdact->obtenerCategoriasPadre();
 $subcategoriasPorPadre = [];
 
 //Guardamos un array asociativo con todas las categorias padre como clave y sus subcategorias
 foreach ($categorias as $categoria) {
     $subcategoriasPorPadre[$categoria["nombre"]] = $bdact->obtenerSubcat($categoria["id_categoria"]);
 }
-
-
 
 ?>
 <!DOCTYPE html>
@@ -77,7 +75,7 @@ foreach ($categorias as $categoria) {
 
   document.addEventListener("DOMContentLoaded", function () {
     
-    document.getElementById("categoria").addEventListener("change", function() {
+    document.getElementById("categoria_top").addEventListener("change", function() {
 
     let categoria = this.value;
     if (categoria !== "") {

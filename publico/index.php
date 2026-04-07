@@ -36,7 +36,7 @@ require_once("head.php");
         </div>
 
           <div class="search-panel">
-            <form class="search-form" action="#" method="get">
+            <form class="search-form" method="get">
               <label for="buscador" class="sr-only">Buscar actividad</label>
               <input
                 type="text"
@@ -52,10 +52,10 @@ require_once("head.php");
 
               <div class="filters-grid">
                 <div class="form-group">
-                  <label for="precio">Categorias</label>
+                  
+                  <label for="categoria_filtro">Categorias</label>
                   <select  id="categoria_filtro" name="id_categoria" class="categories-select">
                     <option value="">Selecciona una categoria</option>
-                    <option value="">Categorias</option>
                     <?php foreach ($categorias as $categoria){
                       ?>
                     <option value="<?= $categoria["nombre"]; ?>">
@@ -69,7 +69,7 @@ require_once("head.php");
 
                 <div class="form-group">
                   <select id="subcategoria_filtro" name="subcategoria" class="categories-select">
-                    <option value="">Subcategorías</option>
+                    <option value="">Seleciona una subcategoría</option>
                   </select>
                 </div>
 
@@ -85,7 +85,7 @@ require_once("head.php");
                 </div>
               </div>
 
-              <button id="filtrosbuscar" type="button" class="btn btn-secondary">Buscar</button>
+              <button id="botonFiltros" type="button" class="btn btn-secondary">Buscar</button>
             </div>
           </div>
         </div>
@@ -137,10 +137,11 @@ require_once("head.php");
   </main>
 
 <script>
+//Necesitamos pasar a mi script las subcategorias organizadas para usarlas con el filtro
 let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAPED_UNICODE); ?>;
 </script>
 
-<script src="../js/filtros.js"></script>
+<script src="../js/filtrosindex.js"></script>
 
  <?php
 require_once("footer.php");
