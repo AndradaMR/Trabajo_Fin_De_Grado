@@ -3,6 +3,7 @@ $titulo="<h1>Bienvenido a Body and Soul</h1>";
 require_once("head.php");
 
 if (!isset($_GET['idact'])) {
+  echo $_GET['idact'];
     echo "Actividad no encontrada";
     exit;
 }else{

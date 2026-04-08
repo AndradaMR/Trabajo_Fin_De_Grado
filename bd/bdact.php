@@ -117,6 +117,55 @@ public function obtenerActividadesMasReservadas(){
     return $fila;
 }
 
+//Aplicar filtros
+public function filtrarActividades($buscador = "", $categoria = "", $subcategoria = "", $precio = ""){
+    $sql = "SELECT s.*
+            FROM servicio s
+            INNER JOIN categoria c ON s.id_categoria = c.id_categoria
+            LEFT JOIN categoria cp ON c.id_categoria_padre = cp.id_categoria";
+
+    $condiciones = [];
+    $parametros = [];
+
+    if (!empty($buscador)) {
+        $condiciones[] = "(s.nombre_servicio LIKE :buscador 
+                        OR s.descripcion LIKE :buscador 
+                        OR s.lugar LIKE :buscador)";
+        $parametros[":buscador"] = "%" . $buscador . "%";
+    }
+
+    if (!empty($subcategoria)) {
+        $condiciones[] = "s.id_categoria = :subcategoria";
+        $parametros[":subcategoria"] = $subcategoria;
+    } elseif (!empty($categoria)) {
+        $condiciones[] = "cp.nombre = :categoria";
+        $parametros[":categoria"] = $categoria;
+    }
+
+    if (!empty($precio)) {
+        if ($precio == "0-10") {
+            $condiciones[] = "s.precio BETWEEN 0 AND 10";
+        } elseif ($precio == "10-25") {
+            $condiciones[] = "s.precio BETWEEN 10 AND 25";
+        } elseif ($precio == "25-50") {
+            $condiciones[] = "s.precio BETWEEN 25 AND 50";
+        } elseif ($precio == "50+") {
+            $condiciones[] = "s.precio > 50";
+        }
+    }
+
+    if (!empty($condiciones)) {
+        $sql .= " WHERE " . implode(" AND ", $condiciones);
+    }
+
+    $sql .= " ORDER BY s.nombre_servicio ASC";
+
+    $ejecucion = $this->pdo->prepare($sql);
+    $ejecucion->execute($parametros);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 }
 
