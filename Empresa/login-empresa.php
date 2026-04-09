@@ -1,3 +1,57 @@
+<?php
+
+require_once("../bd/bdempresa.php");
+$bdempre= new bdempresa("localhost",3306,"plataforma_servicios","root","");
+
+$banderaerror = false;
+
+$email = "";
+$emailerror = "";
+if(isset($_POST["email"])){
+    $email = htmlentities($_POST["email"]);
+    if($email == ""){
+        $emailerror = "El campo email no puede estar vacío";
+        $banderaerror = true;
+    }
+}
+
+$contraseña = "";
+$contraerror = "";
+if(isset($_POST["contraseña"])){
+    $contraseña = htmlentities($_POST["contraseña"]);
+    if($contraseña == ""){
+        $contraerror = "El campo contraseña no puede estar vacío";
+        $banderaerror = true;
+    }
+}
+
+$usuarioerror="";
+if($banderaerror == false && isset($_POST["enviar"])){
+
+    $respuesta = $bdempre->ComprobarLoginEmpresa($email, $contraseña);
+
+    if($respuesta == "empresanoexiste"){
+        $emailerror = "Este email no existe, prueba de nuevo";
+        $banderaerror = true;
+
+    }else if($respuesta == "usuariobloqueado"){
+        $contraerror = "Usuario bloqueado por exceso de intentos";
+        $banderaerror = true;
+
+    }else if($respuesta == "fallocontraseña"){
+        $contraerror = "Contraseña incorrecta, prueba de nuevo";
+        $banderaerror = true;
+
+    }else{
+      //Si todo ha ido bien me ha devuelto el id de la empresa por lo que inicio sesion
+        $_SESSION["empresa"] = $respuesta;
+        header("Location: index.php");
+        exit();
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -38,9 +92,10 @@
                 id="email"
                 name="email"
                 placeholder="Introduce tu correo"
-                required
+                value="<?=$email?>"
               >
             </div>
+            <small><?php echo $emailerror; ?></small>
 
             <div class="form-group">
               <label for="password">Contraseña</label>
@@ -49,18 +104,18 @@
                 id="password"
                 name="password"
                 placeholder="Introduce tu contraseña"
-                required
               >
             </div>
+            <small><?php echo $contraerror; ?></small>
 
-            <button type="submit" class="company-auth-btn">
+            <button type="submit" name="enviar" value="enviar" class="company-auth-btn">
               Entrar al panel
             </button>
           </form>
 
           <p class="company-auth-alt">
             ¿Todavía no tienes cuenta?
-            <a href="registro-empresa.html" class="company-auth-link">Registra tu empresa</a>
+            <a href="registro-empresa.php" class="company-auth-link">Registra tu empresa</a>
           </p>
 
           <p class="company-auth-help">

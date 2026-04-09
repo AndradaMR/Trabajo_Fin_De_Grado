@@ -21,7 +21,7 @@ if(isset($_SESSION["usuario"])){
   $iniciosesion="<div class=contenedorinicio><a href='perfil.php' aria-label='Perfil de usuario'>
   <span class='profile-avatar'>".$inicial."</span>
   <span class='profile-name'>".$nombre." ".$apellido."</span>
-</a></div>";
+  </a></div>";
 
 }else{
 
@@ -107,7 +107,7 @@ foreach ($categorias as $categoria) {
     </div>
     <div class="header-right">
       <!-- Acceso empresa -->
-      <a href="../Empresa/login-empresa.html" class="btn btn-outline">
+      <a href="../Empresa/login-empresa.php" class="btn btn-outline">
         Acceso empresa
       </a>
 

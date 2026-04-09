@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -40,7 +40,7 @@
         </div>
 
         <div class="company-topbar-right">
-          <a href="mis-servicios.html" class="company-top-link">Ver mis servicios</a>
+          <a href="mis-servicios.php" class="company-top-link">Ver mis servicios</a>
         </div>
       </header>
 
