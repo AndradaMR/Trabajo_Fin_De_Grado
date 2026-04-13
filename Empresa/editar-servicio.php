@@ -22,11 +22,11 @@
       </div>
 
       <nav class="company-sidebar-nav">
-        <a href="index.html" class="company-nav-link">Inicio</a>
-        <a href="mis-servicios.html" class="company-nav-link active">Mis servicios</a>
-        <a href="nueva-actividad.html" class="company-nav-link">Añadir servicio</a>
-        <a href="reservas.html" class="company-nav-link">Reservas</a>
-        <a href="perfil-empresa.html" class="company-nav-link">Perfil empresa</a>
+        <a href="index.php" class="company-nav-link">Inicio</a>
+        <a href="mis-servicios.php" class="company-nav-link active">Mis servicios</a>
+        <a href="nueva-actividad.php" class="company-nav-link">Añadir servicio</a>
+        <a href="reservas.php" class="company-nav-link">Reservas</a>
+        <a href="perfil-empresa.php" class="company-nav-link">Perfil empresa</a>
         <a href="logout.php" class="company-nav-link company-nav-link-logout">Cerrar sesión</a>
       </nav>
     </aside>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="company-topbar-right">
-          <a href="mis-servicios.html" class="company-back-link">Volver a mis servicios</a>
+          <a href="mis-servicios.php" class="company-back-link">Volver a mis servicios</a>
         </div>
       </header>
 
