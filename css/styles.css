@@ -172,10 +172,9 @@ h4 {
 }
 
 .header-container{
-  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 15px;
   padding: 10px 30px;
 }
 
@@ -194,9 +193,8 @@ h4 {
 /* titulo  */
 
 .header-title{
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
 }
 
 .header-title h1{
@@ -211,6 +209,7 @@ h4 {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
 }
 
 
