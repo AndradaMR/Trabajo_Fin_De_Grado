@@ -30,7 +30,7 @@ $empresaActividad = null;
 foreach ($datos as $empresa) {
     if (isset($empresa['servicios']) && is_array($empresa['servicios'])) {
         foreach ($empresa['servicios'] as $servicio) {
-            if (isset($servicio['id_actividad']) && $servicio['id_actividad'] == $id) {
+            if (isset($servicio['id_servicio']) && $servicio['id_servicio'] == $id) {
                 $actividad = $servicio;
                 $empresaActividad = $empresa['nombre_empresa'];
                 break 2;
@@ -112,7 +112,7 @@ if (!$actividad) {
                 </div>
               </div>
 
-              <a href="reserva.php?id=<?= $id ?>" class="btn btn-primary btn-full reserve-btn">
+              <a href="reserva.php?idact=<?= $id ?>" class="btn btn-primary btn-full reserve-btn">
                 Reservar actividad
               </a>
             </div>

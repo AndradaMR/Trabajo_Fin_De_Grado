@@ -70,6 +70,7 @@ foreach ($categorias as $categoria) {
   <link rel="stylesheet" href="../css/public-styles/perfil.css">
   <link rel="stylesheet" href="../css/public-styles/categoria.css">
   <link rel="stylesheet" href="../css/public-styles/actividad.css">
+  <link rel="stylesheet" href="../css/public-styles/reserva.css">
   
 <script>
 

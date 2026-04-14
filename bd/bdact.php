@@ -166,6 +166,80 @@ public function filtrarActividades($buscador = "", $categoria = "", $subcategori
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function obtenerActividadPorId($idServicio){
+    $sentencia = "SELECT * FROM servicio WHERE id_servicio = :id_servicio";
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_servicio" => $idServicio
+    ]);
+    $fila = $ejecucion->fetch(PDO::FETCH_ASSOC);
+    return $fila;
+}
+
+public function obtenerDisponibilidadesPorServicio($idServicio){
+    $sentencia = "SELECT *
+            FROM detalle_actividad
+            WHERE id_servicio = :id_servicio
+            ORDER BY fecha ASC, hora_inicio ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_servicio" => $idServicio
+    ]);
+    $fila = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+    return $fila;
+}
+
+public function obtenerDetalleActividadPorId($idDetalle){
+    $sentencia = "SELECT * FROM detalle_actividad WHERE id = :id";
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id" => $idDetalle
+    ]);
+    $fila = $ejecucion->fetch(PDO::FETCH_ASSOC);
+    return $fila;
+}
+
+public function contarReservasConfirmadasPorDetalle($idDetalle){
+    $sentencia = "SELECT COUNT(*) 
+            FROM reserva
+            WHERE id_detalle_actividad = :id_detalle
+              AND estado = 'confirmada'";
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_detalle" => $idDetalle
+    ]);
+    $fila = (int) $ejecucion->fetchColumn();
+    return $fila;
+}
+
+public function usuarioYaReservoEsaFranja($idUsuario, $idDetalle){
+    $sentencia = "SELECT COUNT(*)
+            FROM reserva
+            WHERE id_usuario = :id_usuario
+              AND id_detalle_actividad = :id_detalle
+              AND estado = 'confirmada'";
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_usuario" => $idUsuario,
+        ":id_detalle" => $idDetalle
+    ]);
+    $fila = ((int)$ejecucion->fetchColumn() > 0);
+    return  $fila;
+}
+
+public function crearReserva($idUsuario, $idServicio, $fechaHora, $idDetalle){
+    $sentencia = "INSERT INTO reserva (id_usuario, id_servicio, fecha_hora, estado, id_detalle_actividad)
+            VALUES (:id_usuario, :id_servicio, :fecha_hora, 'confirmada', :id_detalle)";
+    $ejecucion = $this->pdo->prepare($sentencia);
+    return $ejecucion->execute([
+        ":id_usuario" => $idUsuario,
+        ":id_servicio" => $idServicio,
+        ":fecha_hora" => $fechaHora,
+        ":id_detalle" => $idDetalle
+    ]);
+}
+
 
 }
 
