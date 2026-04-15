@@ -60,13 +60,14 @@ public function ComprobarLogin($email, $contraseña){
     }else{
         //Avisa si el usuario ya está bloqueado por intentos
         if($fila["intentos"] >= 3){
-            //return "usuariobloqueado";
+            return "usuariobloqueado";
         }
 
         $contrabuena = $fila["contrasena"];
         //compruebo que la contraseña es la adecuada con pasword verify y devuelvo el id
         if(password_verify($contraseña, $contrabuena) == true){
-            //$this->ResetearIntentos($email);
+            $this->ResetearIntentos($email);
+            //La respuesta será el id si todo ha ido bien
             return $fila["id_usuario"]; 
         //Si no es adecuada incremento aquí directamente los intentos y muestro el aviso en la pagina
         }else{

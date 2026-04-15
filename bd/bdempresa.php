@@ -59,24 +59,76 @@ public function ResetearIntentos($email){
     ]);
 }
 
-public function RegistrarEmpresa($nombre, $email, $contraseña, $direccion, $telefono, $descripcion_empresa, $ciudad_empresa,$categoria_empresa, $logo_empresa){
+//Esto lo hará el administrador
+public function AprobarEmpresa($idSolicitud){
 
-    $contracifrada = password_hash($contraseña, PASSWORD_DEFAULT);
+    try{
+        $this->pdo->beginTransaction();
 
-    $sentencia = "INSERT INTO empresa (nombre_empresa, email, contrasena, direccion, telefono, logo_empresa, categoria_empresa, ciudad_empresa, descripcion_empresa) 
-                  VALUES (:nombre, :email, :contra, :direccion, :telefono, :logo_empresa, :categoria_empresa, :ciudad_empresa, :descripcion_empresa)";
+        $sentencia = "SELECT * FROM solicitud_empresa 
+                      WHERE id_solicitud = :id_solicitud 
+                      AND estado = 'pendiente'";
 
-    $ejecuccion = $this->pdo->prepare($sentencia);
-    $ejecuccion->execute([
-        ":nombre" => $nombre,
-        ":email" => $email,
-        ":contra" => $contracifrada,
-        ":direccion" => $direccion,
-        ":telefono" => $telefono,
-        ":descripcion_empresa" => $descripcion_empresa,
-        ":ciudad_empresa" => $ciudad_empresa,
-        ":categoria_empresa" => $categoria_empresa,
-        ":logo_empresa" => $logo_empresa
+        $ejecucion = $this->pdo->prepare($sentencia);
+        $ejecucion->execute([
+            ":id_solicitud" => $idSolicitud
+        ]);
+
+        $solicitud = $ejecucion->fetch(PDO::FETCH_ASSOC);
+
+        if($solicitud == false){
+            $this->pdo->rollBack();
+            return false;
+        }
+
+        $sentencia2 = "INSERT INTO empresa 
+                      (nombre_empresa, email, contrasena, direccion, telefono, ciudad_empresa, categoria_empresa, logo_empresa, descripcion_empresa)
+                      VALUES
+                      (:nombre, :email, :contrasena, :direccion, :telefono, :ciudad, :categoria, :logo, :descripcion)";
+
+        $ejecucion2 = $this->pdo->prepare($sentencia2);
+        $ejecucion2->execute([
+            ":nombre" => $solicitud["nombre"],
+            ":email" => $solicitud["email"],
+            ":contrasena" => $solicitud["contrasena"],
+            ":direccion" => $solicitud["direccion"],
+            ":telefono" => $solicitud["telefono"],
+            ":ciudad" => $solicitud["ciudad_empresa"],
+            ":categoria" => $solicitud["categoria_empresa"],
+            ":logo" => $solicitud["logo_empresa"],
+            ":descripcion" => $solicitud["datos"]
+        ]);
+
+        $idEmpresaNueva = $this->pdo->lastInsertId();
+
+        $sentencia3 = "UPDATE solicitud_empresa
+                       SET estado = 'aprobada', id_empresa = :id_empresa
+                       WHERE id_solicitud = :id_solicitud";
+
+        $ejecucion3 = $this->pdo->prepare($sentencia3);
+        $ejecucion3->execute([
+            ":id_empresa" => $idEmpresaNueva,
+            ":id_solicitud" => $idSolicitud
+        ]);
+
+        $this->pdo->commit();
+        return true;
+
+    }catch(PDOException $e){
+        $this->pdo->rollBack();
+        return false;
+    }
+}
+
+public function RechazarEmpresa($idSolicitud){
+
+    $sentencia = "UPDATE solicitud_empresa 
+                  SET estado = 'rechazada' 
+                  WHERE id_solicitud = :id";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id" => $idSolicitud
     ]);
 }
 
@@ -95,6 +147,41 @@ public function ExisteEmpresa($email){
     }else{
         return true;
     }
+}
+
+public function RegistrarSolicitudEmpresa($nombre, $email, $logo, $ciudad, $telefono, $direccion, $contrasena, $categoria, $descripcion){
+
+    $contraCifrada = password_hash($contrasena, PASSWORD_DEFAULT);
+
+    $sentencia = "INSERT INTO solicitud_empresa 
+    (nombre, email, logo_empresa, ciudad_empresa, telefono, direccion, contrasena, categoria_empresa, datos)
+    VALUES 
+    (:nombre, :email, :logo, :ciudad, :telefono, :direccion, :contra, :categoria, :datos)";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":nombre" => $nombre,
+        ":email" => $email,
+        ":logo" => $logo,
+        ":ciudad" => $ciudad,
+        ":telefono" => $telefono,
+        ":direccion" => $direccion,
+        ":contra" => $contraCifrada,
+        ":categoria" => $categoria,
+        "datos" => $descripcion
+    ]);
+}
+
+public function ObtenerSolicitudEmpresaPorId($idSolicitud){
+
+    $sentencia = "SELECT * FROM solicitud_empresa WHERE id_solicitud = :id";
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id" => $idSolicitud
+    ]);
+
+    return $ejecucion->fetch(PDO::FETCH_ASSOC);
 }
 
 }
