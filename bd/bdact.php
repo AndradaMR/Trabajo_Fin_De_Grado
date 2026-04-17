@@ -240,6 +240,43 @@ public function crearReserva($idUsuario, $idServicio, $fechaHora, $idDetalle){
     ]);
 }
 
+public function ObtenerReservasUsuario($idUsuario){
+    $sentencia = "SELECT 
+                    r.id_reserva,
+                    r.estado,
+                    r.id_servicio,
+                    r.fecha_hora,
+                    s.nombre_servicio,
+                    s.descripcion,
+                    s.lugar,
+                    s.precio,
+                    s.duracion,
+                    d.fecha,
+                    d.hora_inicio,
+                    d.hora_fin,
+                    c.nombre AS subcategoria,
+                    cp.nombre AS categoria_padre
+                  FROM reserva r
+                  INNER JOIN servicio s 
+                    ON r.id_servicio = s.id_servicio
+                  INNER JOIN detalle_actividad d 
+                    ON r.id_detalle_actividad = d.id
+                  LEFT JOIN categoria c 
+                    ON s.id_categoria = c.id_categoria
+                  LEFT JOIN categoria cp 
+                    ON c.id_categoria_padre = cp.id_categoria
+                  WHERE r.id_usuario = :id_usuario
+                  ORDER BY d.fecha ASC, d.hora_inicio ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_usuario" => $idUsuario
+    ]);
+
+    $fila = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+    return $fila;
+}
+
 
 }
 
