@@ -2,7 +2,8 @@
 require_once("head.php");
 
 if(!isset($_SESSION["empresa"])){
-  "../publico/index.php";
+  header("Location: registro-empresa.php");
+  exit();
 }
 
 ?>

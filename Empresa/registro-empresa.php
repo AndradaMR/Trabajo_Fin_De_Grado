@@ -3,11 +3,7 @@
 require_once("../bd/bdempresa.php");
 $bdempre= new bdempresa("localhost",3306,"plataforma_servicios","root","");
 
-
-if(isset($_SESSION["empresa"])){
-  header("Location: index.php");
-  exit();
-}
+$registro_ok=false;
 
 $banderaerror = false;
 
@@ -110,6 +106,22 @@ if(isset($_POST["descripcion_empresa"])){
     }
 }
 
+$logo_empresa = "";
+$logoempresaerror = "";
+if(isset($_POST["enviar"])){
+    if(!isset($_FILES["logo_empresa"]) || $_FILES["logo_empresa"]["error"] == 4){
+        $logoempresaerror = "Debes subir el logo de la empresa";
+        $banderaerror = true;
+    }else{
+        $tiposPermitidos = ["image/jpeg", "image/png", "image/webp"];
+        $tipoArchivo = $_FILES["logo_empresa"]["type"];
+
+        if(!in_array($tipoArchivo, $tiposPermitidos)){
+            $logoempresaerror = "El logo debe ser una imagen JPG, PNG o WEBP";
+            $banderaerror = true;
+        }
+    }
+}
 
 if($banderaerror == false && isset($_POST["enviar"])){
 
@@ -118,21 +130,26 @@ if($banderaerror == false && isset($_POST["enviar"])){
         $banderaerror = true;
     }else{
 
-        $bdempre->RegistrarEmpresa(
-            $nombre_empresa,
-            $email_empresa,
-            $password_empresa,
-            $direccion_empresa,
-            $telefono_empresa,
-            $descripcion_empresa,
-            $ciudad_empresa,
-            $categoria_empresa,
-            $logo_empresa
-        );
+    $nombreArchivo = $_FILES["logo_empresa"]["name"];
+    $ruta = "../img/logos/" . $nombreArchivo;
 
-        $_SESSION["mensajeempresa"] = "Empresa registrada correctamente. Ya puedes iniciar sesión.";
-        header("Location: login-empresa.php");
-        exit();
+    move_uploaded_file($_FILES["logo_empresa"]["tmp_name"], $ruta);
+
+    $logo_empresa = "../img/logos/" . $nombreArchivo.$nombre_empresa;
+
+    $bdempre->RegistrarSolicitudEmpresa(
+    $nombre_empresa,
+    $email_empresa,
+    $logo_empresa,
+    $ciudad_empresa,
+    $telefono_empresa,
+    $direccion_empresa,
+    $password_empresa,
+    $categoria_empresa,
+    $descripcion_empresa
+);
+
+       $registro_ok=true;
     }
 }
 ?>
@@ -162,6 +179,25 @@ if($banderaerror == false && isset($_POST["enviar"])){
           <div class="company-auth-header">
             <img src="../img/logo.PNG" alt="Logo Body and Soul" class="company-auth-logo">
             <span class="company-auth-badge">Registro empresa</span>
+
+<?php if($registro_ok){ ?>
+  <div class="company-success-box">
+    <h2>¡Solicitud enviada con éxito!</h2>
+    <p>
+      Hemos recibido los datos de tu empresa. Tu cuenta quedará pendiente de revisión
+      por parte del administrador.
+    </p>
+</br>
+    <p>
+      Te avisaremos cuando el registro haya sido validado y ya puedas iniciar sesión.
+    </p>
+</br>
+    <div class="company-success-actions">
+      <a href="../publico/index.php" class="company-auth-link-btn">Volver al inicio</a>
+    </div>
+  </div>
+<?php }else{ ?>
+
             <h1>Crea tu cuenta</h1>
             <p>
               Registra tu empresa para publicar actividades y gestionar tus servicios en Body and Soul.
@@ -186,8 +222,7 @@ if($banderaerror == false && isset($_POST["enviar"])){
 
               <div class="form-group">
                 <label for="categoria_empresa">Categoría principal</label>
-                <select id="categoria_empresa" name="categoria">
-                  <option value="">Selecciona una categoría</option>
+                <select id="categoria_empresa" name="categoria_empresa">
                   <option value="">Selecciona una categoría</option>
                   <option value="bienestar" <?php if($categoria_empresa == "bienestar"){ echo "selected"; } ?>>Bienestar</option>
                   <option value="deporte" <?php if($categoria_empresa == "deporte"){ echo "selected"; } ?>>Deporte</option>
@@ -284,6 +319,7 @@ if($banderaerror == false && isset($_POST["enviar"])){
                   name="logo_empresa"
                   accept="image/*"
                 >
+                <small><?php echo $logoempresaerror; ?></small>
               </div>
 
             </div>
@@ -301,6 +337,9 @@ if($banderaerror == false && isset($_POST["enviar"])){
           <p class="company-auth-help">
             Tu cuenta quedará pendiente de validación por el administrador antes de publicar actividades.
           </p>
+
+          <?php } ?>
+
         </div>
 
       </div>

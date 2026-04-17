@@ -1,5 +1,6 @@
 <?php
-require_once("../bd/bdempresa.php");
+
+require_once("../bd/bdact.php");
 $bdact= new bdact("localhost",3306,"plataforma_servicios","root","");
 
 ?>
