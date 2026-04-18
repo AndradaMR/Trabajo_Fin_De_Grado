@@ -1,240 +1,171 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Body and Soul | Mis actividades reservadas</title>
+<?php
+$titulo="<h1>Mi perfil</h1>";
+require_once("head.php");
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita:wght@700;800;900&display=swap" rel="stylesheet">
+if(!isset($_SESSION["usuario"])){
+  header("Location: index.php");
+}
 
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/public-styles/mis-reservas.css">
-</head>
-<body>
+$id=$_SESSION["usuario"];
 
-  <header class="main-header">
-    <div class="container header-container">
+$reservas = $bdact->ObtenerReservasUsuario($id);
+?>
 
-      <div class="header-left">
-        <a href="index.html" class="logo-link" aria-label="Ir al inicio">
-          <img src="assets/logo-body-and-soul.png" class="logo" alt="Body and Soul">
-        </a>
+<main class="reservations-page">
+  <section class="reservations-section">
+    <div class="container">
 
-        <div class="nav-categories">
-          <label for="categorias" class="sr-only">Categorías</label>
-          <select id="categorias" class="categories-select">
-            <option value="">Categorías</option>
-            <option value="deporte">Deporte</option>
-            <option value="bienestar">Bienestar</option>
-          </select>
-        </div>
+      <div class="reservations-intro">
+        <span class="section-tag">Área personal</span>
+        <h2>Mis actividades reservadas</h2>
+        <p>
+          Aquí puedes consultar tus próximas reservas, revisar la información de cada actividad
+          y gestionar cualquier cambio necesario.
+        </p>
       </div>
 
-      <div class="header-title">
-        <h1>Bienvenida a Body and Soul</h1>
+      <div class="reservations-filters">
+        <button class="filter-chip active" type="button" data-filter="proximas">Próximas</button>
+        <button class="filter-chip" type="button" data-filter="hoy">Hoy</button>
+        <button class="filter-chip" type="button" data-filter="semana">Esta semana</button>
+        <button class="filter-chip" type="button" data-filter="pasadas">Pasadas</button>
       </div>
 
-      <div class="header-right">
-        <a href="perfil.html" class="btn btn-outline">Mi perfil</a>
-      </div>
+      <div class="reservations-list">
 
-    </div>
-  </header>
+        <?php if ($reservas && count($reservas) > 0): ?>
+          <?php foreach ($reservas as $reserva): ?>
 
-  <main class="reservations-page">
-    <section class="reservations-section">
-      <div class="container">
+            <?php
+              $estadoClase = "status-pending";
 
-        <div class="reservations-intro">
-          <span class="section-tag">Área personal</span>
-          <h2>Mis actividades reservadas</h2>
-          <p>
-            Aquí puedes consultar tus próximas reservas, revisar la información de cada actividad
-            y gestionar cualquier cambio necesario.
-          </p>
-        </div>
+              if ($reserva["estado"] == "confirmada") {
+                  $estadoClase = "status-confirmed";
+              } else if ($reserva["estado"] == "cancelada") {
+                  $estadoClase = "status-cancelled";
+              }
 
-        <div class="reservations-filters">
-          <button class="filter-chip active" type="button">Próximas</button>
-          <button class="filter-chip" type="button">Hoy</button>
-          <button class="filter-chip" type="button">Esta semana</button>
-        </div>
+              $categoriaTexto = "";
+              if (!empty($reserva["categoria_padre"]) && !empty($reserva["subcategoria"])) {
+                  $categoriaTexto = $reserva["categoria_padre"] . " · " . $reserva["subcategoria"];
+              } else if (!empty($reserva["subcategoria"])) {
+                  $categoriaTexto = $reserva["subcategoria"];
+              } else {
+                  $categoriaTexto = "Actividad";
+              }
 
-        <div class="reservations-list">
+              $fechaFormateada = date("d/m/Y", strtotime($reserva["fecha"]));
+              $horaFormateada = date("H:i", strtotime($reserva["hora_inicio"]));
+            ?>
 
-          <!-- RESERVA 1 -->
-          <article class="reservation-card">
-            <div class="reservation-image">
-              <img src="assets/yoga-reserva.jpg" alt="Clase de yoga">
-            </div>
-
-            <div class="reservation-content">
-              <div class="reservation-top">
-                <div>
-                  <p class="reservation-category">Bienestar · Yoga</p>
-                  <h3>Yoga Flow</h3>
-                </div>
-
-                <span class="reservation-status status-confirmed">Confirmada</span>
+            <article class="reservation-card" data-fecha="<?= $reserva["fecha"] ?>">
+              <div class="reservation-image">
+                <img src="../assets/placeholder.jpg" alt="<?= htmlspecialchars($reserva["nombre_servicio"]) ?>">
               </div>
 
-              <p class="reservation-description">
-                Clase guiada para mejorar la flexibilidad, la respiración y el equilibrio
-                en un ambiente relajante y luminoso.
-              </p>
+              <div class="reservation-content">
+                <div class="reservation-top">
+                  <div>
+                    <p class="reservation-category"><?= htmlspecialchars($categoriaTexto) ?></p>
+                    <h3><?= htmlspecialchars($reserva["nombre_servicio"]) ?></h3>
+                  </div>
 
-              <div class="reservation-info-grid">
-                <div class="reservation-info-item">
-                  <span class="info-label">Fecha</span>
-                  <span class="info-value">18/03/2026</span>
+                  <span class="reservation-status <?= $estadoClase ?>">
+                    <?= ucfirst(htmlspecialchars($reserva["estado"])) ?>
+                  </span>
                 </div>
 
-                <div class="reservation-info-item">
-                  <span class="info-label">Hora</span>
-                  <span class="info-value">17:30</span>
+                <p class="reservation-description">
+                  <?= htmlspecialchars($reserva["descripcion"]) ?>
+                </p>
+
+                <div class="reservation-info-grid">
+                  <div class="reservation-info-item">
+                    <span class="info-label">Fecha</span>
+                    <span class="info-value"><?= $fechaFormateada ?></span>
+                  </div>
+
+                  <div class="reservation-info-item">
+                    <span class="info-label">Hora</span>
+                    <span class="info-value"><?= $horaFormateada ?></span>
+                  </div>
+
+                  <div class="reservation-info-item">
+                    <span class="info-label">Duración</span>
+                    <span class="info-value"><?= htmlspecialchars($reserva["duracion"]) ?></span>
+                  </div>
+
+                  <div class="reservation-info-item">
+                    <span class="info-label">Ubicación</span>
+                    <span class="info-value"><?= htmlspecialchars($reserva["lugar"]) ?></span>
+                  </div>
                 </div>
 
-                <div class="reservation-info-item">
-                  <span class="info-label">Duración</span>
-                  <span class="info-value">60 min</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Ubicación</span>
-                  <span class="info-value">Madrid Centro</span>
-                </div>
-              </div>
-
-              <div class="reservation-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <a href="reserva.html" class="btn btn-secondary">Modificar</a>
-                <button type="button" class="btn btn-primary">Cancelar</button>
-              </div>
-            </div>
-          </article>
-
-          <!-- RESERVA 2 -->
-          <article class="reservation-card">
-            <div class="reservation-image">
-              <img src="assets/spa-reserva.jpg" alt="Sesión de spa">
-            </div>
-
-            <div class="reservation-content">
-              <div class="reservation-top">
-                <div>
-                  <p class="reservation-category">Bienestar · Spa</p>
-                  <h3>Circuito termal relax</h3>
-                </div>
-
-                <span class="reservation-status status-pending">Pendiente</span>
-              </div>
-
-              <p class="reservation-description">
-                Experiencia de spa con piscina climatizada, sauna y jacuzzi para desconectar
-                del estrés y dedicarte un momento de bienestar.
-              </p>
-
-              <div class="reservation-info-grid">
-                <div class="reservation-info-item">
-                  <span class="info-label">Fecha</span>
-                  <span class="info-value">20/03/2026</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Hora</span>
-                  <span class="info-value">12:00</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Duración</span>
-                  <span class="info-value">90 min</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Ubicación</span>
-                  <span class="info-value">Pozuelo de Alarcón</span>
+                <div class="reservation-actions">
+                  <a href="actividad.php?idact=<?= $reserva["id_servicio"] ?>" class="btn btn-outline">Ver actividad</a>
+                  <a href="modificar-reserva.php?idreserva=<?= $reserva["id_reserva"] ?>" class="btn btn-secondary">Modificar</a>
+                  <a href="cancelar-reserva.php?idreserva=<?= $reserva["id_reserva"] ?>" class="btn btn-primary">Cancelar</a>
                 </div>
               </div>
+            </article>
 
-              <div class="reservation-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <a href="reserva.html" class="btn btn-secondary">Modificar</a>
-                <button type="button" class="btn btn-primary">Cancelar</button>
-              </div>
-            </div>
-          </article>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <div class="empty-reservations">
+            <p>No tienes actividades reservadas.</p>
+          </div>
+        <?php endif; ?>
 
-          <!-- RESERVA 3 -->
-          <article class="reservation-card">
-            <div class="reservation-image">
-              <img src="assets/padel-reserva.jpg" alt="Reserva de pádel">
-            </div>
-
-            <div class="reservation-content">
-              <div class="reservation-top">
-                <div>
-                  <p class="reservation-category">Deporte · De raqueta</p>
-                  <h3>Pista de pádel indoor</h3>
-                </div>
-
-                <span class="reservation-status status-confirmed">Confirmada</span>
-              </div>
-
-              <p class="reservation-description">
-                Reserva de pista cubierta para partido de pádel en un centro equipado
-                con vestuarios y zona de descanso.
-              </p>
-
-              <div class="reservation-info-grid">
-                <div class="reservation-info-item">
-                  <span class="info-label">Fecha</span>
-                  <span class="info-value">22/03/2026</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Hora</span>
-                  <span class="info-value">19:00</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Duración</span>
-                  <span class="info-value">90 min</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Ubicación</span>
-                  <span class="info-value">Alcobendas</span>
-                </div>
-              </div>
-
-              <div class="reservation-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <a href="reserva.html" class="btn btn-secondary">Modificar</a>
-                <button type="button" class="btn btn-primary">Cancelar</button>
-              </div>
-            </div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="main-footer">
-    <div class="container footer-container">
-      <div class="footer-brand">
-        <p>&copy; 2026 Body and Soul. Todos los derechos reservados.</p>
-      </div>
-
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram" class="social-link">IG</a>
-        <a href="#" aria-label="Facebook" class="social-link">f</a>
-        <a href="#" aria-label="X" class="social-link">X</a>
       </div>
     </div>
-  </footer>
+  </section>
+</main>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const botones = document.querySelectorAll(".filter-chip");
+    const tarjetas = document.querySelectorAll(".reservation-card");
 
-</body>
-</html>
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    const finSemana = new Date(hoy);
+    finSemana.setDate(hoy.getDate() + 7);
+
+    function aplicarFiltro(filtro) {
+      tarjetas.forEach(tarjeta => {
+        const fechaTexto = tarjeta.dataset.fecha; // formato YYYY-MM-DD
+        const fechaReserva = new Date(fechaTexto + "T00:00:00");
+
+        let mostrar = false;
+
+        if (filtro === "proximas") {
+          mostrar = fechaReserva >= hoy;
+        } 
+        else if (filtro === "hoy") {
+          mostrar = fechaReserva.getTime() === hoy.getTime();
+        } 
+        else if (filtro === "semana") {
+          mostrar = fechaReserva >= hoy && fechaReserva <= finSemana;
+        }else if (filtro === "pasadas") {
+          mostrar = fechaReserva < hoy;
+        }
+
+        tarjeta.style.display = mostrar ? "grid" : "none";
+      });
+    }
+
+    botones.forEach(boton => {
+      boton.addEventListener("click", function () {
+        botones.forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+
+        let filtro = this.dataset.filter;
+        aplicarFiltro(filtro);
+      });
+    });
+
+    aplicarFiltro("proximas");
+  });
+  </script>
+
+<?php require_once("footer.php"); ?>
