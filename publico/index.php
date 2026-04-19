@@ -122,7 +122,7 @@ require_once("head.php");
               <p>
                 <?=$act["descripcion"]?>
               </p>
-              <a href="actividad.php?idact=<?=$act["id_servicio"]?>" class="btn btn-primary btn-full">Ir a la actividad</a>
+              <a href="actividad.php?idact=<?=$act["id_servicio"]?>" class="btn btn-primary btn-full" aria-label="Ver actividad <?=$act["nombre_servicio"]?>">Ver actividad</a>
             </div>
           </article>
           <?php

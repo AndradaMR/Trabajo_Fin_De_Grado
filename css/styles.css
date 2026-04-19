@@ -1,7 +1,7 @@
 :root {
-  --mint: #2EC4B6;
+  --mint: #147a72;
   --navy: #1B4965;
-  --pink: #FF8FA3;
+  --pink: #b03a5b;
   --light: #F7FDFC;
   --dark: #2E2E2E;
   --white: #ffffff;
@@ -137,7 +137,7 @@ h4 {
 }
 
 .btn-primary:hover {
-  background-color: #ff7891;
+  background-color: #8f2d44;
   transform: translateY(-2px);
 }
 
@@ -147,7 +147,7 @@ h4 {
 }
 
 .btn-secondary:hover {
-  background-color: #26b1a4;
+  background-color: #0f615a;
   transform: translateY(-2px);
 }
 
