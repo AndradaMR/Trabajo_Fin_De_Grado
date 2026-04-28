@@ -23,41 +23,17 @@ public function ComprobarLoginEmpresa($email, $contraseña){
     if($fila == false){
         return "empresanoexiste";
     }else{
-        //Avisa si el usuario ya está bloqueado por intentos
-        if($fila["intentos"] >= 3){
-            //return "usuariobloqueado";
-        }
 
         $contrabuena = $fila["contrasena"];
         //compruebo que la contraseña es la adecuada con pasword verify y devuelvo el id
         if(password_verify($contraseña, $contrabuena) == true){
-            //$this->ResetearIntentos($email);
-            return $fila["id_usuario"]; 
-        //Si no es adecuada incremento aquí directamente los intentos y muestro el aviso en la pagina
-        }else{
-            $this->IncrementarIntentos($email);
-            return "fallocontraseña";
+            
+            return $fila["id_empresa"]; 
+        
         }
     }
 }
 
-public function IncrementarIntentos($email){
-
-    $sentencia = "UPDATE usuario SET intentos = intentos + 1 WHERE email = :email";
-    $ejecuccion = $this->pdo->prepare($sentencia);
-    $ejecuccion->execute([
-        ":email" => $email
-    ]);
-}
-
-public function ResetearIntentos($email){
-
-    $sentencia = "UPDATE usuario SET intentos = 0 WHERE email = :email";
-    $ejecuccion = $this->pdo->prepare($sentencia);
-    $ejecuccion->execute([
-        ":email" => $email
-    ]);
-}
 
 //Esto lo hará el administrador
 public function AprobarEmpresa($idSolicitud){
@@ -184,8 +160,116 @@ public function ObtenerSolicitudEmpresaPorId($idSolicitud){
     return $ejecucion->fetch(PDO::FETCH_ASSOC);
 }
 
+public function ModificarPerfilEmpresa($idEmpresa, $nombre, $categoria, $telefono, $ciudad, $direccion, $descripcion, $logo){
+
+    $sentencia = "UPDATE empresa 
+                  SET nombre_empresa = :nombre,
+                      categoria_empresa = :categoria,
+                      telefono = :telefono,
+                      ciudad_empresa = :ciudad,
+                      direccion = :direccion,
+                      descripcion_empresa = :descripcion,
+                      logo_empresa = :logo
+                  WHERE id_empresa = :idEmpresa";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":nombre" => $nombre,
+        ":categoria" => $categoria,
+        ":telefono" => $telefono,
+        ":ciudad" => $ciudad,
+        ":direccion" => $direccion,
+        ":descripcion" => $descripcion,
+        ":logo" => $logo,
+        ":idEmpresa" => $idEmpresa
+    ]);
 }
 
 
+public function sacardatosempresa($idEmpresa){
+
+    $sentencia = "SELECT * FROM empresa WHERE id_empresa = :id LIMIT 1";
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":id" => $idEmpresa
+    ]);
+
+    $empresa = $ejecucion->fetch(PDO::FETCH_ASSOC);
+
+    return $empresa;
+}
+
+public function ObtenerActividadesPorEmpresa($idEmpresa){
+
+    $sentencia = "SELECT * 
+                  FROM servicio 
+                  WHERE id_empresa = :idEmpresa";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":idEmpresa" => $idEmpresa
+    ]);
+
+    $actividades = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+
+    return $actividades;
+}
+
+
+public function ObtenerServiciosEmpresa($idEmpresa){
+
+    $sentencia = "SELECT 
+                    s.*,
+                    c.nombre AS subcategoria,
+                    cp.nombre AS categoria_padre,
+                    (
+                        SELECT url_imagen 
+                        FROM imagen_servicio i 
+                        WHERE i.id_servicio = s.id_servicio 
+                        LIMIT 1
+                    ) AS imagen,
+                    (
+                        SELECT MAX(plazas_maximas)
+                        FROM detalle_actividad d
+                        WHERE d.id_servicio = s.id_servicio
+                    ) AS plazas
+                  FROM servicio s
+                  INNER JOIN categoria c ON s.id_categoria = c.id_categoria
+                  LEFT JOIN categoria cp ON c.id_categoria_padre = cp.id_categoria
+                  WHERE s.id_empresa = :idEmpresa
+                  ORDER BY s.id_servicio DESC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":idEmpresa" => $idEmpresa
+    ]);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerSubcategoriasEmpresa($idEmpresa){
+
+    $sentencia = "SELECT DISTINCT c.id_categoria, c.nombre
+                  FROM servicio s
+                  INNER JOIN categoria c ON s.id_categoria = c.id_categoria
+                  WHERE s.id_empresa = :idEmpresa";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":idEmpresa" => $idEmpresa
+    ]);
+
+    $subcategorias = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+
+    return $subcategorias;
+}
+
+
+}
 
 ?>
