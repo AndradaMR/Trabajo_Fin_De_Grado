@@ -4,7 +4,17 @@ require_once("head.php");
 if(!isset($_SESSION["empresa"])){
   header("Location: registro-empresa.php");
   exit();
+}else{
+
+  $idempresa=$_SESSION["empresa"];
+  
+
 }
+
+$datosempresa=$bdempre->sacardatosempresa($idempresa);
+$actividadesempresa=$bdempre->ObtenerActividadesPorEmpresa($idempresa);
+$catempresa=$bdempre->ObtenerSubcategoriasEmpresa($idempresa);
+
 
 ?>
 
@@ -14,11 +24,11 @@ if(!isset($_SESSION["empresa"])){
       <header class="company-topbar">
         <div class="company-topbar-left">
           <span class="company-page-tag">Panel de gestión</span>
-          <h2>Bienvenida, Zen Balance Studio</h2>
+          <h2>Bienvenida, <?=$datosempresa["nombre_empresa"]?></h2>
         </div>
 
         <div class="company-topbar-right">
-          <a href="nueva-actividad.html" class="company-add-btn">+ Añadir servicio</a>
+          <a href="nueva-actividad.php" class="company-add-btn">+ Añadir servicio</a>
         </div>
       </header>
 
@@ -78,22 +88,22 @@ if(!isset($_SESSION["empresa"])){
             <div class="company-info-grid">
               <div class="company-info-item">
                 <span class="info-label">Nombre comercial</span>
-                <span class="info-value">Zen Balance Studio</span>
+                <span class="info-value"><?=$datosempresa["nombre_empresa"]?></span>
               </div>
 
               <div class="company-info-item">
                 <span class="info-label">Categoría principal</span>
-                <span class="info-value">Bienestar</span>
+                <span class="info-value"><?=$datosempresa["categoria_empresa"]?></span>
               </div>
 
               <div class="company-info-item">
                 <span class="info-label">Ubicación</span>
-                <span class="info-value">Madrid</span>
+                <span class="info-value"><?=$datosempresa["ciudad_empresa"]?></span>
               </div>
 
               <div class="company-info-item">
                 <span class="info-label">Email</span>
-                <span class="info-value">info@zenbalance.com</span>
+                <span class="info-value"><?=$datosempresa["email"]?></span>
               </div>
             </div>
           </article>
@@ -108,10 +118,12 @@ if(!isset($_SESSION["empresa"])){
             </div>
 
             <div class="company-tags">
-              <span class="company-tag">Bienestar</span>
-              <span class="company-tag">Yoga</span>
-              <span class="company-tag">Meditación</span>
-              <span class="company-tag">Relajación</span>
+              <?php foreach($catempresa as $cat){
+                ?>
+              <span class="company-tag"><?=$cat["nombre"]?></span>
+              <?php
+              }
+              ?>
             </div>
           </article>
 
@@ -120,36 +132,28 @@ if(!isset($_SESSION["empresa"])){
             <div class="company-panel-header">
               <div>
                 <span class="company-section-badge">Servicios</span>
-                <h3>Servicios publicados</h3>
               </div>
-              <a href="mis-servicios.html" class="company-panel-link">Ver todos</a>
             </div>
 
             <div class="company-services-list">
 
+            <?php foreach($actividadesempresa as $act){
+              //Saco el nombre de la subcategoria con el id(todas las act tienen como categoria su subcategoria)
+              $res=$bdact->ObtenerCategoriaConPadre($act["id_categoria"]);
+             
+              $cat=$res["subcategoria"];
+              $subcat=$res["categoria_padre"];
+              ?>
               <div class="company-service-item">
                 <div class="company-service-info">
-                  <h4>Yoga Flow Sunset</h4>
-                  <p>Bienestar · Yoga · 18 €</p>
+                  <h4><?=$act["nombre_servicio"]?></h4>
+                  <p><?=$cat?> · <?=$subcat?> · <?=$act["precio"]?> €</p>
                 </div>
                 <span class="company-status-chip active">Activa</span>
               </div>
-
-              <div class="company-service-item">
-                <div class="company-service-info">
-                  <h4>Meditación guiada</h4>
-                  <p>Bienestar · Meditación · 15 €</p>
-                </div>
-                <span class="company-status-chip active">Activa</span>
-              </div>
-
-              <div class="company-service-item">
-                <div class="company-service-info">
-                  <h4>Sesión Relax Premium</h4>
-                  <p>Bienestar · Relajación · 22 €</p>
-                </div>
-                <span class="company-status-chip draft">Borrador</span>
-              </div>
+              <?php
+              }
+              ?>
 
             </div>
           </article>

@@ -1,7 +1,10 @@
 <?php
-
+session_start();
 require_once("../bd/bdact.php");
 $bdact= new bdact("localhost",3306,"plataforma_servicios","root","");
+
+require_once("../bd/bdempresa.php");
+$bdempre= new bdempresa("localhost",3306,"plataforma_servicios","root","");
 
 ?>
 <!DOCTYPE html>
@@ -18,6 +21,11 @@ $bdact= new bdact("localhost",3306,"plataforma_servicios","root","");
   <link rel="stylesheet" href="../css/empresa-styles/empresa-index.css">
     <link rel="stylesheet" href="../css/empresa-styles/perfil-empresa.css">
    <link rel="stylesheet" href="../css/styles.css">
+   <link rel="stylesheet" href="../css/empresa-styles/mis-servicios.css">
+   <link rel="stylesheet" href="../css/empresa-styles/editar-servicio.css">
+   <link rel="stylesheet" href="../css/empresa-styles/empresa.css">
+   <link rel="stylesheet" href="../css/empresa-styles/reservas.css">
+    <link rel="stylesheet" href="../css/empresa-styles/nueva-actividad.css">
 </head>
 <body class="company-body">
 
