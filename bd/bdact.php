@@ -98,16 +98,21 @@ public function obtenerSubcat($idcatpadre){
 //Obteine las actividades de una subcategoria concreta
 public function obteneractividades($idcat){
 
-    $sentencia = "SELECT * FROM servicio WHERE id_categoria = :idcat";
+    $sentencia = "SELECT 
+                    s.id_servicio,
+                    s.nombre_servicio,
+                    MIN(i.url_imagen) AS imagen
+                  FROM servicio s
+                  LEFT JOIN imagen_servicio i ON s.id_servicio = i.id_servicio
+                  WHERE s.id_categoria = :idcat
+                  GROUP BY s.id_servicio, s.nombre_servicio";
 
-    $ejecuccion = $this->pdo->prepare($sentencia);
-    $ejecuccion->execute([
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
         ":idcat" => $idcat
     ]);
 
-    $fila=$ejecuccion->fetchAll(PDO::FETCH_ASSOC);
-    return $fila;
-
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
 public function obtenerActividadesMasReservadas(){

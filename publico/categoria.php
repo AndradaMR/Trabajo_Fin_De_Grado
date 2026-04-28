@@ -65,7 +65,11 @@ $subcategorias=$bdact->obtenerSubcat($idcatpadre);
             foreach($actividades as $act){
               ?>
               <a href="actividad.php?idact=<?=$act['id_servicio']?>" class="subcategory-card">
-                <img src="assets/yoga-1.jpg" alt="<?=$act['nombre_servicio']?>">
+                <?php
+                $imagen = !empty($act["imagen"]) ? "../" . $act["imagen"] : "../assets/placeholder.jpg";
+                ?>
+
+                <img src="<?= $imagen ?>" alt="<?= htmlspecialchars($act['nombre_servicio']) ?>">
                 <span><?=$act['nombre_servicio']?></span>
               </a>
             <?php
