@@ -1,4 +1,4 @@
-<?php
+  <?php
 $titulo="<h1>Mi perfil</h1>";
 require_once("head.php");
 
@@ -37,14 +37,7 @@ $reservas = $bdact->ObtenerReservasUsuario($id);
           <?php foreach ($reservas as $reserva): ?>
 
             <?php
-              $estadoClase = "status-pending";
-
-              if ($reserva["estado"] == "confirmada") {
-                  $estadoClase = "status-confirmed";
-              } else if ($reserva["estado"] == "cancelada") {
-                  $estadoClase = "status-cancelled";
-              }
-
+              
               $categoriaTexto = "";
               if (!empty($reserva["categoria_padre"]) && !empty($reserva["subcategoria"])) {
                   $categoriaTexto = $reserva["categoria_padre"] . " · " . $reserva["subcategoria"];
@@ -69,9 +62,19 @@ $reservas = $bdact->ObtenerReservasUsuario($id);
                     <p class="reservation-category"><?= htmlspecialchars($categoriaTexto) ?></p>
                     <h3><?= htmlspecialchars($reserva["nombre_servicio"]) ?></h3>
                   </div>
+                  <?php
+                    $esPasada = strtotime($reserva['fecha_hora']) < time();
 
-                  <span class="reservation-status <?= $estadoClase ?>">
-                    <?= ucfirst(htmlspecialchars($reserva["estado"])) ?>
+                    $estadoMostrar = $reserva["estado"];
+                    $estadoClase = $reserva["estado"];
+
+                    if($esPasada && $reserva["estado"] == "confirmada"){
+                        $estadoMostrar = "realizada";
+                        $estadoClase = "pasada";
+                    }
+                  ?>
+                  <span class="reservation-status status-<?= $estadoClase ?>">
+                    <?= ucfirst($estadoMostrar) ?>
                   </span>
                 </div>
 
@@ -101,11 +104,43 @@ $reservas = $bdact->ObtenerReservasUsuario($id);
                   </div>
                 </div>
 
-                <div class="reservation-actions">
-                  <a href="actividad.php?idact=<?= $reserva["id_servicio"] ?>" class="btn btn-outline">Ver actividad</a>
-                  <a href="modificar-reserva.php?idreserva=<?= $reserva["id_reserva"] ?>" class="btn btn-secondary">Modificar</a>
-                  <a href="cancelar-reserva.php?idreserva=<?= $reserva["id_reserva"] ?>" class="btn btn-primary">Cancelar</a>
-                </div>
+              <?php
+                $esPasada = strtotime($reserva['fecha_hora']) < time();
+                $menos24h = strtotime($reserva['fecha_hora']) <= strtotime('+24 hours') && !$esPasada;
+
+                $puedeGestionar = $reserva['estado'] == 'confirmada' && !$esPasada && !$menos24h;
+              ?>
+
+              <div class="reservation-actions">
+
+                <a href="actividad.php?idact=<?= $reserva["id_servicio"] ?>" class="btn btn-outline">
+                  Ver actividad
+                </a>
+
+                <?php if($puedeGestionar): ?>
+
+                  <a href="modificar-reserva.php?idreserva=<?= $reserva["id_reserva"] ?>" class="btn btn-secondary">
+                    Modificar
+                  </a>
+
+                  <a 
+                    href="cancelar-reserva.php?idreserva=<?=$reserva['id_reserva']?>" 
+                    class="btn btn-primary" 
+                    onclick="return confirm('¿Seguro que quieres cancelar esta reserva?');"
+                  >
+                    Cancelar
+                  </a>
+
+                <?php elseif($menos24h && $reserva['estado'] == 'confirmada'): ?>
+
+                  <p class="reservation-warning">
+                    Esta reserva ya no puede modificarse ni cancelarse porque quedan menos de 24 horas.
+                  </p>
+
+                <?php endif; ?>
+
+              </div>  
+
               </div>
             </article>
 

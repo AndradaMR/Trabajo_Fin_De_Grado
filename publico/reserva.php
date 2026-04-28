@@ -77,6 +77,9 @@ if (isset($_GET["error"])) {
     } elseif ($_GET["error"] === "bd") {
         $mensaje = "Error al realizar la reserva.";
         $tipoMensaje = "error";
+    } elseif ($_GET["error"] === "ocupada") {
+        $mensaje = "Ya tienes una reserva confirmada en esa misma fecha y hora.";
+        $tipoMensaje = "error";
     }
 }
 

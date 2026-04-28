@@ -138,14 +138,19 @@
   font-weight: 700;
 }
 
-.status-confirmed {
+.status-confirmada {
   background-color: rgba(46, 196, 182, 0.14);
   color: #169486;
 }
 
-.status-pending {
+.status-cancelada {
   background-color: rgba(255, 143, 163, 0.16);
   color: #d35d75;
+}
+
+.status-pasada {
+  background-color: rgba(120, 120, 120, 0.15);
+  color: #666;
 }
 
 .reservation-description {
@@ -166,6 +171,15 @@
   border: 1px solid rgba(27, 73, 101, 0.06);
   border-radius: 18px;
   padding: 0.9rem 1rem;
+}
+
+.reservation-warning {
+  background-color: rgba(255, 200, 87, 0.18);
+  color: #9a6a00;
+  border: 1px solid rgba(255, 200, 87, 0.35);
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
 }
 
 .info-label {

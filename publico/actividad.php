@@ -71,7 +71,7 @@ if (!$actividad) {
 
               <div class="activity-image-wrapper">
                 <img
-                  src="<?=$actividad['imagenes'][0]?>"
+                  src="../<?=$actividad['imagenes'][0]?>"
                   alt="<?=$actividad['nombre_servicio']?>"
                   class="activity-main-image"
                 >
@@ -122,7 +122,38 @@ if (!$actividad) {
       </div>
     </section>
   </main>
+  <script>
+    const imagenesActividad = <?= json_encode($actividad['imagenes']) ?>;
+    let imagenActual = 0;
 
+    const imagenPrincipal = document.querySelector(".activity-main-image");
+    const botonAnterior = document.querySelector(".gallery-btn-left");
+    const botonSiguiente = document.querySelector(".gallery-btn-right");
+
+    function mostrarImagen() {
+      imagenPrincipal.src = "../" + imagenesActividad[imagenActual];
+    }
+
+    botonSiguiente.addEventListener("click", function () {
+      imagenActual++;
+
+      if (imagenActual >= imagenesActividad.length) {
+        imagenActual = 0;
+      }
+
+      mostrarImagen();
+    });
+
+    botonAnterior.addEventListener("click", function () {
+      imagenActual--;
+
+      if (imagenActual < 0) {
+        imagenActual = imagenesActividad.length - 1;
+      }
+
+      mostrarImagen();
+    });
+  </script>
 
  <?php
 require_once("footer.php");
