@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once("../bd/bdempresa.php");
 $bdempre= new bdempresa("localhost",3306,"plataforma_servicios","root","");
@@ -32,10 +33,6 @@ if($banderaerror == false && isset($_POST["enviar"])){
 
     if($respuesta == "empresanoexiste"){
         $emailerror = "Este email no existe, prueba de nuevo";
-        $banderaerror = true;
-
-    }else if($respuesta == "usuariobloqueado"){
-        $contraerror = "Usuario bloqueado por exceso de intentos";
         $banderaerror = true;
 
     }else if($respuesta == "fallocontraseña"){
@@ -98,11 +95,11 @@ if($banderaerror == false && isset($_POST["enviar"])){
             <small><?php echo $emailerror; ?></small>
 
             <div class="form-group">
-              <label for="password">Contraseña</label>
+              <label for="contraseña">Contraseña</label>
               <input
                 type="password"
-                id="password"
-                name="password"
+                id="contraseña"
+                name="contraseña"
                 placeholder="Introduce tu contraseña"
               >
             </div>

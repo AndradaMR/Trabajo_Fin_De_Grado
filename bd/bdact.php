@@ -45,6 +45,27 @@ public function obteneridcat($nombrecat){
 
 }
 
+
+public function ObtenerCategoriaConPadre($idCategoriaHijo){
+
+    $sentencia = "SELECT 
+                    c.nombre AS subcategoria,
+                    cp.nombre AS categoria_padre
+                  FROM categoria c
+                  LEFT JOIN categoria cp 
+                  ON c.id_categoria_padre = cp.id_categoria
+                  WHERE c.id_categoria = :idCategoria";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":idCategoria" => $idCategoriaHijo
+    ]);
+
+    return $ejecucion->fetch(PDO::FETCH_ASSOC);
+}
+
+
 //AUN NO SE USA tiene en cuenta si la cat es padre(ver como hacer con la descripcion de las cathijo)
 //Debe obtener la descripcion de las categorias padre
 function obtenerdescripcioncat($idcat) {
