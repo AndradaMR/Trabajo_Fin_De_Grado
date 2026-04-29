@@ -98,16 +98,21 @@ public function obtenerSubcat($idcatpadre){
 //Obteine las actividades de una subcategoria concreta
 public function obteneractividades($idcat){
 
-    $sentencia = "SELECT * FROM servicio WHERE id_categoria = :idcat";
+    $sentencia = "SELECT 
+                    s.id_servicio,
+                    s.nombre_servicio,
+                    MIN(i.url_imagen) AS imagen
+                  FROM servicio s
+                  LEFT JOIN imagen_servicio i ON s.id_servicio = i.id_servicio
+                  WHERE s.id_categoria = :idcat
+                  GROUP BY s.id_servicio, s.nombre_servicio";
 
-    $ejecuccion = $this->pdo->prepare($sentencia);
-    $ejecuccion->execute([
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
         ":idcat" => $idcat
     ]);
 
-    $fila=$ejecuccion->fetchAll(PDO::FETCH_ASSOC);
-    return $fila;
-
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
 public function obtenerActividadesMasReservadas(){
@@ -118,9 +123,11 @@ public function obtenerActividadesMasReservadas(){
                     s.lugar,
                     s.precio,
                     s.id_categoria,
+                    MIN(i.url_imagen) AS imagen,
                     COUNT(r.id_reserva) AS total_reservas
                   FROM servicio s
                   INNER JOIN reserva r ON s.id_servicio = r.id_servicio
+                  LEFT JOIN imagen_servicio i ON s.id_servicio = i.id_servicio
                   WHERE r.estado = 'confirmada'
                   GROUP BY 
                     s.id_servicio,
@@ -133,9 +140,7 @@ public function obtenerActividadesMasReservadas(){
 
     $ejecucion = $this->pdo->prepare($sentencia);
     $ejecucion->execute();
-    $fila=$ejecucion->fetchAll(PDO::FETCH_ASSOC);
-
-    return $fila;
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
 //Aplicar filtros
@@ -296,6 +301,129 @@ public function ObtenerReservasUsuario($idUsuario){
 
     $fila = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
     return $fila;
+}
+
+//Cancelar una reserva, comprobando que la reserva ya esté cancelada.
+public function CancelarReserva($idUsuario, $idReserva){
+    $sentencia = "UPDATE reserva
+                  SET estado = 'cancelada'
+                  WHERE id_reserva = :id_reserva
+                  AND id_usuario = :id_usuario
+                  AND estado = 'confirmada'";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    return $ejecucion->execute([
+        ":id_reserva" => $idReserva,
+        ":id_usuario" => $idUsuario
+    ]);
+}
+
+public function ObtenerReservaUsuarioPorId($idUsuario, $idReserva){
+    $sentencia = "SELECT 
+                    r.id_reserva,
+                    r.estado,
+                    r.id_servicio,
+                    r.fecha_hora,
+                    r.id_detalle_actividad,
+                    s.nombre_servicio,
+                    s.descripcion,
+                    s.lugar,
+                    s.precio,
+                    s.duracion,
+                    d.fecha,
+                    d.hora_inicio,
+                    d.hora_fin
+                  FROM reserva r
+                  INNER JOIN servicio s 
+                    ON r.id_servicio = s.id_servicio
+                  INNER JOIN detalle_actividad d 
+                    ON r.id_detalle_actividad = d.id
+                  WHERE r.id_usuario = :id_usuario
+                  AND r.id_reserva = :id_reserva
+                  LIMIT 1";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_usuario" => $idUsuario,
+        ":id_reserva" => $idReserva
+    ]);
+
+    $fila = $ejecucion->fetch(PDO::FETCH_ASSOC);
+    return $fila;
+}
+
+public function ModificarReserva($idUsuario, $idReserva, $idDetalle, $fechaHora){
+    $sentencia = "UPDATE reserva
+                  SET id_detalle_actividad = :id_detalle,
+                      fecha_hora = :fecha_hora
+                  WHERE id_reserva = :id_reserva
+                  AND id_usuario = :id_usuario
+                  AND estado = 'confirmada'";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    return $ejecucion->execute([
+        ":id_detalle" => $idDetalle,
+        ":fecha_hora" => $fechaHora,
+        ":id_reserva" => $idReserva,
+        ":id_usuario" => $idUsuario
+    ]);
+}
+
+public function usuarioTieneReservaEnMismaFechaHora($idUsuario, $fecha, $horaInicio){
+    $sentencia = "SELECT COUNT(*)
+                  FROM reserva r
+                  INNER JOIN detalle_actividad d 
+                    ON r.id_detalle_actividad = d.id
+                  WHERE r.id_usuario = :id_usuario
+                  AND d.fecha = :fecha
+                  AND d.hora_inicio = :hora_inicio
+                  AND r.estado = 'confirmada'";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_usuario" => $idUsuario,
+        ":fecha" => $fecha,
+        ":hora_inicio" => $horaInicio
+    ]);
+
+    return ((int)$ejecucion->fetchColumn() > 0);
+}
+
+public function usuarioTieneReservaEnMismaFechaHoraModificar($idUsuario, $fecha, $horaInicio, $idReservaActual){
+    $sentencia = "SELECT COUNT(*)
+                  FROM reserva r
+                  INNER JOIN detalle_actividad d 
+                    ON r.id_detalle_actividad = d.id
+                  WHERE r.id_usuario = :id_usuario
+                  AND d.fecha = :fecha
+                  AND d.hora_inicio = :hora_inicio
+                  AND r.estado = 'confirmada'
+                  AND r.id_reserva != :id_reserva";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_usuario" => $idUsuario,
+        ":fecha" => $fecha,
+        ":hora_inicio" => $horaInicio,
+        ":id_reserva" => $idReservaActual
+    ]);
+
+    return ((int)$ejecucion->fetchColumn() > 0);
+}
+
+public function obtenerImagenesPorServicio($idServicio){
+    $sentencia = "SELECT url_imagen 
+                  FROM imagen_servicio 
+                  WHERE id_servicio = :id_servicio";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_servicio" => $idServicio
+    ]);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
 

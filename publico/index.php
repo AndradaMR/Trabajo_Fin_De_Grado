@@ -2,7 +2,6 @@
 $titulo="<h1>Bienvenido a Body and Soul</h1>";
 require_once("head.php");
 
-
 ?>
 
   <main>
@@ -110,7 +109,11 @@ require_once("head.php");
           ?>
           <article class="activity-card">
             <div class="activity-image-wrapper">
-              <img src="img/yoga1.jpg" alt="<?=$act["nombre_servicio"]?>" class="activity-image">
+              <?php
+              $imagen = !empty($act["imagen"]) ? "../" . $act["imagen"] : "../assets/placeholder.jpg";
+              ?>
+
+              <img src="<?= $imagen ?>" alt="<?= htmlspecialchars($act["nombre_servicio"]) ?>" class="activity-image">
             </div>
 
             <div class="activity-content">

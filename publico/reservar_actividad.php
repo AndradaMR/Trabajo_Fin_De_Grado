@@ -48,16 +48,12 @@ if ($yaReservada) {
     exit;
 }
 
+//crear la reserva
 $fechaHora = $franja["fecha"] . " " . $franja["hora_inicio"];
 
-$reservaOk = $bdact->crearReserva($idUsuario, $idServicio, $fechaHora, $idDetalle);
-
-if ($reservaOk) {
-    header("Location: reserva.php?idact=".$idServicio."&ok=1");
-    exit;
-} else {
-    header("Location: reserva.php?idact=".$idServicio."&error=bd");
-    exit;
+if($bdact->usuarioTieneReservaEnMismaFechaHora($idUsuario, $franja["fecha"], $franja["hora_inicio"])){
+    header("Location: reserva.php?idact=".$idServicio."&error=ocupada");
+    exit();
 }
 
 // Crear la reserva
