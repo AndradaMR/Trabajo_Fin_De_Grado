@@ -65,9 +65,11 @@ if (!$actividad) {
             </div>
 
             <div class="activity-gallery">
-              <button class="gallery-btn gallery-btn-left" type="button" aria-label="Imagen anterior">
-                &#10094;
-              </button>
+              <?php if (!empty($actividad["imagenes"]) && count($actividad["imagenes"]) > 1) { ?>
+                <button class="gallery-btn gallery-btn-left" type="button" aria-label="Imagen anterior">
+                  &#10094;
+                </button>
+              <?php } ?>
 
               <div class="activity-image-wrapper">
                 <img
@@ -76,10 +78,11 @@ if (!$actividad) {
                   class="activity-main-image"
                 >
               </div>
-
-              <button class="gallery-btn gallery-btn-right" type="button" aria-label="Imagen siguiente">
-                &#10095;
-              </button>
+              <?php if (!empty($actividad["imagenes"]) && count($actividad["imagenes"]) > 1) { ?>
+                <button class="gallery-btn gallery-btn-right" type="button" aria-label="Imagen siguiente">
+                  &#10095;
+                </button>
+              <?php } ?>
             </div>
           </article>
 

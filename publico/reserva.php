@@ -5,8 +5,8 @@ require_once("head.php");
 require_once("../bd/bd.php");
 require_once("../bd/bdact.php");
 
-$bbdd = new db("localhost", 3306, "plataforma_servicios", "root", "");
-$bdact = new bdact("localhost", 3306, "plataforma_servicios", "root", "");
+$bbdd = new db("localhost", 3306, "plataforma_servicios1", "root", "");
+$bdact = new bdact("localhost", 3306, "plataforma_servicios1", "root", "");
 
 // Validar id
 if (!isset($_GET["idact"])) {

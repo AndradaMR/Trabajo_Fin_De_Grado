@@ -2,10 +2,10 @@
 session_start();
 
 require_once("../bd/bd.php");
-$bbdd = new db("localhost",3306,"plataforma_servicios","root","");
+$bbdd = new db("localhost",3306,"plataforma_servicios1","root","");
 
 require_once("../bd/bdact.php");
-$bdact = new bdact("localhost",3306,"plataforma_servicios","root","");
+$bdact = new bdact("localhost",3306,"plataforma_servicios1","root","");
 
 if (!isset($_SESSION["usuario"])) {
     header("Location: login.php");
