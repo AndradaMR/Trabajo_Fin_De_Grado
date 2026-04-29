@@ -2,8 +2,8 @@
 require_once("bd.php");
 require_once("bdact.php");
 
-$bbdd = new db("localhost", 3306, "plataforma_servicios", "root", "");
-$bdact = new bdact("localhost", 3306, "plataforma_servicios", "root", "");
+$bbdd = new db("localhost", 3306, "plataforma_servicios1", "root", "");
+$bdact = new bdact("localhost", 3306, "plataforma_servicios1", "root", "");
 
 $sql = "SELECT 
             e.id_empresa,

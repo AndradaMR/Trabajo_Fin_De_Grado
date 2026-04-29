@@ -96,20 +96,28 @@ public function obtenerSubcat($idcatpadre){
 }
 
 //Obteine las actividades de una subcategoria concreta
-public function obteneractividades($idcat){
+public function obteneractividades($idsubcategoria){
+    $sql = "SELECT 
+                s.id_servicio,
+                s.nombre_servicio,
+                s.descripcion,
+                s.lugar,
+                s.precio,
+                MIN(i.url_imagen) AS imagen
+            FROM servicio s
+            LEFT JOIN imagen_servicio i 
+                ON s.id_servicio = i.id_servicio
+            WHERE s.id_categoria = :idsubcategoria
+            GROUP BY 
+                s.id_servicio,
+                s.nombre_servicio,
+                s.descripcion,
+                s.lugar,
+                s.precio";
 
-    $sentencia = "SELECT 
-                    s.id_servicio,
-                    s.nombre_servicio,
-                    MIN(i.url_imagen) AS imagen
-                  FROM servicio s
-                  LEFT JOIN imagen_servicio i ON s.id_servicio = i.id_servicio
-                  WHERE s.id_categoria = :idcat
-                  GROUP BY s.id_servicio, s.nombre_servicio";
-
-    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion = $this->pdo->prepare($sql);
     $ejecucion->execute([
-        ":idcat" => $idcat
+        ":idsubcategoria" => $idsubcategoria
     ]);
 
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);

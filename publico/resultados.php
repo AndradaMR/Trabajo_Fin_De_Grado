@@ -9,7 +9,62 @@ $subcategoria = trim($_GET["subcategoria"] ?? "");
 $precio = trim($_GET["precio"] ?? "");
 
 
-$resultados = $bdact->filtrarActividades($buscador, $categoria, $subcategoria, $precio);
+$rutaJson = "../JSON/actividades.json";
+$datos = json_decode(file_get_contents($rutaJson), true);
+
+$resultados = [];
+
+foreach ($datos as $empresa) {
+    foreach ($empresa["servicios"] as $servicio) {
+
+        $coincide = true;
+
+        if ($buscador !== "") {
+            $texto = strtolower(
+                $servicio["nombre_servicio"] . " " .
+                $servicio["descripcion"] . " " .
+                $servicio["lugar"]
+            );
+
+            if (strpos($texto, strtolower($buscador)) === false) {
+                $coincide = false;
+            }
+        }
+
+        if ($categoria !== "" && $servicio["categoria"] !== $categoria) {
+            $coincide = false;
+        }
+
+        if ($subcategoria !== "" && $servicio["id_categoria"] != $subcategoria) {
+            $coincide = false;
+        }
+
+        if ($precio !== "") {
+            $precioServicio = (float)$servicio["precio"];
+
+            if ($precio === "gratis" && $precioServicio > 0) {
+                $coincide = false;
+            }
+
+            if ($precio === "menos20" && $precioServicio >= 20) {
+                $coincide = false;
+            }
+
+            if ($precio === "20a50" && ($precioServicio < 20 || $precioServicio > 50)) {
+                $coincide = false;
+            }
+
+            if ($precio === "mas50" && $precioServicio <= 50) {
+                $coincide = false;
+            }
+        }
+
+        if ($coincide) {
+            $resultados[] = $servicio;
+        }
+    }
+}
+
 ?>
 
 <main>
@@ -26,7 +81,13 @@ $resultados = $bdact->filtrarActividades($buscador, $categoria, $subcategoria, $
           <?php foreach ($resultados as $act) { ?>
             <article class="activity-card">
               <div class="activity-image-wrapper">
-                <img src="img/yoga1.jpg" alt="<?= htmlspecialchars($act["nombre_servicio"]) ?>" class="activity-image">
+                <?php
+                $imagen = !empty($act["imagenes"][0])
+                    ? "../" . $act["imagenes"][0]
+                    : "../img/default.jpg";
+                ?>
+
+                <img src="<?= htmlspecialchars($imagen) ?>" alt="<?= htmlspecialchars($act["nombre_servicio"]) ?>" class="activity-image">
               </div>
 
               <div class="activity-content">

@@ -8926,7 +8926,9 @@
                 "precio": "42.00",
                 "duracion": "2 horas",
                 "materiales": "Arnés, casco y pies de gato (incluidos)",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/escalada-rocodromo1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2656,
@@ -9431,7 +9433,9 @@
                 "precio": "36.00",
                 "duracion": "2 horas",
                 "materiales": "Arnés, casco y pies de gato (incluidos)",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/escalada-principiantes1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2726,
@@ -9936,7 +9940,9 @@
                 "precio": "39.00",
                 "duracion": "2 horas",
                 "materiales": "Arnés, casco y pies de gato (incluidos)",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/escalada-intermedio1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2796,
@@ -10441,7 +10447,9 @@
                 "precio": "22.00",
                 "duracion": "4 horas",
                 "materiales": "Calzado de montaña, agua y protección solar",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/senderismo-picnic1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2866,
@@ -10946,7 +10954,9 @@
                 "precio": "20.00",
                 "duracion": "4 horas",
                 "materiales": "Calzado de montaña, agua y protección solar",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/senderismo-guiada1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2936,
@@ -11451,7 +11461,9 @@
                 "precio": "27.00",
                 "duracion": "4 horas",
                 "materiales": "Calzado de montaña, agua y protección solar",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/senderismo-familia1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3006,
@@ -11956,7 +11968,9 @@
                 "precio": "24.00",
                 "duracion": "4 horas",
                 "materiales": "Calzado de montaña, agua y protección solar",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/senderismo-picnic1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3076,
@@ -12461,7 +12475,9 @@
                 "precio": "14.00",
                 "duracion": "1 hora",
                 "materiales": "Zapatillas deportivas y ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/running-amanecer1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3706,
@@ -12966,7 +12982,9 @@
                 "precio": "16.00",
                 "duracion": "1 hora",
                 "materiales": "Zapatillas deportivas y ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/running-urbano1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3776,
@@ -13471,7 +13489,9 @@
                 "precio": "11.00",
                 "duracion": "1 hora",
                 "materiales": "Zapatillas deportivas y ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/running-iniciacion1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3846,
@@ -13976,7 +13996,9 @@
                 "precio": "15.00",
                 "duracion": "1 hora",
                 "materiales": "Zapatillas deportivas y ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/running-amanecer1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3916,
@@ -14481,7 +14503,9 @@
                 "precio": "19.00",
                 "duracion": "1 hora y 30 minutos",
                 "materiales": "Pala de pádel y ropa deportiva",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/padel-iniciacion1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3986,
@@ -14986,7 +15010,9 @@
                 "precio": "23.00",
                 "duracion": "1 hora y 30 minutos",
                 "materiales": "Pala de pádel y ropa deportiva",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/padel-intermedio1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4056,
@@ -15491,7 +15517,9 @@
                 "precio": "21.00",
                 "duracion": "1 hora y 30 minutos",
                 "materiales": "Pala de pádel y ropa deportiva",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/padel-guiado1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4126,
@@ -15996,7 +16024,9 @@
                 "precio": "26.00",
                 "duracion": "1 hora y 30 minutos",
                 "materiales": "Pala de pádel y ropa deportiva",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/padel-iniciacion1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4196,
@@ -16501,7 +16531,9 @@
                 "precio": "19.00",
                 "duracion": "3 horas",
                 "materiales": "Bicicleta, casco y agua",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/ciclismo-montana1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4266,
@@ -17006,7 +17038,9 @@
                 "precio": "29.00",
                 "duracion": "3 horas",
                 "materiales": "Bicicleta, casco y agua",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/ciclismo-familiar1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4336,
@@ -17511,7 +17545,9 @@
                 "precio": "15.00",
                 "duracion": "3 horas",
                 "materiales": "Bicicleta, casco y agua",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/ciclismo-urbano1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4406,
@@ -18016,7 +18052,9 @@
                 "precio": "21.00",
                 "duracion": "3 horas",
                 "materiales": "Bicicleta, casco y agua",
-                "imagenes": [],
+                "imagenes": [
+                    "img/deporte/ciclismo-montana1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4476,
@@ -22690,7 +22728,9 @@
                 "precio": "35.00",
                 "duracion": "2 horas",
                 "materiales": "Bañador, chanclas y toalla",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/spa-relax3.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 1816,
@@ -23195,7 +23235,9 @@
                 "precio": "40.00",
                 "duracion": "2 horas",
                 "materiales": "Bañador, chanclas y toalla",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/spa-relax1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 1886,
@@ -23700,7 +23742,9 @@
                 "precio": "65.00",
                 "duracion": "2 horas",
                 "materiales": "Bañador, chanclas y toalla",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/spa-relax2.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 1956,
@@ -24205,7 +24249,9 @@
                 "precio": "32.00",
                 "duracion": "45 minutos",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/masaje-terapeutico2.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2026,
@@ -24710,7 +24756,9 @@
                 "precio": "38.00",
                 "duracion": "45 minutos",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/masaje-relajante1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2096,
@@ -25215,7 +25263,9 @@
                 "precio": "42.00",
                 "duracion": "45 minutos",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/masaje-terapeutico1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2166,
@@ -25720,7 +25770,9 @@
                 "precio": "10.00",
                 "duracion": "45 minutos",
                 "materiales": "Ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/meditacion-zen2.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2236,
@@ -26225,7 +26277,9 @@
                 "precio": "11.50",
                 "duracion": "45 minutos",
                 "materiales": "Ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/meditacion-grupo1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2306,
@@ -26730,7 +26784,9 @@
                 "precio": "18.00",
                 "duracion": "45 minutos",
                 "materiales": "Ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/meditacion-zen1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2376,
@@ -27235,7 +27291,9 @@
                 "precio": "22.00",
                 "duracion": "1 hora",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/aromaterapia-aceites3.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2446,
@@ -27740,7 +27798,9 @@
                 "precio": "26.00",
                 "duracion": "1 hora",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/aromaterapia-aceites1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2516,
@@ -28245,7 +28305,9 @@
                 "precio": "24.00",
                 "duracion": "1 hora",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/aromaterapia-aceites2.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 2586,
@@ -28750,7 +28812,9 @@
                 "precio": "16.00",
                 "duracion": "1 hora",
                 "materiales": "Esterilla, ropa cómoda y botella de agua",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/yoga-aire-libre1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3146,
@@ -29255,7 +29319,9 @@
                 "precio": "15.00",
                 "duracion": "1 hora",
                 "materiales": "Esterilla, ropa cómoda y botella de agua",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/yoga-principiantes1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3216,
@@ -29760,7 +29826,9 @@
                 "precio": "14.00",
                 "duracion": "1 hora",
                 "materiales": "Esterilla, ropa cómoda y botella de agua",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/yoga-relajante1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3286,
@@ -30265,7 +30333,9 @@
                 "precio": "17.00",
                 "duracion": "1 hora",
                 "materiales": "Esterilla, ropa cómoda y botella de agua",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/yoga-aire-libre1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3356,
@@ -30770,7 +30840,9 @@
                 "precio": "15.00",
                 "duracion": "1 hora",
                 "materiales": "Esterilla y ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/pilates-principiantes1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3426,
@@ -31275,7 +31347,9 @@
                 "precio": "14.50",
                 "duracion": "1 hora",
                 "materiales": "Esterilla y ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/pilates-aire-libre1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3496,
@@ -31780,7 +31854,9 @@
                 "precio": "13.00",
                 "duracion": "1 hora",
                 "materiales": "Esterilla y ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/pilates-suelo1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3566,
@@ -32285,7 +32361,9 @@
                 "precio": "14.00",
                 "duracion": "1 hora",
                 "materiales": "Esterilla y ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/pilates-principiantes1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 3636,
@@ -32790,7 +32868,9 @@
                 "precio": "48.00",
                 "duracion": "2 horas",
                 "materiales": "Bañador, chanclas y toalla",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/spa-relax3.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4546,
@@ -33295,7 +33375,9 @@
                 "precio": "44.00",
                 "duracion": "2 horas",
                 "materiales": "Bañador, chanclas y toalla",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/spa-relax1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4616,
@@ -33800,7 +33882,9 @@
                 "precio": "33.00",
                 "duracion": "2 horas",
                 "materiales": "Bañador, chanclas y toalla",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/spa-relax2.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4686,
@@ -34305,7 +34389,9 @@
                 "precio": "39.00",
                 "duracion": "2 horas",
                 "materiales": "Bañador, chanclas y toalla",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/spa-relax3.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4756,
@@ -34810,7 +34896,9 @@
                 "precio": "28.00",
                 "duracion": "45 minutos",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/masaje-relajante1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4826,
@@ -35315,7 +35403,9 @@
                 "precio": "40.00",
                 "duracion": "45 minutos",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/masaje-terapeutico1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4896,
@@ -35820,7 +35910,9 @@
                 "precio": "35.00",
                 "duracion": "45 minutos",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/masaje-terapeutico2.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 4966,
@@ -36325,7 +36417,9 @@
                 "precio": "25.00",
                 "duracion": "45 minutos",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/masaje-relajante1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 5036,
@@ -36830,7 +36924,9 @@
                 "precio": "9.50",
                 "duracion": "45 minutos",
                 "materiales": "Ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/meditacion-zen1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 5106,
@@ -37335,7 +37431,9 @@
                 "precio": "12.00",
                 "duracion": "45 minutos",
                 "materiales": "Ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/meditacion-zen2.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 5176,
@@ -37840,7 +37938,9 @@
                 "precio": "10.50",
                 "duracion": "45 minutos",
                 "materiales": "Ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/meditacion-grupo1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 5246,
@@ -38345,7 +38445,9 @@
                 "precio": "11.00",
                 "duracion": "45 minutos",
                 "materiales": "Ropa cómoda",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/meditacion-zen1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 5316,
@@ -38850,7 +38952,9 @@
                 "precio": "21.00",
                 "duracion": "1 hora",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/aromaterapia-aceites3.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 5386,
@@ -39355,7 +39459,9 @@
                 "precio": "23.00",
                 "duracion": "1 hora",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/aromaterapia-aceites1.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 5456,
@@ -39860,7 +39966,9 @@
                 "precio": "27.00",
                 "duracion": "1 hora",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/aromaterapia-aceites2.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 5526,
@@ -40365,7 +40473,9 @@
                 "precio": "29.00",
                 "duracion": "1 hora",
                 "materiales": "No se requieren materiales",
-                "imagenes": [],
+                "imagenes": [
+                    "img/bienestar/aromaterapia-aceites3.jpg"
+                ],
                 "detalles": [
                     {
                         "id_detalle_actividad": 5596,
