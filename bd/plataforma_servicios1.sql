@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-04-2026 a las 23:13:00
+-- Tiempo de generación: 01-05-2026 a las 01:13:55
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -6068,7 +6068,7 @@ INSERT INTO `servicio` (`id_servicio`, `id_empresa`, `nombre_servicio`, `descrip
 (69, 2, 'Masaje de espalda y cuello', 'Masaje localizado para aliviar tensión acumulada en la parte superior.', 'Arganda Relax Studio', 12, 28.00, '45 minutos', 'No se requieren materiales'),
 (70, 2, 'Masaje corporal completo', 'Sesión integral enfocada en descanso, circulación y bienestar.', 'Rivas Bienestar', 12, 40.00, '45 minutos', 'No se requieren materiales'),
 (71, 2, 'Masaje aromático', 'Tratamiento relajante con aceites esenciales y ambiente sensorial.', 'Madrid Zen Center', 12, 35.00, '45 minutos', 'No se requieren materiales'),
-(72, 2, 'Masaje facial relajante', 'Sesión suave para relajar la musculatura facial y descargar tensión.', 'Coslada Wellness', 12, 25.00, '45 minutos', 'No se requieren materiales'),
+(72, 2, 'Masaje facial relajante', 'Sesión suave para relajar la musculatura facial y descargar tensión.', 'Coslada Wellness', 12, 24.00, '45 minutos', 'No se requieren materiales'),
 (73, 2, 'Meditación de mañanas conscientes', 'Sesión guiada para empezar el día con calma y claridad mental.', 'Parque del Retiro', 13, 9.50, '45 minutos', 'Ropa cómoda'),
 (74, 2, 'Meditación antiestrés', 'Práctica orientada a reducir estrés, tensión y ruido mental.', 'Arganda del Rey', 13, 12.00, '45 minutos', 'Ropa cómoda'),
 (75, 2, 'Meditación en grupo', 'Encuentro grupal para trabajar respiración, presencia y equilibrio.', 'Rivas-Vaciamadrid', 13, 10.50, '45 minutos', 'Ropa cómoda'),
@@ -6243,7 +6243,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de la tabla `imagen_servicio`
 --
 ALTER TABLE `imagen_servicio`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT de la tabla `resena`

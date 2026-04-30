@@ -16,81 +16,43 @@ require_once("head.php");
               Encuentra actividades de deporte, bienestar y experiencias que te ayuden a cuidarte por dentro y por fuera.
             </p>
           </div>
-
-          <div class="categories-bar">
-          <div class="container categories-bar-inner">
-            <div class="categories-box">
-              <label for="categoria" class="categories-label">Explora por categorías</label>
-
-              <select id="categoria_top" name="id_categoria" class="categories-select">
-                <option value="">Categorías</option>
-                <?php foreach ($categorias as $categoria){ ?>
-                  <option value="<?= $categoria["nombre"]; ?>">
-                    <?= htmlspecialchars($categoria["nombre"]); ?>
-                  </option>
-                <?php } ?>
-              </select>
-            </div>
-          </div>
-        </div>
-
-          <div class="search-panel">
-            <form class="search-form" method="get">
+          <div class="home-search-block">
+            <form class="home-search-form" action="resultados.php" method="get">
               <label for="buscador" class="sr-only">Buscar actividad</label>
               <input
                 type="text"
                 id="buscador"
                 name="buscador"
                 class="search-input"
-                placeholder="Busca una actividad, centro o experiencia"
+                placeholder="¿Que te gustaría hacer?"
               />
             </form>
 
-            <div class="filters-box">
-              <h3>Filtros</h3>
+            <div class="home-filter-row">
+              <select id="categoria_filtro" name="categoria" class="filter-pill filter-select">
+                <option value="">Categoría</option>
+                <?php foreach ($categorias as $categoria) { ?>
+                  <option value="<?= htmlspecialchars($categoria["nombre"]) ?>">
+                    <?= htmlspecialchars($categoria["nombre"]) ?>
+                  </option>
+                <?php } ?>
+              </select>
+              <button type="button" class="filter-pill">Hoy</button>
+              <button type="button" class="filter-pill">Esta semana</button>
 
-              <div class="filters-grid">
-                <div class="form-group">
-                  
-                  <label for="categoria_filtro">Categorias</label>
-                  <select  id="categoria_filtro" name="id_categoria" class="categories-select">
-                    <option value="">Selecciona una categoria</option>
-                    <?php foreach ($categorias as $categoria){
-                      ?>
-                    <option value="<?= $categoria["nombre"]; ?>">
-                        <?= htmlspecialchars($categoria["nombre"]); ?>
-                    </option>
-                    <?php 
-                    }
-                    ?>
-                </select>
-                </div>
-
-                <div class="form-group">
-                  <select id="subcategoria_filtro" name="subcategoria" class="categories-select">
-                    <option value="">Seleciona una subcategoría</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="precio">Rango de precio</label>
-                  <select id="precio" name="precio">
-                    <option value="">Cualquiera</option>
-                    <option value="0-10">0€ - 10€</option>
-                    <option value="10-25">10€ - 25€</option>
-                    <option value="25-50">25€ - 50€</option>
-                    <option value="50+">Más de 50€</option>
-                  </select>
-                </div>
-              </div>
-
-              <button id="botonFiltros" type="button" class="btn btn-secondary">Buscar</button>
+              <select id="precio" name="precio" class="filter-pill filter-select">
+                <option value="">Precio</option>
+                <option value="0-10">0€ - 10€</option>
+                <option value="10-25">10€ - 25€</option>
+                <option value="25-50">25€ - 50€</option>
+                <option value="50+">Más de 50€</option>
+              </select>
             </div>
           </div>
         </div>
+        <div id="resultadosBusqueda" class="resultados-live"></div>
       </div>
     </section>
-
     <section class="featured-section">
       <div class="container">
         <div class="section-header">
@@ -132,11 +94,12 @@ require_once("head.php");
            }
            $numact--;
           }
-          ?>
+          ?>  
 
         </div>
       </div>
     </section>
+    
   </main>
 
 <script>
@@ -145,6 +108,42 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
 </script>
 
 <script src="../js/filtrosindex.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const input = document.getElementById("buscador");
+    const contenedor = document.getElementById("resultadosBusqueda");
+    const categoria = document.getElementById("categoria_filtro");
+    const precio = document.getElementById("precio");
+
+    function buscar() {
+      const texto = input.value.trim();
+      const cat = categoria.value;
+      const pre = precio.value;
+
+      if (texto.length < 2 && cat === "" && pre === "") {
+        contenedor.innerHTML = "";
+        return;
+      }
+
+      fetch(
+        "ajax_busqueda.php?buscador=" + encodeURIComponent(texto) +
+        "&categoria=" + encodeURIComponent(cat) +
+        "&precio=" + encodeURIComponent(pre)
+      )
+        .then(res => res.text())
+        .then(data => {
+          contenedor.innerHTML = data;
+        });
+    }
+
+    input.addEventListener("input", buscar);
+    categoria.addEventListener("change", buscar);
+    precio.addEventListener("change", buscar);
+
+  });
+</script>
+
 
  <?php
 require_once("footer.php");

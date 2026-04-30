@@ -90,6 +90,7 @@
   transition:all .3s ease;
 
 }
+
 .full-width{
   grid-column:1 / -1;
 }
@@ -217,4 +218,28 @@ login-register-text{
 
 }
 
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  margin: 0 auto;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.login-form .form-group {
+  width: 100%;
+}
+
+.login-form input {
+  width: 100%;
 }
