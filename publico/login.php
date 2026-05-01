@@ -1,12 +1,18 @@
 <?php
+session_start();
 
-$titulo="<h1>Bienvenido a Body and Soul</h1>";
-require_once("head.php");
+require_once("../bd/bd.php");
+$bbdd= new db("localhost",3306,"plataforma_servicios1","root","");
+
+require_once("../bd/bdact.php");
+$bdact= new bdact("localhost",3306,"plataforma_servicios1","root","");
 
 if(isset($_SESSION["usuario"])){
-  header("Location: index.php");
+  header("Location: perfil.php");
   exit();
 }//asi si ya tengo sesion iniciada me lleva al index
+
+
 
 $banderaerror = false;
 
@@ -54,6 +60,9 @@ if($banderaerror == false && isset($_POST["enviar"])){
         exit();
     }
 }
+
+$titulo="<h1>Bienvenido a Body and Soul</h1>";
+require_once("head.php");
 
 ?>
 

@@ -91,11 +91,20 @@ foreach ($datos as $empresa) {
               </div>
 
               <div class="activity-content">
+
+                <?php
+                  $datosRating = $bdact->obtenerMediaResenas($act["id_servicio"]);
+                  pintarRating($datosRating["media"], $datosRating["total"]);
+                ?>
+
                 <h3><?= htmlspecialchars($act["nombre_servicio"]) ?></h3>
+
                 <p><?= htmlspecialchars($act["descripcion"]) ?></p>
-                <p><strong>Lugar:</strong> <?= htmlspecialchars($act["lugar"]) ?></p>
-                <p><strong>Precio:</strong> <?= htmlspecialchars($act["precio"]) ?> €</p>
-                <a href="actividad.php?idact=<?= $act["id_servicio"] ?>" class="btn btn-primary btn-full">Ir a la actividad</a>
+
+                <a href="actividad.php?idact=<?= $act["id_servicio"] ?>" class="btn btn-primary btn-full">
+                  Ver actividad
+                </a>
+
               </div>
             </article>
           <?php } ?>

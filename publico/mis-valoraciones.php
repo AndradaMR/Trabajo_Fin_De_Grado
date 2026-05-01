@@ -1,178 +1,102 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Body and Soul | Mis valoraciones</title>
+<?php
+session_start();
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita:wght@700;800;900&display=swap" rel="stylesheet">
+if(!isset($_SESSION["usuario"])){
+  header("Location: index.php");
+  exit();
+}
 
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/public-styles/mis-valoraciones.css">
-</head>
-<body>
+$titulo = "<h1>Mis valoraciones</h1>";
+require_once("head.php");
 
-  <header class="main-header">
-    <div class="container header-container">
+$idUsuario = $_SESSION["usuario"];
+$resenas = $bdact->obtenerResenasUsuario($idUsuario);
+?>
 
-      <div class="header-left">
-        <a href="index.html" class="logo-link" aria-label="Ir al inicio">
-          <img src="assets/logo-body-and-soul.png" class="logo" alt="Body and Soul">
-        </a>
+<main class="reviews-page">
+  <section class="reviews-section">
+    <div class="container">
 
-        <div class="nav-categories">
-          <label for="categorias" class="sr-only">Categorías</label>
-          <select id="categorias" class="categories-select">
-            <option value="">Categorías</option>
-            <option value="deporte">Deporte</option>
-            <option value="bienestar">Bienestar</option>
-          </select>
+      <div class="reviews-intro">
+        <span class="section-tag">Área personal</span>
+        <h2>Mis valoraciones</h2>
+        <p>Consulta las valoraciones y comentarios que has dejado en las actividades.</p>
+      </div>
+
+      <?php if(empty($resenas)){ ?>
+        <div class="review-card">
+          <div class="review-content">
+            <h3>Aún no has dejado valoraciones</h3>
+            <p class="review-comment">
+              Cuando valores una actividad, aparecerá aquí.
+            </p>
+            <div class="review-actions">
+              <a href="index.php" class="btn btn-primary">Explorar actividades</a>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="header-title">
-        <h1>Bienvenida a Body and Soul</h1>
-      </div>
-
-      <div class="header-right">
-        <a href="perfil.html" class="btn btn-outline">Mi perfil</a>
-      </div>
-
-    </div>
-  </header>
-
-  <main class="reviews-page">
-    <section class="reviews-section">
-      <div class="container">
-
-        <div class="reviews-intro">
-          <span class="section-tag">Área personal</span>
-          <h2>Mis valoraciones</h2>
-          <p>
-            Consulta las opiniones que has dejado sobre tus actividades y gestiona tus reseñas fácilmente.
-          </p>
-        </div>
+      <?php }else{ ?>
 
         <div class="reviews-list">
+          <?php foreach($resenas as $resena){ ?>
 
-          <!-- VALORACIÓN 1 -->
-          <article class="review-card">
-            <div class="review-image">
-              <img src="assets/yoga-review.jpg" alt="Actividad Yoga Flow">
-            </div>
+            <article class="review-card">
 
-            <div class="review-content">
-              <div class="review-top">
-                <div>
-                  <p class="review-category">Bienestar · Yoga</p>
-                  <h3>Yoga Flow</h3>
+              <div class="review-image">
+                <?php
+                  $imagen = !empty($resena["imagen"]) 
+                    ? "../" . $resena["imagen"] 
+                    : "../img/placeholder.jpg";
+                ?>
+                <img src="<?= $imagen ?>" alt="<?= htmlspecialchars($resena["nombre_servicio"]) ?>">
+              </div>
+
+              <div class="review-content">
+
+                <div class="review-top">
+                  <div>
+                    <p class="review-category">Actividad valorada</p>
+                    <h3><?= htmlspecialchars($resena["nombre_servicio"]) ?></h3>
+                  </div>
+
+                  <span class="review-date">
+                    <?= date("d/m/Y", strtotime($resena["fecha"])) ?>
+                  </span>
                 </div>
-                <span class="review-date">12/03/2026</span>
-              </div>
 
-              <div class="review-rating">
-                <span class="stars">★★★★★</span>
-                <span class="rating-value">5.0</span>
-              </div>
-
-              <p class="review-comment">
-                Me encantó la experiencia. La profesora transmitía mucha calma y la sesión estuvo muy bien guiada.
-                El ambiente era precioso y salí súper relajada.
-              </p>
-
-              <div class="review-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <button type="button" class="btn btn-secondary">Editar</button>
-                <button type="button" class="btn btn-primary">Eliminar</button>
-              </div>
-            </div>
-          </article>
-
-          <!-- VALORACIÓN 2 -->
-          <article class="review-card">
-            <div class="review-image">
-              <img src="assets/spa-review.jpg" alt="Actividad Circuito termal premium">
-            </div>
-
-            <div class="review-content">
-              <div class="review-top">
-                <div>
-                  <p class="review-category">Bienestar · Spa</p>
-                  <h3>Circuito termal premium</h3>
+                <div class="review-rating">
+                  <span class="stars">
+                    <?php
+                    for($i = 1; $i <= 5; $i++){
+                      echo $i <= $resena["puntuacion"] ? "★" : "☆";
+                    }
+                    ?>
+                  </span>
+                  <span class="rating-value"><?= (int)$resena["puntuacion"] ?>/5</span>
                 </div>
-                <span class="review-date">08/03/2026</span>
-              </div>
 
-              <div class="review-rating">
-                <span class="stars">★★★★☆</span>
-                <span class="rating-value">4.0</span>
-              </div>
+                <p class="review-comment">
+                  <?= htmlspecialchars($resena["comentario"]) ?>
+                </p>
 
-              <p class="review-comment">
-                Muy buena experiencia y el circuito estaba genial. Lo único es que había bastante gente,
-                pero en general repetiría sin duda.
-              </p>
-
-              <div class="review-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <button type="button" class="btn btn-secondary">Editar</button>
-                <button type="button" class="btn btn-primary">Eliminar</button>
-              </div>
-            </div>
-          </article>
-
-          <!-- VALORACIÓN 3 -->
-          <article class="review-card">
-            <div class="review-image">
-              <img src="assets/padel-review.jpg" alt="Actividad pista de pádel indoor">
-            </div>
-
-            <div class="review-content">
-              <div class="review-top">
-                <div>
-                  <p class="review-category">Deporte · De raqueta</p>
-                  <h3>Pista de pádel indoor</h3>
+                <div class="review-actions">
+                  <a href="actividad.php?idact=<?= $resena["id_servicio"] ?>" class="btn btn-primary">
+                    Ver actividad
+                  </a>
                 </div>
-                <span class="review-date">04/03/2026</span>
+
               </div>
+            </article>
 
-              <div class="review-rating">
-                <span class="stars">★★★★☆</span>
-                <span class="rating-value">4.3</span>
-              </div>
-
-              <p class="review-comment">
-                Las instalaciones estaban muy bien cuidadas y la pista era cómoda. Buena iluminación y vestuarios limpios.
-              </p>
-
-              <div class="review-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <button type="button" class="btn btn-secondary">Editar</button>
-                <button type="button" class="btn btn-primary">Eliminar</button>
-              </div>
-            </div>
-          </article>
-
+          <?php } ?>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <footer class="main-footer">
-    <div class="container footer-container">
-      <div class="footer-brand">
-        <p>&copy; 2026 Body and Soul. Todos los derechos reservados.</p>
-      </div>
+      <?php } ?>
 
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram" class="social-link">IG</a>
-        <a href="#" aria-label="Facebook" class="social-link">f</a>
-        <a href="#" aria-label="X" class="social-link">X</a>
-      </div>
     </div>
-  </footer>
+  </section>
+</main>
 
+<?php require_once("footer.php"); ?>
 </body>
 </html>

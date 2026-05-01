@@ -124,9 +124,9 @@ h4 {
   gap: 0.5rem;
   border: none;
   cursor: pointer;
-  padding: 0.9rem 1.4rem;
+  padding: 0.75rem 1.2rem;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: 500;
   transition: var(--transition);
   text-align: center;
 }
@@ -345,5 +345,17 @@ h4 {
     flex-direction: column;
     text-align: center;
   }
+}
+
+.header-right .btn,
+.header-categories-btn {
+  font-size: 0.95rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.btn-icon svg,
+.cat-icon svg {
+  width: 18px;
+  height: 18px;
 }
 

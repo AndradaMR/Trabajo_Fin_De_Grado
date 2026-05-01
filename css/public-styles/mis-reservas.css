@@ -248,3 +248,33 @@
     width: 100%;
   }
 }
+
+.reservation-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.5rem;
+  height: 350px;
+}
+
+.reservation-image {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+.reservation-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reservation-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.reservation-actions {
+  margin-top: auto;
+}
+
+

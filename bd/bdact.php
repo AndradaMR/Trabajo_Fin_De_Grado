@@ -288,6 +288,7 @@ public function ObtenerReservasUsuario($idUsuario){
                     d.fecha,
                     d.hora_inicio,
                     d.hora_fin,
+                    i.url_imagen AS imagen,
                     c.nombre AS subcategoria,
                     cp.nombre AS categoria_padre
                   FROM reserva r
@@ -299,6 +300,8 @@ public function ObtenerReservasUsuario($idUsuario){
                     ON s.id_categoria = c.id_categoria
                   LEFT JOIN categoria cp 
                     ON c.id_categoria_padre = cp.id_categoria
+                  LEFT JOIN imagen_servicio i 
+                    ON s.id_servicio = i.id_servicio
                   WHERE r.id_usuario = :id_usuario
                   ORDER BY d.fecha ASC, d.hora_inicio ASC";
 
@@ -432,6 +435,94 @@ public function obtenerImagenesPorServicio($idServicio){
     ]);
 
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function insertarResena($idUsuario, $idServicio, $puntuacion, $comentario){
+    $sql = "INSERT INTO resena (id_usuario, id_servicio, puntuacion, comentario)
+            VALUES (:usuario, :servicio, :puntuacion, :comentario)";
+    
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([
+        ":usuario" => $idUsuario,
+        ":servicio" => $idServicio,
+        ":puntuacion" => $puntuacion,
+        ":comentario" => $comentario
+    ]);
+}
+
+public function obtenerResenasUsuario($idUsuario){
+    $sql = "SELECT 
+              r.*, 
+              s.nombre_servicio,
+              i.url_imagen AS imagen
+            FROM resena r
+            INNER JOIN servicio s 
+              ON r.id_servicio = s.id_servicio
+            LEFT JOIN imagen_servicio i 
+              ON s.id_servicio = i.id_servicio
+            WHERE r.id_usuario = :id
+            GROUP BY r.id_resena
+            ORDER BY r.fecha DESC";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([":id" => $idUsuario]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function puedeValorar($idUsuario, $idServicio){
+    $sql = "SELECT *
+            FROM reserva
+            WHERE id_usuario = :usuario
+            AND id_servicio = :servicio
+            AND estado = 'confirmada'
+            AND fecha_hora < NOW()
+            LIMIT 1";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([
+        ":usuario" => $idUsuario,
+        ":servicio" => $idServicio
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
+}
+
+public function yaHaValorado($idUsuario, $idServicio){
+    $sql = "SELECT * FROM resena
+            WHERE id_usuario = :usuario
+            AND id_servicio = :servicio";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([
+        ":usuario" => $idUsuario,
+        ":servicio" => $idServicio
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
+}
+
+public function obtenerReservaPorId($idReserva){
+    $sql = "SELECT r.*, s.nombre_servicio
+            FROM reserva r
+            INNER JOIN servicio s ON r.id_servicio = s.id_servicio
+            WHERE r.id_reserva = :id";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([":id" => $idReserva]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+public function obtenerMediaResenas($idServicio){
+    $sql = "SELECT AVG(puntuacion) AS media, COUNT(*) AS total
+            FROM resena
+            WHERE id_servicio = :id";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([":id" => $idServicio]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 
