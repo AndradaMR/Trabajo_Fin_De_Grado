@@ -37,8 +37,8 @@ require_once("head.php");
                   </option>
                 <?php } ?>
               </select>
-              <button type="button" class="filter-pill">Hoy</button>
-              <button type="button" class="filter-pill">Esta semana</button>
+              <button type="button" id="filtroHoy" class="filter-pill">Hoy</button>
+              <button type="button" id="filtroSemana" class="filter-pill">Esta semana</button>
 
               <select id="precio" name="precio" class="filter-pill filter-select">
                 <option value="">Precio</option>
@@ -79,10 +79,10 @@ require_once("head.php");
             </div>
 
             <div class="activity-content">
-              <div class="activity-rating" aria-label="Puntuación 4,8 de 5">
-                <span class="stars">★★★★★</span>
-                <span class="rating-value">4.8</span>
-              </div>
+              <?php
+                $datosRating = $bdact->obtenerMediaResenas($act["id_servicio"]);
+                pintarRating($datosRating["media"], $datosRating["total"]);
+              ?>
               <h3><?=$act["nombre_servicio"]?></h3>
               <p>
                 <?=$act["descripcion"]?>
@@ -114,13 +114,17 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
     const contenedor = document.getElementById("resultadosBusqueda");
     const categoria = document.getElementById("categoria_filtro");
     const precio = document.getElementById("precio");
+    const botonHoy = document.getElementById("filtroHoy");
+    const botonSemana = document.getElementById("filtroSemana");
+
+    let fecha = "";
 
     function buscar() {
       const texto = input.value.trim();
       const cat = categoria.value;
       const pre = precio.value;
 
-      if (texto.length < 2 && cat === "" && pre === "") {
+      if (texto.length < 2 && cat === "" && pre === "" && fecha === "") {
         contenedor.innerHTML = "";
         return;
       }
@@ -128,7 +132,8 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
       fetch(
         "ajax_busqueda.php?buscador=" + encodeURIComponent(texto) +
         "&categoria=" + encodeURIComponent(cat) +
-        "&precio=" + encodeURIComponent(pre)
+        "&precio=" + encodeURIComponent(pre) +
+        "&fecha=" + encodeURIComponent(fecha)
       )
         .then(res => res.text())
         .then(data => {
@@ -139,6 +144,39 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
     input.addEventListener("input", buscar);
     categoria.addEventListener("change", buscar);
     precio.addEventListener("change", buscar);
+
+    botonHoy.addEventListener("click", function () {
+      const hoy = new Date().toISOString().split("T")[0];
+
+      if (fecha === hoy) {
+        // 🔥 desactivar filtro
+        fecha = "";
+        this.classList.remove("active");
+      } else {
+        // activar hoy
+        fecha = hoy;
+        this.classList.add("active");
+        botonSemana.classList.remove("active");
+      }
+
+      buscar();
+    });
+
+    botonSemana.addEventListener("click", function () {
+
+      if (fecha === "semana") {
+        // 🔥 desactivar filtro
+        fecha = "";
+        this.classList.remove("active");
+      } else {
+        // activar semana
+        fecha = "semana";
+        this.classList.add("active");
+        botonHoy.classList.remove("active");
+      }
+
+      buscar();
+    });
 
   });
 </script>

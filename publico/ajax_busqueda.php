@@ -1,4 +1,9 @@
 <?php
+
+require_once("../bd/bdact.php");
+$bdact = new bdact("localhost", 3306, "plataforma_servicios1", "root", "");
+
+require_once("valoracion.php");
 $rutaJson = "../JSON/actividades.json";
 
 if (!file_exists($rutaJson)) {
@@ -65,6 +70,36 @@ foreach ($datos as $empresa) {
             }
         }
 
+        if ($fecha !== "") {
+
+        $coincideFecha = false;
+
+        if (isset($servicio["detalles"]) && is_array($servicio["detalles"])) {
+            foreach ($servicio["detalles"] as $detalle) {
+
+                if ($fecha == "semana") {
+                    $hoy = date("Y-m-d");
+                    $finSemana = date("Y-m-d", strtotime("+7 days"));
+
+                    if ($detalle["fecha"] >= $hoy && $detalle["fecha"] <= $finSemana) {
+                        $coincideFecha = true;
+                        break;
+                    }
+
+                } else {
+                    if ($detalle["fecha"] == $fecha) {
+                        $coincideFecha = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+    if (!$coincideFecha) {
+        $coincide = false;
+    }
+}
+
         if ($coincide) {
             $resultados[] = $servicio;
         }
@@ -89,10 +124,10 @@ if (empty($resultados)) {
       </div>
 
       <div class="activity-content">
-        <div class="activity-rating" aria-label="Puntuación 4,8 de 5">
-          <span class="stars">★★★★★</span>
-          <span class="rating-value">4.8</span>
-        </div>
+        <?php
+            $datosRating = $bdact->obtenerMediaResenas($act["id_servicio"]);
+            pintarRating($datosRating["media"], $datosRating["total"]);
+        ?>
 
         <h3><?= htmlspecialchars($act["nombre_servicio"]) ?></h3>
 

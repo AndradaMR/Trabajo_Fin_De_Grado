@@ -3,6 +3,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once("valoracion.php");
+
 require_once("../bd/bd.php");
 $bbdd= new db("localhost",3306,"plataforma_servicios1","root","");
 
@@ -59,6 +61,7 @@ foreach ($categorias as $categoria) {
   <link rel="stylesheet" href="../css/public-styles/actividad.css"/>
   <link rel="stylesheet" href="../css/public-styles/reserva.css"/>
   <link rel="stylesheet" href="../css/public-styles/mis-reservas.css"/>
+  <link rel="stylesheet" href="../css/public-styles/mis-valoraciones.css"/>
 </head>
 
 <body>

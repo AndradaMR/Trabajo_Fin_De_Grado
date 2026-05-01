@@ -160,3 +160,11 @@
     text-align: center;
   }
 }
+
+.reservation-reviewed {
+  font-weight: 700;
+  color: var(--teal);
+  background: rgba(46,196,182,0.15);
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+}

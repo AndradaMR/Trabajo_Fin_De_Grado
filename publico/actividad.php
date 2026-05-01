@@ -10,12 +10,18 @@ if (!isset($_GET['idact'])) {
   $id = (int) $_GET['idact'];
 }
 
+$datosResenas = $bdact->obtenerMediaResenas($id);
+
+$media = $datosResenas["media"] ? round($datosResenas["media"], 1) : 0;
+$totalResenas = $datosResenas["total"];
+
 $rutaJson = "../JSON/actividades.json";
 //VERIFICO QUE EXISTA EN ARCHIVO
 if (!file_exists($rutaJson)) {
     echo "No se encuentra el archivo JSON";
     exit;
 }
+
 $contenidoJson = file_get_contents($rutaJson);
 $datos = json_decode($contenidoJson, true);
 

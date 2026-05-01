@@ -4,6 +4,7 @@ require_once("head.php");
 
 if(!isset($_SESSION["usuario"])){
   header("Location: index.php");
+  exit();
 }
 
 $id=$_SESSION["usuario"];
@@ -53,7 +54,11 @@ $reservas = $bdact->ObtenerReservasUsuario($id);
 
             <article class="reservation-card" data-fecha="<?= $reserva["fecha"] ?>">
               <div class="reservation-image">
-                <img src="../assets/placeholder.jpg" alt="<?= htmlspecialchars($reserva["nombre_servicio"]) ?>">
+                <?php
+                  $imagen = !empty($reserva["imagen"]) ? "../" . $reserva["imagen"] : "../img/placeholder.jpg";
+                ?>
+
+                <img src="<?= $imagen ?>" alt="<?= htmlspecialchars($reserva["nombre_servicio"]) ?>">
               </div>
 
               <div class="reservation-content">
@@ -116,6 +121,33 @@ $reservas = $bdact->ObtenerReservasUsuario($id);
                 <a href="actividad.php?idact=<?= $reserva["id_servicio"] ?>" class="btn btn-outline">
                   Ver actividad
                 </a>
+
+                <?php
+                  $puedeValorar = false;
+
+                  if (
+                    $esPasada &&
+                    $reserva["estado"] == "confirmada"
+                  ) {
+
+                    $puedeValorar = $bdact->puedeValorar($id, $reserva["id_servicio"]);
+                    $yaValorado = $bdact->yaHaValorado($id, $reserva["id_servicio"]);
+
+                    if ($puedeValorar && !$yaValorado) {
+                ?>
+                      <a href="valorar-actividad.php?idreserva=<?= $reserva["id_reserva"] ?>" class="btn btn-secondary">
+                        Valorar actividad
+                      </a>
+                <?php
+                    } elseif ($yaValorado) {
+                ?>
+                      <span class="reservation-reviewed">
+                        Ya has valorado esta actividad ⭐
+                      </span>
+                <?php
+                    }
+                  }
+                ?>
 
                 <?php if($puedeGestionar): ?>
 
