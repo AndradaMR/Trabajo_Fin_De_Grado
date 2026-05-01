@@ -479,4 +479,12 @@
 
 .live-results-grid {
   grid-template-columns: repeat(3, 1fr);
-} 
+}
+
+.contenedorinicio a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  cursor: pointer;
+}

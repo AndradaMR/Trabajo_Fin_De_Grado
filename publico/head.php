@@ -15,10 +15,10 @@ if(isset($_SESSION["usuario"])){
   $apellido=$usuario["apellido"];
   $inicial=strtoupper($nombre[0]);
 
-  $iniciosesion="<div class=contenedorinicio><a href='perfil.php'>
-  <span class='profile-avatar'>".$inicial."</span>
-  <span class='profile-name'>".$nombre." ".$apellido."</span>
-  </a></div>";
+  $iniciosesion="<a href='perfil.php' class='contenedorinicio'>
+                  <span class='profile-avatar'>".$inicial."</span>
+                  <span class='profile-name'>".$nombre." ".$apellido."</span>
+                  </a>";
 
 }else{
   $iniciosesion = "<a href='login.php' class='btn btn-outline'>

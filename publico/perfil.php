@@ -1,10 +1,11 @@
 <?php
-$titulo="<h1>Mi perfil</h1>";
-require_once("head.php");
 
 if(!isset($_SESSION["usuario"])){
   header("Location: index.php");
 }
+
+$titulo="<h1>Mi perfil</h1>";
+require_once("head.php");
 
 $id=$_SESSION["usuario"];
 
