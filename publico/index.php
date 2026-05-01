@@ -107,7 +107,6 @@ require_once("head.php");
 let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAPED_UNICODE); ?>;
 </script>
 
-<script src="../js/filtrosindex.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 

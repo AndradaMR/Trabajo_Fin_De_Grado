@@ -230,10 +230,14 @@
   transition: left 0.3s ease;
   box-shadow: 8px 0 30px rgba(0,0,0,0.15);
   overflow-y: auto;
+  transform: translateX(-100%);
+  pointer-events: none;
 }
 
 .category-panel.activo {
   left: 0;
+  transform: translateX(0);
+  pointer-events: auto;
 }
 
 .category-panel-header {
@@ -487,4 +491,19 @@
   gap: 0.5rem;
   text-decoration: none;
   cursor: pointer;
+}
+
+.header-right {
+  position: relative;
+  z-index: 20;
+}
+
+.contenedorinicio {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 30;
+  cursor: pointer;
+  pointer-events: auto;
 }

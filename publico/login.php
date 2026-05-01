@@ -1,15 +1,18 @@
 <?php
-
-if(isset($_SESSION["usuario"])){
-  header("Location: index.php");
-  exit();
-}//asi si ya tengo sesion iniciada me lleva al index
+session_start();
 
 require_once("../bd/bd.php");
 $bbdd= new db("localhost",3306,"plataforma_servicios1","root","");
 
 require_once("../bd/bdact.php");
 $bdact= new bdact("localhost",3306,"plataforma_servicios1","root","");
+
+if(isset($_SESSION["usuario"])){
+  header("Location: perfil.php");
+  exit();
+}//asi si ya tengo sesion iniciada me lleva al index
+
+
 
 $banderaerror = false;
 

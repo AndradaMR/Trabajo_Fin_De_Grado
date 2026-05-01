@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once("../bd/bd.php");
 $bbdd= new db("localhost",3306,"plataforma_servicios1","root","");
@@ -15,7 +17,7 @@ if(isset($_SESSION["usuario"])){
   $apellido=$usuario["apellido"];
   $inicial=strtoupper($nombre[0]);
 
-  $iniciosesion="<a href='perfil.php' class='contenedorinicio'>
+  $iniciosesion=$iniciosesion="<a href='perfil.php' class='contenedorinicio'>
                   <span class='profile-avatar'>".$inicial."</span>
                   <span class='profile-name'>".$nombre." ".$apellido."</span>
                   </a>";

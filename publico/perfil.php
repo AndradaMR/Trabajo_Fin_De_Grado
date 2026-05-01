@@ -1,15 +1,23 @@
 <?php
+session_start();
+
+if(isset($_GET["cerrar"]) && $_GET["cerrar"] == "si"){
+  session_unset();
+  session_destroy();
+  header("Location: index.php");
+  exit();
+}
 
 if(!isset($_SESSION["usuario"])){
   header("Location: index.php");
+  exit();
 }
 
 $titulo="<h1>Mi perfil</h1>";
 require_once("head.php");
 
-$id=$_SESSION["usuario"];
-
-$rol=$bbdd->obtenerrolus($id);
+$id = $_SESSION["usuario"];
+$rol = $bbdd->obtenerrolus($id);
 
 ?>
 
