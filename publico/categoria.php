@@ -62,19 +62,40 @@ $subcategorias=$bdact->obtenerSubcat($idcatpadre);
             </button>
             <div class="carousel-track">
               <?php
-            foreach($actividades as $act){
-              ?>
-              <a href="actividad.php?idact=<?=$act['id_servicio']?>" class="subcategory-card">
-                <?php
-                $imagen = !empty($act["imagen"]) ? "../" . $act["imagen"] : "../assets/placeholder.jpg";
+                foreach($actividades as $act){
+
+                  $imagen = !empty($act["imagen"]) ? "../" . $act["imagen"] : "../assets/placeholder.jpg";
+
+                  $esFavorito = false;
+                  $volver = urlencode($_SERVER["REQUEST_URI"]);
+
+                  if(isset($_SESSION["usuario"])){
+                    $esFavorito = $bdact->esFavorito($_SESSION["usuario"], $act["id_servicio"]);
+                  }
                 ?>
 
-                <img src="<?= $imagen ?>" alt="<?= htmlspecialchars($act['nombre_servicio']) ?>">
-                <span><?=$act['nombre_servicio']?></span>
-              </a>
-            <?php
-            }
-            ?>
+                  <div class="subcategory-card">
+
+                    <?php if(isset($_SESSION["usuario"])){ ?>
+                      <a 
+                        href="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>&volver=<?= $volver ?>"
+                        class="activity-favorite-btn <?= $esFavorito ? 'activo' : '' ?>"
+                      >
+                        <?= $esFavorito ? '❤️' : '🤍' ?>
+                      </a>
+                    <?php } ?>
+
+                    <a href="actividad.php?idact=<?= $act['id_servicio'] ?>" class="subcategory-card-link">
+                      <img 
+                        src="<?= htmlspecialchars($imagen) ?>" 
+                        alt="<?= htmlspecialchars($act['nombre_servicio']) ?>"
+                      >
+                      <span><?= htmlspecialchars($act['nombre_servicio']) ?></span>
+                    </a>
+
+                  </div>
+
+                <?php } ?>
             </div>
             <button class="carousel-btn carousel-btn-right" type="button" aria-label="Desplazar a la derecha">
               &#10095;

@@ -359,3 +359,43 @@ h4 {
   height: 18px;
 }
 
+/* ===== estilo corazones (favoritos) ===== */
+
+.activity-image-wrapper {
+  position: relative;
+}
+
+.activity-image-wrapper .activity-favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.95);
+  color: var(--pink);
+
+  display: grid;
+  place-items: center;
+
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 800;
+
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+  transition: var(--transition);
+}
+
+/* 🔥 ACTIVO (favorito) */
+.activity-image-wrapper .activity-favorite-btn.activo {
+  background: var(--mint);
+  color: var(--white);
+}
+
+/* hover */
+.activity-image-wrapper .activity-favorite-btn:hover {
+  transform: scale(1.1);
+}
+

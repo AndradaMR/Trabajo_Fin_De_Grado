@@ -15,6 +15,12 @@ $datosResenas = $bdact->obtenerMediaResenas($id);
 $media = $datosResenas["media"] ? round($datosResenas["media"], 1) : 0;
 $totalResenas = $datosResenas["total"];
 
+$esFavorito = false;
+
+if(isset($_SESSION["usuario"])){
+    $esFavorito = $bdact->esFavorito($_SESSION["usuario"], $id);
+}
+
 $rutaJson = "../JSON/actividades.json";
 //VERIFICO QUE EXISTA EN ARCHIVO
 if (!file_exists($rutaJson)) {
@@ -68,9 +74,19 @@ if (!$actividad) {
           <article class="activity-gallery-card">
             <div class="activity-gallery-header">
               <span class="section-tag">Experiencia destacada</span>
+              <?php if(isset($_SESSION["usuario"])){ ?>
+                <a 
+                  href="gestionar-favorito.php?idservicio=<?= $id ?>&volver=actividad.php?idact=<?= $id ?>" 
+                  class="activity-favorite-btn <?= $esFavorito ? 'activo' : '' ?>"
+                >
+                  <?= $esFavorito ? '❤️' : '🤍' ?>
+                </a>
+              <?php } ?>
+        
             </div>
 
             <div class="activity-gallery">
+              
               <?php if (!empty($actividad["imagenes"]) && count($actividad["imagenes"]) > 1) { ?>
                 <button class="gallery-btn gallery-btn-left" type="button" aria-label="Imagen anterior">
                   &#10094;

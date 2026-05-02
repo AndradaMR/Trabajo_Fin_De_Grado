@@ -527,3 +527,43 @@
   background: var(--mint);
   color: white;
 }
+
+/* ❤️ FAVORITOS EN CARDS (INDEX, RESULTADOS, ETC) */
+
+.activity-image-wrapper {
+  position: relative; /* IMPORTANTE para posicionar el corazón */
+}
+
+.activity-image-wrapper .activity-favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.95);
+  color: var(--pink);
+
+  display: grid;
+  place-items: center;
+
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 800;
+
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+  transition: var(--transition);
+}
+
+/* 🔥 CUANDO ES FAVORITO */
+.activity-image-wrapper .activity-favorite-btn.activo {
+  background: var(--mint);
+  color: var(--white);
+}
+
+/* HOVER */
+.activity-image-wrapper .activity-favorite-btn:hover {
+  transform: scale(1.08);
+}

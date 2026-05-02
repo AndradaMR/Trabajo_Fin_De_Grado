@@ -56,13 +56,6 @@ $rol = $bbdd->obtenerrolus($id);
             </div>
           </a>
 
-          <a href="historial.php" class="profile-card">
-            <div class="profile-card-content">
-                <h3>Historial de reservas</h3>
-                <p>Revisa todas las actividades que has realizado anteriormente.</p>
-            </div>
-          </a>
-
         <a href="mis-valoraciones.php" class="profile-card">
             <div class="profile-card-content">
                 <h3>Mis valoraciones</h3>
