@@ -1,35 +1,14 @@
-!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Body and Soul | Reservas empresa</title>
+<?php
+require_once("head.php");
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita:wght@700;800;900&display=swap" rel="stylesheet">
+$idEmpresa = $_SESSION["empresa"];
 
-  <link rel="stylesheet" href="../css/empresa-styles/reservas.css">
-</head>
-<body class="company-body">
+$reservas = $bdempre->ObtenerReservasEmpresa($idempresa);
+$numreservas = count($reservas);
 
-  <div class="company-layout">
+$servicios = $bdempre->ObtenerServiciosEmpresa($idEmpresa);
 
-    <aside class="company-sidebar">
-      <div class="company-sidebar-top">
-        <img src="../assets/logo-body-and-soul.png" alt="Logo Body and Soul" class="company-sidebar-logo">
-        <h1>Empresa</h1>
-      </div>
-
-      <nav class="company-sidebar-nav">
-        <a href="index.html" class="company-nav-link">Inicio</a>
-        <a href="mis-servicios.html" class="company-nav-link">Mis servicios</a>
-        <a href="nueva-actividad.html" class="company-nav-link">Añadir servicio</a>
-        <a href="reservas.html" class="company-nav-link active">Reservas</a>
-        <a href="perfil-empresa.html" class="company-nav-link">Perfil empresa</a>
-        <a href="../publico/index.php" class="company-nav-link company-nav-link-logout">Cerrar sesión</a>
-      </nav>
-    </aside>
+?>
 
     <div class="company-main">
 
@@ -43,7 +22,7 @@
           <a href="mis-servicios.php" class="company-top-link">Ver mis servicios</a>
         </div>
       </header>
-
+ 
       <main class="company-content">
 
         <section class="reservations-header-card">
@@ -56,176 +35,105 @@
           </div>
 
           <div class="reservations-summary">
-            <span class="reservations-summary-number">42</span>
+            <span class="reservations-summary-number"><?=$numreservas?></span>
             <span class="reservations-summary-label">Reservas</span>
           </div>
         </section>
 
         <section class="reservations-filters-card">
-          <div class="reservations-search">
-            <label for="buscar-reserva" class="sr-only">Buscar reserva</label>
-            <input type="text" id="buscar-reserva" placeholder="Buscar por usuario, actividad o fecha">
-          </div>
 
           <div class="reservations-filters">
-            <select>
+            <select id="filtroServicio">
               <option value="">Todos los servicios</option>
-              <option value="yoga">Yoga Flow Sunset</option>
-              <option value="meditacion">Meditación guiada</option>
-              <option value="relax">Sesión Relax Premium</option>
+              <?php foreach($servicios as $ser){ ?>
+            <option value="<?=$ser["id_servicio"]?>">
+              <?=htmlspecialchars($ser["nombre_servicio"])?>
+            </option>
+          <?php } ?>
             </select>
 
-            <select>
-              <option value="">Todos los estados</option>
-              <option value="confirmada">Confirmada</option>
-              <option value="pendiente">Pendiente</option>
-              <option value="cancelada">Cancelada</option>
-            </select>
           </div>
         </section>
 
-        <section class="reservations-list">
+  <section class="reservations-list">
 
-          <article class="reservation-company-card">
-            <div class="reservation-company-main">
-              <div class="reservation-company-top">
-                <div>
-                  <p class="reservation-company-category">Bienestar · Yoga</p>
-                  <h3>Yoga Flow Sunset</h3>
-                  <p class="reservation-company-user">Reserva realizada por <strong>Laura García</strong></p>
-                </div>
+  <?php if(empty($reservas)){ ?>
 
-                <span class="company-status-chip confirmed">Confirmada</span>
-              </div>
+    <p>No tienes reservas recibidas todavía.</p>
 
-              <p class="reservation-company-description">
-                Reserva para la sesión de yoga del atardecer con acceso completo a la actividad.
+  <?php }else{ ?>
+
+    <?php foreach($reservas as $reserva){ 
+      $fecha = date("d/m/Y", strtotime($reserva["fecha_hora"]));
+      $hora = date("H:i", strtotime($reserva["fecha_hora"]));
+    ?>
+
+      <article class="reservation-company-card" data-servicio="<?=$reserva["id_servicio"]?>">
+        <div class="reservation-company-main">
+          <div class="reservation-company-top">
+            <div>
+              <p class="reservation-company-category">
+                <?=htmlspecialchars($reserva["categoria_padre"])?> · <?=htmlspecialchars($reserva["subcategoria"])?>
               </p>
 
-              <div class="reservation-company-grid">
-                <div class="reservation-info-item">
-                  <span class="info-label">Fecha</span>
-                  <span class="info-value">15/04/2026</span>
-                </div>
+              <h3><?=htmlspecialchars($reserva["nombre_servicio"])?></h3>
 
-                <div class="reservation-info-item">
-                  <span class="info-label">Hora</span>
-                  <span class="info-value">18:00</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Plazas reservadas</span>
-                  <span class="info-value">1</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Correo usuario</span>
-                  <span class="info-value">laura@email.com</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="reservation-company-actions">
-              <a href="detalle-reserva.html" class="btn-detail">Ver detalle</a>
-              <button type="button" class="btn-secondary-company">Contactar</button>
-              <button type="button" class="btn-warning">Marcar pendiente</button>
-              <button type="button" class="btn-reject">Cancelar</button>
-            </div>
-          </article>
-
-          <article class="reservation-company-card">
-            <div class="reservation-company-main">
-              <div class="reservation-company-top">
-                <div>
-                  <p class="reservation-company-category">Bienestar · Meditación</p>
-                  <h3>Meditación guiada</h3>
-                  <p class="reservation-company-user">Reserva realizada por <strong>Cristina López</strong></p>
-                </div>
-
-                <span class="company-status-chip pending">Pendiente</span>
-              </div>
-
-              <p class="reservation-company-description">
-                Solicitud de plaza para la sesión grupal de meditación y respiración consciente.
+              <p class="reservation-company-user">
+                Reserva realizada por 
+                <strong>
+                  <?=htmlspecialchars($reserva["nombre_usuario"] . " " . $reserva["apellido_usuario"])?>
+                </strong>
               </p>
+            </div>
+          </div>
 
-              <div class="reservation-company-grid">
-                <div class="reservation-info-item">
-                  <span class="info-label">Fecha</span>
-                  <span class="info-value">17/04/2026</span>
-                </div>
+          <p class="reservation-company-description">
+            <?=htmlspecialchars($reserva["descripcion"])?>
+          </p>
 
-                <div class="reservation-info-item">
-                  <span class="info-label">Hora</span>
-                  <span class="info-value">11:00</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Plazas reservadas</span>
-                  <span class="info-value">2</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Correo usuario</span>
-                  <span class="info-value">cris@email.com</span>
-                </div>
-              </div>
+          <div class="reservation-company-grid">
+            <div class="reservation-info-item">
+              <span class="info-label">Fecha</span>
+              <span class="info-value"><?=$fecha?></span>
             </div>
 
-            <div class="reservation-company-actions">
-              <a href="detalle-reserva.html" class="btn-detail">Ver detalle</a>
-              <button type="button" class="btn-approve">Confirmar</button>
-              <button type="button" class="btn-secondary-company">Contactar</button>
-              <button type="button" class="btn-reject">Cancelar</button>
-            </div>
-          </article>
-
-          <article class="reservation-company-card">
-            <div class="reservation-company-main">
-              <div class="reservation-company-top">
-                <div>
-                  <p class="reservation-company-category">Bienestar · Relajación</p>
-                  <h3>Sesión Relax Premium</h3>
-                  <p class="reservation-company-user">Reserva realizada por <strong>Marta Ruiz</strong></p>
-                </div>
-
-                <span class="company-status-chip cancelled">Cancelada</span>
-              </div>
-
-              <p class="reservation-company-description">
-                Reserva cancelada por el usuario antes de la fecha programada.
-              </p>
-
-              <div class="reservation-company-grid">
-                <div class="reservation-info-item">
-                  <span class="info-label">Fecha</span>
-                  <span class="info-value">10/04/2026</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Hora</span>
-                  <span class="info-value">16:30</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Plazas reservadas</span>
-                  <span class="info-value">1</span>
-                </div>
-
-                <div class="reservation-info-item">
-                  <span class="info-label">Correo usuario</span>
-                  <span class="info-value">marta@email.com</span>
-                </div>
-              </div>
+            <div class="reservation-info-item">
+              <span class="info-label">Hora</span>
+              <span class="info-value"><?=$hora?></span>
             </div>
 
-            <div class="reservation-company-actions">
-              <a href="detalle-reserva.html" class="btn-detail">Ver detalle</a>
-              <button type="button" class="btn-secondary-company">Contactar</button>
+           <div class="reservation-info-item">
+                <span class="info-label">Estado</span>
+                <span class="info-value"><?=ucfirst($reserva["estado"])?></span>
             </div>
-          </article>
 
-        </section>
+            <div class="reservation-info-item">
+              <span class="info-label">Correo usuario</span>
+              <span class="info-value">
+                <?=htmlspecialchars($reserva["email_usuario"])?>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reservation-company-actions">
+          <a href="mailto:<?=htmlspecialchars($reserva["email_usuario"])?>" class="btn-secondary-company">
+            Contactar
+          </a>
+
+        </div>
+      </article>
+
+    <?php } ?>
+
+  <?php } ?>
+
+    <!-- MENSAJE PARA FILTROS VACIOS -->
+  <p id="mensajeVacio" style="display:none;">
+    No hay reservas para este servicio.
+  </p>
+
+</section>
 
       </main>
     </div>

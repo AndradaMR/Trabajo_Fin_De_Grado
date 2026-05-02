@@ -2,8 +2,6 @@
 require_once("head.php");
 require_once("../bd/bdempresa.php");
 
-$bdempre = new bdempresa("localhost", 3306, "plataforma_servicios", "root", "");
-
 // Seguridad: comprobar sesión de empresa
 if(!isset($_SESSION["empresa"])){
     header("Location: login.php");

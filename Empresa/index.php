@@ -1,16 +1,6 @@
 <?php
 require_once("head.php");
 
-if(!isset($_SESSION["empresa"])){
-  header("Location: registro-empresa.php");
-  exit();
-}else{
-
-  $idempresa=$_SESSION["empresa"];
-  
-
-}
-
 $datosempresa=$bdempre->sacardatosempresa($idempresa);
 $actividadesempresa=$bdempre->ObtenerActividadesPorEmpresa($idempresa);
 $catempresa=$bdempre->ObtenerSubcategoriasEmpresa($idempresa);

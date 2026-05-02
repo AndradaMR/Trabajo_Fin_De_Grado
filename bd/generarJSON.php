@@ -35,7 +35,7 @@ LA ESTRUCTURA QUE VA A SEGUIR EL JSON ES LA SIGUIENTE:
 public function generarJSON(){
 
     //CON ESTO VAMOS A SACAR LA INFORMACIÓN QUE QUEREMOS GUARDER EN EL JSON DE LA BBDD. CON ELLO SACO TODO
-    $sql = "SELECT e.nombre_empresa, e.id_empresa, s.id_servicio, s.nombre_servicio, s.descripcion,  s.lugar, s.precio, s.id_categoria, da.fecha, da.hora_inicio, da.hora_fin, da.plazas_maximas, imgs.url_imagen
+    $sql = "SELECT e.nombre_empresa, e.id_empresa, s.id_servicio, s.nombre_servicio, s.descripcion,  s.lugar, s.precio, s.id_categoria, s.estado, da.fecha, da.hora_inicio, da.hora_fin, da.plazas_maximas, imgs.url_imagen
             FROM 
             empresa e 
             INNER JOIN 
@@ -75,6 +75,7 @@ public function generarJSON(){
                 "descripcion" => $fila["descripcion"],
                 "lugar" => $fila["lugar"],
                 "precio" => $fila["precio"],
+                "estado" => $fila["estado"],
                 "imagenes" => [],
                 "detalles" => [],
                 "_detalles_vistos" => [],
