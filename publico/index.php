@@ -71,7 +71,16 @@ require_once("head.php");
           ?>
           <article class="activity-card">
             <div class="activity-image-wrapper">
-              <?php
+              <?php if(isset($_SESSION["usuario"])){ 
+                $esFavorito = $bdact->esFavorito($_SESSION["usuario"], $act["id_servicio"]);
+              ?>
+                <a 
+                  href="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>&volver=index.php"
+                  class="activity-favorite-btn <?= $esFavorito ? 'activo' : '' ?>"
+                >
+                  <?= $esFavorito ? '❤️' : '🤍' ?>
+                </a>
+              <?php } 
               $imagen = !empty($act["imagen"]) ? "../" . $act["imagen"] : "../assets/placeholder.jpg";
               ?>
 

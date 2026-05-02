@@ -444,11 +444,11 @@ public function obtenerImagenesPorServicio($idServicio){
 }
 
 public function insertarResena($idUsuario, $idServicio, $puntuacion, $comentario){
-    $sql = "INSERT INTO resena (id_usuario, id_servicio, puntuacion, comentario)
+    $sentencia = "INSERT INTO resena (id_usuario, id_servicio, puntuacion, comentario)
             VALUES (:usuario, :servicio, :puntuacion, :comentario)";
     
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
         ":usuario" => $idUsuario,
         ":servicio" => $idServicio,
         ":puntuacion" => $puntuacion,
@@ -457,7 +457,7 @@ public function insertarResena($idUsuario, $idServicio, $puntuacion, $comentario
 }
 
 public function obtenerResenasUsuario($idUsuario){
-    $sql = "SELECT 
+    $sentencia = "SELECT 
               r.*, 
               s.nombre_servicio,
               i.url_imagen AS imagen
@@ -470,14 +470,14 @@ public function obtenerResenasUsuario($idUsuario){
             GROUP BY r.id_resena
             ORDER BY r.fecha DESC";
 
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([":id" => $idUsuario]);
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([":id" => $idUsuario]);
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
 public function puedeValorar($idUsuario, $idServicio){
-    $sql = "SELECT *
+    $sentencia = "SELECT *
             FROM reserva
             WHERE id_usuario = :usuario
             AND id_servicio = :servicio
@@ -485,50 +485,116 @@ public function puedeValorar($idUsuario, $idServicio){
             AND fecha_hora < NOW()
             LIMIT 1";
 
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
         ":usuario" => $idUsuario,
         ":servicio" => $idServicio
     ]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
+    return $ejecucion->fetch(PDO::FETCH_ASSOC) ? true : false;
 }
 
 public function yaHaValorado($idUsuario, $idServicio){
-    $sql = "SELECT * FROM resena
+    $sentencia = "SELECT * FROM resena
             WHERE id_usuario = :usuario
             AND id_servicio = :servicio";
 
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
         ":usuario" => $idUsuario,
         ":servicio" => $idServicio
     ]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
+    return $ejecucion->fetch(PDO::FETCH_ASSOC) ? true : false;
 }
 
 public function obtenerReservaPorId($idReserva){
-    $sql = "SELECT r.*, s.nombre_servicio
+    $sentencia = "SELECT r.*, s.nombre_servicio
             FROM reserva r
             INNER JOIN servicio s ON r.id_servicio = s.id_servicio
             WHERE r.id_reserva = :id";
 
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([":id" => $idReserva]);
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([":id" => $idReserva]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $ejecucion->fetch(PDO::FETCH_ASSOC);
 }
 
 public function obtenerMediaResenas($idServicio){
-    $sql = "SELECT AVG(puntuacion) AS media, COUNT(*) AS total
+    $sentencia = "SELECT AVG(puntuacion) AS media, COUNT(*) AS total
             FROM resena
             WHERE id_servicio = :id";
 
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([":id" => $idServicio]);
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([":id" => $idServicio]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $ejecucion->fetch(PDO::FETCH_ASSOC);
+}
+
+public function agregarFavorito($idUsuario, $idServicio){
+    $sentencia = "INSERT IGNORE INTO favorito (id_usuario, id_servicio)
+            VALUES (:usuario, :servicio)";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":usuario" => $idUsuario,
+        ":servicio" => $idServicio
+    ]);
+}
+
+public function eliminarFavorito($idUsuario, $idServicio){
+    $sentencia = "DELETE FROM favorito
+            WHERE id_usuario = :usuario
+            AND id_servicio = :servicio";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":usuario" => $idUsuario,
+        ":servicio" => $idServicio
+    ]);
+}
+
+public function esFavorito($idUsuario, $idServicio){
+    $sentencia = "SELECT id_favorito
+            FROM favorito
+            WHERE id_usuario = :usuario
+            AND id_servicio = :servicio
+            LIMIT 1";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":usuario" => $idUsuario,
+        ":servicio" => $idServicio
+    ]);
+
+    return $ejecucion->fetch(PDO::FETCH_ASSOC) ? true : false;
+}
+
+public function obtenerFavoritosUsuario($idUsuario){
+    $sentencia = "SELECT 
+                f.id_favorito,
+                f.id_servicio,
+                s.nombre_servicio,
+                s.descripcion,
+                s.lugar,
+                s.precio,
+                s.duracion,
+                i.url_imagen AS imagen,
+                c.nombre AS subcategoria,
+                cp.nombre AS categoria_padre
+            FROM favorito f
+            INNER JOIN servicio s ON f.id_servicio = s.id_servicio
+            LEFT JOIN imagen_servicio i ON s.id_servicio = i.id_servicio
+            LEFT JOIN categoria c ON s.id_categoria = c.id_categoria
+            LEFT JOIN categoria cp ON c.id_categoria_padre = cp.id_categoria
+            WHERE f.id_usuario = :usuario
+            GROUP BY f.id_favorito
+            ORDER BY f.fecha DESC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([":usuario" => $idUsuario]);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
 

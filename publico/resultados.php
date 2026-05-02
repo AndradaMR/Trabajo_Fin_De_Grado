@@ -83,14 +83,29 @@ foreach ($datos as $empresa) {
       <div class="activities-grid">
         <?php if (!empty($resultados)) { ?>
           <?php foreach ($resultados as $act) { ?>
+            <?php
+              $esFavorito = false;
+              $volver = urlencode($_SERVER["REQUEST_URI"]);
+
+              if(isset($_SESSION["usuario"])){
+                $esFavorito = $bdact->esFavorito($_SESSION["usuario"], $act["id_servicio"]);
+              }
+            ?>
             <article class="activity-card"> 
               <div class="activity-image-wrapper">
                 <?php
                 $imagen = !empty($act["imagenes"][0])
                     ? "../" . $act["imagenes"][0]
                     : "../img/default.jpg";
-                ?>
-
+                
+                if(isset($_SESSION["usuario"])){ ?>
+                  <a 
+                    href="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>&volver=<?= $volver ?>"
+                    class="activity-favorite-btn <?= $esFavorito ? 'activo' : '' ?>"
+                  >
+                    <?= $esFavorito ? '❤️' : '🤍' ?>
+                  </a>
+                <?php } ?>
                 <img src="<?= htmlspecialchars($imagen) ?>" alt="<?= htmlspecialchars($act["nombre_servicio"]) ?>" class="activity-image">
               </div>
 

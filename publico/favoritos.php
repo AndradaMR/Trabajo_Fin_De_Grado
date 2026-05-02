@@ -1,213 +1,102 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Body and Soul | Favoritos</title>
+<?php
+session_start();
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita:wght@700;800;900&display=swap" rel="stylesheet">
+if(!isset($_SESSION["usuario"])){
+  header("Location: index.php");
+  exit();
+}
 
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/public-styles/favoritos.css">
-</head>
-<body>
+$titulo = "<h1>Mis favoritos</h1>";
+require_once("head.php");
 
-  <header class="main-header">
-    <div class="container header-container">
+$idUsuario = $_SESSION["usuario"];
+$favoritos = $bdact->obtenerFavoritosUsuario($idUsuario);
 
-      <div class="header-left">
-        <a href="index.html" class="logo-link" aria-label="Ir al inicio">
-          <img src="assets/logo-body-and-soul.png" class="logo" alt="Body and Soul">
-        </a>
-
-        <div class="nav-categories">
-          <label for="categorias" class="sr-only">Categorías</label>
-          <select id="categorias" class="categories-select">
-            <option value="">Categorías</option>
-            <option value="deporte">Deporte</option>
-            <option value="bienestar">Bienestar</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="header-title">
-        <h1>Bienvenida a Body and Soul</h1>
-      </div>
-
-      <div class="header-right">
-        <a href="perfil.html" class="btn btn-outline">Mi perfil</a>
-      </div>
-
-    </div>
-  </header>
+?>
 
   <main class="favorites-page">
-    <section class="favorites-section">
-      <div class="container">
+  <section class="favorites-section">
+    <div class="container">
 
-        <div class="favorites-intro">
-          <span class="section-tag">Área personal</span>
-          <h2>Mis favoritos</h2>
-          <p>
-            Aquí tienes las actividades que has guardado para revisarlas más tarde, compararlas
-            o reservarlas cuando quieras.
-          </p>
+      <div class="favorites-intro">
+        <span class="section-tag">Área personal</span>
+        <h2>Mis favoritos</h2>
+        <p>
+          Aquí tienes las actividades que has guardado para revisarlas más tarde o reservarlas cuando quieras.
+        </p>
+      </div>
+
+      <?php if(empty($favoritos)){ ?>
+
+        <div class="empty-favorites">
+          <h3>Aún no tienes favoritos</h3>
+          <p>Cuando guardes una actividad como favorita, aparecerá aquí.</p>
+          <a href="index.php" class="btn btn-primary">Explorar actividades</a>
         </div>
+
+      <?php }else{ ?>
 
         <div class="favorites-grid">
 
-          <!-- CARD 1 -->
-          <article class="favorite-card">
-            <div class="favorite-image-wrapper">
-              <img src="assets/yoga-favorito.jpg" alt="Clase de yoga flow">
-              <button class="favorite-icon-btn" type="button" aria-label="Quitar de favoritos">
-                ♥
-              </button>
-            </div>
+          <?php foreach($favoritos as $fav){ ?>
 
-            <div class="favorite-content">
-              <p class="favorite-category">Bienestar · Yoga</p>
+            <?php
+              $imagen = !empty($fav["imagen"]) ? "../" . $fav["imagen"] : "../img/default.jpg";
 
-              <div class="favorite-top">
-                <h3>Yoga Flow</h3>
-                <span class="favorite-rating">★ 4.8</span>
+              if(!empty($fav["categoria_padre"]) && !empty($fav["subcategoria"])){
+                $categoriaTexto = $fav["categoria_padre"] . " · " . $fav["subcategoria"];
+              }else{
+                $categoriaTexto = $fav["subcategoria"] ?? "Actividad";
+              }
+            ?>
+
+            <article class="favorite-card">
+              <div class="favorite-image-wrapper">
+                <img src="<?= htmlspecialchars($imagen) ?>" alt="<?= htmlspecialchars($fav["nombre_servicio"]) ?>">
+
+                <a 
+                  href="gestionar-favorito.php?idservicio=<?= $fav["id_servicio"] ?>" 
+                  class="favorite-icon-btn"
+                  aria-label="Quitar de favoritos"
+                >
+                  ♥
+                </a>
               </div>
 
-              <p class="favorite-description">
-                Una experiencia de respiración, movimiento y relajación para conectar cuerpo y mente.
-              </p>
+              <div class="favorite-content">
+                <p class="favorite-category"><?= htmlspecialchars($categoriaTexto) ?></p>
 
-              <div class="favorite-info">
-                <span><strong>Duración:</strong> 60 min</span>
-                <span><strong>Ubicación:</strong> Madrid Centro</span>
+                <div class="favorite-top">
+                  <h3><?= htmlspecialchars($fav["nombre_servicio"]) ?></h3>
+                </div>
+
+                <p class="favorite-description">
+                  <?= htmlspecialchars($fav["descripcion"]) ?>
+                </p>
+
+                <div class="favorite-info">
+                  <span><strong>Duración:</strong> <?= htmlspecialchars($fav["duracion"]) ?></span>
+                  <span><strong>Ubicación:</strong> <?= htmlspecialchars($fav["lugar"]) ?></span>
+                  <span><strong>Precio:</strong> <?= htmlspecialchars($fav["precio"]) ?> €</span>
+                </div>
+
+                <div class="favorite-actions">
+                  <a href="actividad.php?idact=<?= $fav["id_servicio"] ?>" class="btn btn-outline">Ver actividad</a>
+                  <a href="reserva.php?idact=<?= $fav["id_servicio"] ?>" class="btn btn-primary">Reservar</a>
+                </div>
               </div>
+            </article>
 
-              <div class="favorite-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <a href="reserva.html" class="btn btn-primary">Reservar</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 2 -->
-          <article class="favorite-card">
-            <div class="favorite-image-wrapper">
-              <img src="assets/spa-favorito.jpg" alt="Circuito spa premium">
-              <button class="favorite-icon-btn" type="button" aria-label="Quitar de favoritos">
-                ♥
-              </button>
-            </div>
-
-            <div class="favorite-content">
-              <p class="favorite-category">Bienestar · Spa</p>
-
-              <div class="favorite-top">
-                <h3>Circuito termal premium</h3>
-                <span class="favorite-rating">★ 4.9</span>
-              </div>
-
-              <p class="favorite-description">
-                Piscina climatizada, sauna y jacuzzi en una experiencia completa de bienestar.
-              </p>
-
-              <div class="favorite-info">
-                <span><strong>Duración:</strong> 90 min</span>
-                <span><strong>Ubicación:</strong> Pozuelo</span>
-              </div>
-
-              <div class="favorite-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <a href="reserva.html" class="btn btn-primary">Reservar</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 3 -->
-          <article class="favorite-card">
-            <div class="favorite-image-wrapper">
-              <img src="assets/padel-favorito.jpg" alt="Pista de pádel indoor">
-              <button class="favorite-icon-btn" type="button" aria-label="Quitar de favoritos">
-                ♥
-              </button>
-            </div>
-
-            <div class="favorite-content">
-              <p class="favorite-category">Deporte · De raqueta</p>
-
-              <div class="favorite-top">
-                <h3>Pista de pádel indoor</h3>
-                <span class="favorite-rating">★ 4.7</span>
-              </div>
-
-              <p class="favorite-description">
-                Reserva de pista cubierta con vestuarios, iluminación y zona de descanso.
-              </p>
-
-              <div class="favorite-info">
-                <span><strong>Duración:</strong> 90 min</span>
-                <span><strong>Ubicación:</strong> Alcobendas</span>
-              </div>
-
-              <div class="favorite-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <a href="reserva.html" class="btn btn-primary">Reservar</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- CARD 4 -->
-          <article class="favorite-card">
-            <div class="favorite-image-wrapper">
-              <img src="assets/pilates-favorito.jpg" alt="Clase de pilates reformer">
-              <button class="favorite-icon-btn" type="button" aria-label="Quitar de favoritos">
-                ♥
-              </button>
-            </div>
-
-            <div class="favorite-content">
-              <p class="favorite-category">Deporte · Pilates</p>
-
-              <div class="favorite-top">
-                <h3>Pilates Reformer</h3>
-                <span class="favorite-rating">★ 4.6</span>
-              </div>
-
-              <p class="favorite-description">
-                Sesión guiada en máquina reformer para mejorar fuerza, postura y control corporal.
-              </p>
-
-              <div class="favorite-info">
-                <span><strong>Duración:</strong> 50 min</span>
-                <span><strong>Ubicación:</strong> Chamberí</span>
-              </div>
-
-              <div class="favorite-actions">
-                <a href="actividad.html" class="btn btn-outline">Ver actividad</a>
-                <a href="reserva.html" class="btn btn-primary">Reservar</a>
-              </div>
-            </div>
-          </article>
+          <?php } ?>
 
         </div>
-      </div>
-    </section>
-  </main>
 
-  <footer class="main-footer">
-    <div class="container footer-container">
-      <div class="footer-brand">
-        <p>&copy; 2026 Body and Soul. Todos los derechos reservados.</p>
-      </div>
+      <?php } ?>
 
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram" class="social-link">IG</a>
-        <a href="#" aria-label="Facebook" class="social-link">f</a>
-        <a href="#" aria-label="X" class="social-link">X</a>
-      </div>
     </div>
-  </footer>
+  </section>
+</main>
 
+<?php require_once("footer.php"); ?>
 </body>
 </html>
