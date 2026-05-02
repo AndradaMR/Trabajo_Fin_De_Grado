@@ -16,6 +16,10 @@ $resultados = [];
 
 foreach ($datos as $empresa) {
     foreach ($empresa["servicios"] as $servicio) {
+      
+      if (($servicio["estado"] ?? "activo") != "activo") {
+    continue;
+}
 
         $coincide = true;
 

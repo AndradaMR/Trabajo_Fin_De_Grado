@@ -50,6 +50,12 @@ if (!$actividad) {
     exit;
 }
 
+if (isset($actividad["estado"]) && $actividad["estado"] == "cancelado") {
+    echo "<br><div class='activity-breadcrumb'>Esta actividad ha sido cancelada y ya no está disponible para reservar.</div>";
+    exit;
+}
+
+
 ?>
 
   <main class="activity-page">

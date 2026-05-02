@@ -2,8 +2,6 @@
 require_once("head.php");
 require_once("../bd/bdempresa.php");
 
-$bdempre = new bdempresa("localhost", 3306, "plataforma_servicios", "root", "");
-
 if(!isset($_SESSION["empresa"])){
     header("Location: login.php");
     exit();
@@ -13,6 +11,18 @@ $idEmpresa = $_SESSION["empresa"];
 
 $servicios = $bdempre->ObtenerServiciosEmpresa($idEmpresa);
 $totalServicios = count($servicios);
+
+if(isset($_POST["cancelar"])){
+
+    $idServicio = (int) $_POST["id_servicio"];
+
+    $bdempre->CancelarServicioEmpresa($idServicio, $idEmpresa);
+
+    header("Location: mis-servicios.php");
+    exit();
+}
+
+
 ?>
 
 
@@ -63,7 +73,6 @@ $totalServicios = count($servicios);
               <option value="">Todos los estados</option>
               <option value="activo">Activo</option>
               <option value="borrador">Borrador</option>
-              <option value="oculto">Oculto</option>
             </select>
           </div>
         </section>
@@ -84,7 +93,7 @@ $totalServicios = count($servicios);
 
           <article class="service-company-card">
             <div class="service-company-image">
-              <img src="<?=$imagen?>" alt="<?=htmlspecialchars($servicio["nombre_servicio"])?>">
+              <img src="../<?=$imagen?>" alt="<?=htmlspecialchars($servicio["nombre_servicio"])?>">
             </div>
 
             <div class="service-company-main">
@@ -108,29 +117,32 @@ $totalServicios = count($servicios);
                   <span class="info-value"><?=$servicio["precio"]?> €</span>
                 </div>
 
-                <!--METEMOS DURACION? TODOS LOS SERVICOS TIENEN LA MISmA? HAY UE CALCULARLA
                 <div class="service-info-item">
-                <span class="info-label">Duración</span>
-                  <span class="info-value"><?=$servicio["duracion"]?> min</span>
-                </div>-->
-
-                <div class="service-info-item">
-                  <span class="info-label">Plazas</span>
-                  <span class="info-value"><?=$servicio["plazas"]?></span>
+                  <span class="info-label">Estado</span>
+                  <span class="info-value"><?=$servicio["estado"]?></span>
                 </div>
 
-                <div class="service-info-item">
-                  <span class="info-label">Fecha alta</span>
-                  <span class="info-value">12/03/2026</span>
-                </div>
               </div>
             </div>
 
             <div class="service-company-actions">
               <a href="../publico/actividad.php?idact=<?=$servicio["id_servicio"]?>" class="btn-detail">Ver</a>
               <a href="editar-servicio.php?id=<?=$servicio["id_servicio"]?>" class="btn-secondary-company">Editar</a>
-              <button type="button" class="btn-warning">Ocultar</button>
-              <button type="button" class="btn-reject">Eliminar</button>
+              <?php if($servicio["estado"] == "activo"){ ?>
+              <form method="post" onsubmit="return confirm('¿Seguro que quieres cancelar este servicio? También se cancelarán sus reservas.');">
+                <input type="hidden" name="id_servicio" value="<?=$servicio["id_servicio"]?>">
+                <button type="submit" name="cancelar_servicio" class="btn-reject">
+                  Cancelar servicio
+                </button>
+              </form>
+            <?php }else{ ?>
+              <form method="post" onsubmit="return confirm('¿Seguro que quieres reactivar este servicio? Los usuarios tendrán que reservar de nuevo.');">
+                <input type="hidden" name="id_servicio" value="<?=$servicio["id_servicio"]?>">
+                <button type="submit" name="reactivar_servicio" class="btn-reject">
+                  Reactivar servicio
+                </button>
+              </form>
+            <?php } ?>
             </div>
           </article>
 

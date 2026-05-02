@@ -108,6 +108,7 @@ public function obteneractividades($idsubcategoria){
             LEFT JOIN imagen_servicio i 
                 ON s.id_servicio = i.id_servicio
             WHERE s.id_categoria = :idsubcategoria
+            AND s.estado = 'activo'
             GROUP BY 
                 s.id_servicio,
                 s.nombre_servicio,
@@ -137,6 +138,7 @@ public function obtenerActividadesMasReservadas(){
                   INNER JOIN reserva r ON s.id_servicio = r.id_servicio
                   LEFT JOIN imagen_servicio i ON s.id_servicio = i.id_servicio
                   WHERE r.estado = 'confirmada'
+                  AND s.estado = 'activo'
                   GROUP BY 
                     s.id_servicio,
                     s.nombre_servicio,
@@ -160,6 +162,9 @@ public function filtrarActividades($buscador = "", $categoria = "", $subcategori
 
     $condiciones = [];
     $parametros = [];
+
+    // 👇 SIEMPRE activo
+    $condiciones[] = "s.estado = 'activo'";
 
     if (!empty($buscador)) {
         $condiciones[] = "(s.nombre_servicio LIKE :buscador 
@@ -201,7 +206,7 @@ public function filtrarActividades($buscador = "", $categoria = "", $subcategori
 }
 
 public function obtenerActividadPorId($idServicio){
-    $sentencia = "SELECT * FROM servicio WHERE id_servicio = :id_servicio";
+    $sentencia = "SELECT * FROM servicio WHERE id_servicio = :id_servicio AND estado = 'activo'";
     $ejecucion = $this->pdo->prepare($sentencia);
     $ejecucion->execute([
         ":id_servicio" => $idServicio
@@ -214,6 +219,7 @@ public function obtenerDisponibilidadesPorServicio($idServicio){
     $sentencia = "SELECT *
             FROM detalle_actividad
             WHERE id_servicio = :id_servicio
+            AND s.estado = 'activo'
             ORDER BY fecha ASC, hora_inicio ASC";
 
     $ejecucion = $this->pdo->prepare($sentencia);

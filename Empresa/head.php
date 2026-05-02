@@ -1,10 +1,21 @@
 <?php
 session_start();
 require_once("../bd/bdact.php");
-$bdact= new bdact("localhost",3306,"plataforma_servicios","root","");
+$bdact= new bdact("localhost",3306,"plataforma_servicios1","root","");
 
 require_once("../bd/bdempresa.php");
-$bdempre= new bdempresa("localhost",3306,"plataforma_servicios","root","");
+$bdempre= new bdempresa("localhost",3306,"plataforma_servicios1","root","");
+
+if(!isset($_SESSION["empresa"])){
+  header("Location: registro-empresa.php");
+  exit();
+}else{
+
+  $idempresa=$_SESSION["empresa"];
+
+}
+
+$paginaActual = basename($_SERVER["PHP_SELF"]);
 
 ?>
 <!DOCTYPE html>
@@ -27,6 +38,9 @@ $bdempre= new bdempresa("localhost",3306,"plataforma_servicios","root","");
    <link rel="stylesheet" href="../css/empresa-styles/reservas.css">
     <link rel="stylesheet" href="../css/empresa-styles/nueva-actividad.css">
 </head>
+
+<script src="../js/filtrosempresaservicio.js"></script>
+
 <body class="company-body">
 
   <div class="company-layout">
@@ -34,18 +48,24 @@ $bdempre= new bdempresa("localhost",3306,"plataforma_servicios","root","");
     <!-- SIDEBAR -->
     <aside class="company-sidebar">
       <div class="company-sidebar-top">
-        <img src="../assets/logo-body-and-soul.png" alt="Logo Body and Soul" class="company-sidebar-logo">
+        <img src="../img/logo.png" alt="Logo Body and Soul" class="company-sidebar-logo">
         <h1>Empresa</h1>
       </div>
 
-      <nav class="company-sidebar-nav">
-        <a href="index.php" class="company-nav-link active">Inicio</a>
-        <a href="mis-servicios.php" class="company-nav-link">Mis servicios</a>
-        <a href="nueva-actividad.php" class="company-nav-link">Añadir servicio</a>
-        <a href="reservas.php" class="company-nav-link">Reservas</a>
-        <a href="perfil-empresa.php" class="company-nav-link">Perfil</a>
-        <a href="logout.php" class="company-nav-link company-nav-link-logout">Cerrar sesión</a>
-      </nav>
+     <nav class="company-sidebar-nav">
+      <a href="index.php" class="company-nav-link <?= $paginaActual == 'index.php' ? 'active' : '' ?>">Inicio</a>
+
+      <a href="mis-servicios.php" class="company-nav-link <?= $paginaActual == 'mis-servicios.php' ? 'active' : '' ?>">Mis servicios</a>
+
+      <a href="nueva-actividad.php" class="company-nav-link <?= $paginaActual == 'nueva-actividad.php' ? 'active' : '' ?>">Añadir servicio</a>
+
+      <a href="reservas.php" class="company-nav-link <?= $paginaActual == 'reservas.php' ? 'active' : '' ?>">Reservas</a>
+
+      <a href="perfil-empresa.php" class="company-nav-link <?= $paginaActual == 'perfil-empresa.php' ? 'active' : '' ?>">Perfil</a>
+
+      <a href="logout.php" class="company-nav-link company-nav-link-logout">Cerrar sesión</a>
+    </nav>
+    
     </aside>
 
 

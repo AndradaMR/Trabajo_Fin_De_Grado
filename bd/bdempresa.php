@@ -225,20 +225,25 @@ public function ObtenerServiciosEmpresa($idEmpresa){
                     s.*,
                     c.nombre AS subcategoria,
                     cp.nombre AS categoria_padre,
+
                     (
-                        SELECT url_imagen 
-                        FROM imagen_servicio i 
-                        WHERE i.id_servicio = s.id_servicio 
+                        SELECT i.url_imagen 
+                        FROM imagen_servicio i
+                        WHERE i.id_servicio = s.id_servicio
                         LIMIT 1
                     ) AS imagen,
+
                     (
-                        SELECT MAX(plazas_maximas)
+                        SELECT COUNT(*) 
                         FROM detalle_actividad d
                         WHERE d.id_servicio = s.id_servicio
-                    ) AS plazas
+                    ) AS total_sesiones
+
                   FROM servicio s
-                  INNER JOIN categoria c ON s.id_categoria = c.id_categoria
-                  LEFT JOIN categoria cp ON c.id_categoria_padre = cp.id_categoria
+                  INNER JOIN categoria c 
+                    ON s.id_categoria = c.id_categoria
+                  LEFT JOIN categoria cp 
+                    ON c.id_categoria_padre = cp.id_categoria
                   WHERE s.id_empresa = :idEmpresa
                   ORDER BY s.id_servicio DESC";
 
@@ -269,6 +274,81 @@ public function ObtenerSubcategoriasEmpresa($idEmpresa){
     return $subcategorias;
 }
 
+public function ObtenerReservasEmpresa($idempresa){
+
+    $sentencia = "SELECT 
+                    r.id_reserva,
+                    r.fecha_hora,
+                    r.estado,
+                    r.id_detalle_actividad,
+
+                    u.nombre AS nombre_usuario,
+                    u.apellido AS apellido_usuario,
+                    u.email AS email_usuario,
+
+                    s.id_servicio,
+                    s.nombre_servicio,
+                    s.descripcion,
+                    s.lugar,
+
+                    c.nombre AS subcategoria,
+                    cp.nombre AS categoria_padre
+
+                  FROM reserva r
+                  INNER JOIN usuario u ON r.id_usuario = u.id_usuario
+                  INNER JOIN servicio s ON r.id_servicio = s.id_servicio
+                  INNER JOIN categoria c ON s.id_categoria = c.id_categoria
+                  LEFT JOIN categoria cp ON c.id_categoria_padre = cp.id_categoria
+
+                  WHERE s.id_empresa = :idEmpresa
+                  ORDER BY r.fecha_hora DESC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":idEmpresa" => $idempresa
+    ]);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function CancelarServicioEmpresa($idServicio, $idEmpresa){
+
+    try{
+        $this->pdo->beginTransaction();
+
+        // Cancelar el servicio
+        $sentencia = "UPDATE servicio
+                      SET estado = 'cancelado'
+                      WHERE id_servicio = :idServicio
+                      AND id_empresa = :idEmpresa";
+
+        $ejecucion = $this->pdo->prepare($sentencia);
+        $ejecucion->execute([
+            ":idServicio" => $idServicio,
+            ":idEmpresa" => $idEmpresa
+        ]);
+
+        // Cancelar todas las reservas confirmadas de ese servicio
+        $sentencia = "UPDATE reserva
+                      SET estado = 'cancelada'
+                      WHERE id_servicio = :idServicio
+                      AND estado = 'confirmada'";
+
+        $ejecucion = $this->pdo->prepare($sentencia);
+        $ejecucion->execute([
+            ":idServicio" => $idServicio
+        ]);
+
+        $this->pdo->commit();
+
+        return true;
+
+    }catch(Exception $e){
+        $this->pdo->rollBack();
+        return false;
+    }
+}
 
 }
 

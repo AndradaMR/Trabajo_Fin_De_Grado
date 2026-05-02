@@ -48,6 +48,7 @@ $subcategorias=$bdact->obtenerSubcat($idcatpadre);
         <?php
         foreach($subcategorias as $subcat){  
         $actividades=$bdact->obteneractividades($subcat["id_categoria"]);
+        
         ?>
 
         <!-- SUBCATEGORÍAS -->

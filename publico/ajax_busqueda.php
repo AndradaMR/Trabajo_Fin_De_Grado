@@ -32,6 +32,11 @@ foreach ($datos as $empresa) {
 
     foreach ($empresa["servicios"] as $servicio) {
 
+      // No mostrar servicios cancelados
+    if (isset($servicio["estado"]) && $servicio["estado"] != "activo") {
+        continue;
+    }
+
         $texto = strtolower(
             $servicio["nombre_servicio"] . " " .
             $servicio["descripcion"] . " " .
