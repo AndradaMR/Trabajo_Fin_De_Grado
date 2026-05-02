@@ -79,7 +79,7 @@ foreach ($datos as $empresa) {
       <div class="activities-grid">
         <?php if (!empty($resultados)) { ?>
           <?php foreach ($resultados as $act) { ?>
-            <article class="activity-card">
+            <article class="activity-card"> 
               <div class="activity-image-wrapper">
                 <?php
                 $imagen = !empty($act["imagenes"][0])
