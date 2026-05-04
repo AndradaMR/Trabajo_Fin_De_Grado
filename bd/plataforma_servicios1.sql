@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-05-2026 a las 15:09:18
+-- Tiempo de generación: 04-05-2026 a las 22:11:26
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -5760,6 +5760,28 @@ INSERT INTO `empresa` (`id_empresa`, `nombre_empresa`, `categoria_empresa`, `ema
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `favorito`
+--
+
+CREATE TABLE `favorito` (
+  `id_favorito` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_servicio` int(11) NOT NULL,
+  `fecha` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `favorito`
+--
+
+INSERT INTO `favorito` (`id_favorito`, `id_usuario`, `id_servicio`, `fecha`) VALUES
+(24, 12, 3, '2026-05-03 00:17:39'),
+(25, 12, 5, '2026-05-03 00:22:58'),
+(27, 12, 58, '2026-05-03 00:34:33');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `imagen_servicio`
 --
 
@@ -5903,7 +5925,9 @@ INSERT INTO `imagen_servicio` (`id_imagen`, `id_servicio`, `url_imagen`) VALUES
 (131, 77, 'img/bienestar/aromaterapia-aceites3.jpg'),
 (132, 78, 'img/bienestar/aromaterapia-aceites1.jpg'),
 (133, 79, 'img/bienestar/aromaterapia-aceites2.jpg'),
-(134, 80, 'img/bienestar/aromaterapia-aceites3.jpg');
+(134, 80, 'img/bienestar/aromaterapia-aceites3.jpg'),
+(136, 82, '../img//auraportada.png'),
+(139, 85, '../img/bienestar/ChatGPT Image 4 may 2026, 21_46_00.png');
 
 -- --------------------------------------------------------
 
@@ -5925,7 +5949,10 @@ CREATE TABLE `resena` (
 --
 
 INSERT INTO `resena` (`id_resena`, `id_usuario`, `id_servicio`, `puntuacion`, `comentario`, `fecha`) VALUES
-(3, 4, 2, 5, 'Los monitores explican muy bien.', '2026-04-12 13:30:00');
+(3, 4, 2, 5, 'Los monitores explican muy bien.', '2026-04-12 13:30:00'),
+(4, 12, 2, 1, 'No me gusto la experiencia', '2026-05-01 22:36:25'),
+(5, 12, 3, 4, 'Todo muy bien!', '2026-05-01 22:40:58'),
+(6, 12, 4, 5, 'Genial Todo!', '2026-05-01 22:58:08');
 
 -- --------------------------------------------------------
 
@@ -6016,7 +6043,7 @@ INSERT INTO `servicio` (`id_servicio`, `id_empresa`, `nombre_servicio`, `descrip
 (10, 3, 'Yoga relajante', 'Clase enfocada en respiración, estiramientos y relajación.', 'Parque del Retiro', 6, 12.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo'),
 (11, 3, 'Hatha Yoga', 'Sesión de yoga tradicional para mejorar flexibilidad y concentración.', 'Arganda del Rey', 6, 14.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo'),
 (12, 2, 'Yoga para principiantes', 'Clase suave para personas que quieren iniciarse en yoga.', 'Rivas-Vaciamadrid', 6, 13.50, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo'),
-(13, 3, 'Yoga al amanecer', 'Clase al aire libre en horario de mañana para empezar el día con calma.', 'Casa de Campo', 6, 16.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'cancelado'),
+(13, 3, 'Yoga al amanecer', 'Clase al aire libre en horario de mañana para empezar el día con calma.', 'Casa de Campo', 6, 16.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo'),
 (14, 2, 'Pilates suelo', 'Clase de pilates enfocada en fuerza, control corporal y flexibilidad.', 'Arganda del Rey', 7, 14.00, '1 hora', 'Esterilla y ropa cómoda', 'activo'),
 (15, 2, 'Pilates para principiantes', 'Sesión suave para personas que comienzan en pilates.', 'Rivas-Vaciamadrid', 7, 13.00, '1 hora', 'Esterilla y ropa cómoda', 'activo'),
 (16, 2, 'Pilates al aire libre', 'Clase guiada de pilates en un entorno natural.', 'Parque Juan Carlos I', 7, 16.00, '1 hora', 'Esterilla y ropa cómoda', 'activo'),
@@ -6083,7 +6110,9 @@ INSERT INTO `servicio` (`id_servicio`, `id_empresa`, `nombre_servicio`, `descrip
 (77, 2, 'Aromaterapia calmante', 'Sesión centrada en relajación mediante aceites esenciales suaves.', 'Madrid Aroma Studio', 14, 21.00, '1 hora', 'No se requieren materiales', 'activo'),
 (78, 2, 'Aromaterapia energizante', 'Experiencia sensorial con fragancias cítricas y estimulantes.', 'Arganda Wellness Room', 14, 23.00, '1 hora', 'No se requieren materiales', 'activo'),
 (79, 2, 'Ritual de aceites esenciales', 'Tratamiento de bienestar con enfoque sensorial y relajante.', 'Rivas Relax Center', 14, 27.00, '1 hora', 'No se requieren materiales', 'activo'),
-(80, 2, 'Aromaterapia premium', 'Experiencia completa con aceites, ambiente guiado y descanso final.', 'Madrid Centro', 14, 29.00, '1 hora', 'No se requieren materiales', 'activo');
+(80, 2, 'Aromaterapia premium', 'Experiencia completa con aceites, ambiente guiado y descanso final.', 'Madrid Centro', 14, 29.00, '1 hora', 'No se requieren materiales', 'activo'),
+(82, 3, 'Meditación consciente guiada', 'Sesión de meditación consciente guiada orientada a reducir el estrés y mejorar el bienestar emocional. A través de técnicas de respiración y atención plena, aprenderás a centrarte en el momento presente en un entorno tranquilo y relajante. No se requiere experiencia previa, ideal tanto para principiantes como para personas que quieran profundizar en su práctica.', 'Aura Experiencie, Avenida Roma, 2, Arganda del Rey', 13, 22.50, '1 hora y 20 minutos', 'Esterilla y ropa cómoda', 'activo'),
+(85, 3, 'Estiramientos relajantes', 'Estiramientos específicos para relajar y todos los musculos del cuerpo y sentirse totalmente renovada', 'Aura Experience, Calle mayor, 24, Mostoles', 6, 14.99, '1 hora', 'Esterilla, cintas.', 'activo');
 
 -- --------------------------------------------------------
 
@@ -6250,13 +6279,13 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de la tabla `imagen_servicio`
 --
 ALTER TABLE `imagen_servicio`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT de la tabla `resena`
 --
 ALTER TABLE `resena`
-  MODIFY `id_resena` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_resena` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva`
@@ -6274,7 +6303,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `servicio`
 --
 ALTER TABLE `servicio`
-  MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT de la tabla `solicitud_empresa`
