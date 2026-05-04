@@ -567,3 +567,13 @@
 .activity-image-wrapper .activity-favorite-btn:hover {
   transform: scale(1.08);
 }
+
+.rating-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.rating-link:hover .rating-value {
+  color: var(--pink);
+}

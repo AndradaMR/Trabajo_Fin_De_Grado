@@ -263,3 +263,64 @@
   background: var(--pink);
   color: var(--white);
 }
+
+.activity-reviews-section {
+  padding: 3rem 0;
+}
+
+.activity-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.activity-review-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 1.4rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(27,73,101,0.08);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.review-header h3 {
+  font-size: 1rem;
+  color: var(--navy);
+}
+
+.review-header span {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.review-text {
+  line-height: 1.6;
+}
+
+.empty-reviews {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.review-text {
+  background: rgba(46, 196, 182, 0.08);
+  padding: 1rem;
+  border-radius: 16px;
+}
+
+.activity-review-card .stars {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.review-header span {
+  font-size: 0.85rem;
+  opacity: 0.7;
+} 

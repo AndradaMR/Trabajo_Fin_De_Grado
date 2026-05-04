@@ -99,12 +99,13 @@ foreach ($datos as $empresa) {
                     : "../img/default.jpg";
                 
                 if(isset($_SESSION["usuario"])){ ?>
-                  <a 
-                    href="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>&volver=<?= $volver ?>"
+                  <button 
+                    type="button"
+                    data-url="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>"
                     class="activity-favorite-btn <?= $esFavorito ? 'activo' : '' ?>"
                   >
                     <?= $esFavorito ? '❤️' : '🤍' ?>
-                  </a>
+                  </button>
                 <?php } ?>
                 <img src="<?= htmlspecialchars($imagen) ?>" alt="<?= htmlspecialchars($act["nombre_servicio"]) ?>" class="activity-image">
               </div>
@@ -113,8 +114,11 @@ foreach ($datos as $empresa) {
 
                 <?php
                   $datosRating = $bdact->obtenerMediaResenas($act["id_servicio"]);
-                  pintarRating($datosRating["media"], $datosRating["total"]);
                 ?>
+
+                <a href="actividad.php?idact=<?= $act["id_servicio"] ?>#resenas" class="rating-link">
+                  <?php pintarRating($datosRating["media"], $datosRating["total"]); ?>
+                </a>
 
                 <h3><?= htmlspecialchars($act["nombre_servicio"]) ?></h3>
 

@@ -96,6 +96,5 @@ $rol = $bbdd->obtenerrolus($id);
  <?php
 require_once("footer.php");
 ?>
-
 </body>
 </html>

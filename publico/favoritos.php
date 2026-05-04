@@ -53,14 +53,14 @@ $favoritos = $bdact->obtenerFavoritosUsuario($idUsuario);
             <article class="favorite-card">
               <div class="favorite-image-wrapper">
                 <img src="<?= htmlspecialchars($imagen) ?>" alt="<?= htmlspecialchars($fav["nombre_servicio"]) ?>">
-
-                <a 
-                  href="gestionar-favorito.php?idservicio=<?= $fav["id_servicio"] ?>" 
-                  class="favorite-icon-btn"
+                <button 
+                  type="button"
+                  data-url="gestionar-favorito.php?idservicio=<?= $fav["id_servicio"] ?>"
+                  class="favorite-icon-btn activity-favorite-btn activo"
                   aria-label="Quitar de favoritos"
                 >
-                ❤️
-                </a>
+                  ❤️
+                </button>
               </div>
 
               <div class="favorite-content">
@@ -100,3 +100,4 @@ $favoritos = $bdact->obtenerFavoritosUsuario($idUsuario);
 <?php require_once("footer.php"); ?>
 </body>
 </html>
+

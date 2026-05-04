@@ -629,6 +629,27 @@ public function ServicioTieneHorarios($idServicio){
     return $stmt->fetch() != false;
 }
 
+public function obtenerResenasServicio($idServicio){
+    $sentencia = "SELECT 
+                    r.puntuacion,
+                    r.comentario,
+                    r.fecha,
+                    u.nombre,
+                    u.apellido
+                  FROM resena r
+                  INNER JOIN usuario u 
+                    ON r.id_usuario = u.id_usuario
+                  WHERE r.id_servicio = :id_servicio
+                  ORDER BY r.fecha DESC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_servicio" => $idServicio
+    ]);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 }
 
