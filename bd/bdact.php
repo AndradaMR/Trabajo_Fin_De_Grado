@@ -45,7 +45,29 @@ public function obteneridcat($nombrecat){
 
 }
 
+public function ObtenerIdCategoriaPorNombre($nombreCategoria){
 
+    $sentencia = "SELECT id_categoria 
+            FROM categoria 
+            WHERE nombre = :nombre
+            LIMIT 1";
+
+    $ejecuccion = $this->pdo->prepare($sentencia);
+
+    $ejecuccion->execute([
+        ":nombre" => $nombreCategoria
+    ]);
+
+    $fila = $ejecuccion->fetch(PDO::FETCH_ASSOC);
+
+    if($fila == false){
+        return false;
+    }
+
+    return $fila["id_categoria"];
+}
+
+//Obtiene el nombre de la subcategoria y el de su categoria padre
 public function ObtenerCategoriaConPadre($idCategoriaHijo){
 
     $sentencia = "SELECT 
@@ -595,6 +617,16 @@ public function obtenerFavoritosUsuario($idUsuario){
     $ejecucion->execute([":usuario" => $idUsuario]);
 
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ServicioTieneHorarios($idServicio){
+
+    $sql = "SELECT id FROM detalle_actividad WHERE id_servicio = :id LIMIT 1";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([":id" => $idServicio]);
+
+    return $stmt->fetch() != false;
 }
 
 

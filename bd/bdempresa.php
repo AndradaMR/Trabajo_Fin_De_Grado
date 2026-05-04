@@ -350,6 +350,120 @@ public function CancelarServicioEmpresa($idServicio, $idEmpresa){
     }
 }
 
+public function ExisteServicioEmpresa($idEmpresa, $nombreServicio){
+
+    $sql = "SELECT id_servicio 
+            FROM servicio 
+            WHERE id_empresa = :id_empresa 
+            AND nombre_servicio = :nombre_servicio
+            LIMIT 1";
+
+    $stmt = $this->pdo->prepare($sql);
+
+    $stmt->execute([
+        ":id_empresa" => $idEmpresa,
+        ":nombre_servicio" => $nombreServicio
+    ]);
+
+    $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($fila == false){
+        return false;
+    }
+
+    return true;
+}
+
+public function InsertarServicio($idEmpresa, $nombre, $descripcion, $lugar, $idCategoria, $precio, $duracion, $materiales){
+
+    $sentencia = "INSERT INTO servicio 
+            (id_empresa, nombre_servicio, descripcion, lugar, id_categoria, precio, duracion, materiales)
+            VALUES 
+            (:id_empresa, :nombre, :descripcion, :lugar, :id_categoria, :precio, :duracion, :materiales)";
+
+    $ejecuccion = $this->pdo->prepare($sentencia);
+
+    $ejecuccion->execute([
+        ":id_empresa" => $idEmpresa,
+        ":nombre" => $nombre,
+        ":descripcion" => $descripcion,
+        ":lugar" => $lugar,
+        ":id_categoria" => $idCategoria,
+        ":precio" => $precio,
+        ":duracion" => $duracion,
+        ":materiales" => $materiales
+    ]);
+
+    // devolver el id del servicio recién creado
+    return $this->pdo->lastInsertId();
+}
+
+public function InsertarImagenServicio($idServicio, $rutaImagen){
+
+    $sql = "INSERT INTO imagen_servicio (id_servicio, url_imagen)
+            VALUES (:id_servicio, :ruta)";
+
+    $stmt = $this->pdo->prepare($sql);
+
+    $stmt->execute([
+        ":id_servicio" => $idServicio,
+        ":ruta" => $rutaImagen
+    ]);
+}
+
+public function InsertarDetalleActividad($idServicio, $fecha, $horaInicio, $horaFin, $plazasMaximas){
+
+    $sentencia = "INSERT INTO detalle_actividad
+                  (id_servicio, fecha, hora_inicio, hora_fin, plazas_maximas)
+                  VALUES
+                  (:id_servicio, :fecha, :hora_inicio, :hora_fin, :plazas_maximas)";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":id_servicio" => $idServicio,
+        ":fecha" => $fecha,
+        ":hora_inicio" => $horaInicio,
+        ":hora_fin" => $horaFin,
+        ":plazas_maximas" => $plazasMaximas
+    ]);
+}
+
+public function ActivarServicio($idServicio){
+
+    $sentencia = "UPDATE servicio 
+                  SET estado = 'activo'
+                  WHERE id_servicio = :id_servicio";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":id_servicio" => $idServicio
+    ]);
+}
+
+public function ServicioTieneHorarios($idServicio){
+
+    $sentencia = "SELECT id 
+                  FROM detalle_actividad 
+                  WHERE id_servicio = :id_servicio 
+                  LIMIT 1";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":id_servicio" => $idServicio
+    ]);
+
+    $fila = $ejecucion->fetch(PDO::FETCH_ASSOC);
+
+    if($fila == false){
+        return false;
+    }
+
+    return true;
+}
+
 }
 
 ?>

@@ -8,7 +8,8 @@ if(!isset($_SESSION["empresa"])){
 }
 
 $idEmpresa = $_SESSION["empresa"];
-
+$empresa=$bdempre->sacardatosempresa($idEmpresa);
+$categoriaempre=$empresa["categoria_empresa"];
 $servicios = $bdempre->ObtenerServiciosEmpresa($idEmpresa);
 $totalServicios = count($servicios);
 
@@ -17,6 +18,16 @@ if(isset($_POST["cancelar"])){
     $idServicio = (int) $_POST["id_servicio"];
 
     $bdempre->CancelarServicioEmpresa($idServicio, $idEmpresa);
+
+    header("Location: mis-servicios.php");
+    exit();
+}
+
+if(isset($_POST["reactivar_servicio"])){
+
+    $idServicio = (int) $_POST["id_servicio"];
+
+    $bdempre->ActivarServicio($idServicio, $idEmpresa);
 
     header("Location: mis-servicios.php");
     exit();
@@ -93,7 +104,7 @@ if(isset($_POST["cancelar"])){
 
           <article class="service-company-card">
             <div class="service-company-image">
-              <img src="../<?=$imagen?>" alt="<?=htmlspecialchars($servicio["nombre_servicio"])?>">
+              <img src="<?=$imagen?>" alt="<?=htmlspecialchars($servicio["nombre_servicio"])?>">
             </div>
 
             <div class="service-company-main">
@@ -128,6 +139,7 @@ if(isset($_POST["cancelar"])){
             <div class="service-company-actions">
               <a href="../publico/actividad.php?idact=<?=$servicio["id_servicio"]?>" class="btn-detail">Ver</a>
               <a href="editar-servicio.php?id=<?=$servicio["id_servicio"]?>" class="btn-secondary-company">Editar</a>
+              <a href="gestionar-horarios.php?idservicio=<?=$servicio["id_servicio"]?>" class="btn-secondary-company">Añadir horarios</a>
               <?php if($servicio["estado"] == "activo"){ ?>
               <form method="post" onsubmit="return confirm('¿Seguro que quieres cancelar este servicio? También se cancelarán sus reservas.');">
                 <input type="hidden" name="id_servicio" value="<?=$servicio["id_servicio"]?>">

@@ -1,7 +1,7 @@
 <?php
 
 require_once("../bd/bdempresa.php");
-$bdempre= new bdempresa("localhost",3306,"plataforma_servicios1","root","");
+$bdempre= new bdempresa("localhost",3306,"plataforma_servicios","root","");
 
 $registro_ok=false;
 

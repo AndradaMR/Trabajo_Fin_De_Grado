@@ -40,6 +40,7 @@ $paginaActual = basename($_SERVER["PHP_SELF"]);
 </head>
 
 <script src="../js/filtrosempresaservicio.js"></script>
+<script src="../js/validacionesanadirservicio.js"></script>
 
 <body class="company-body">
 
@@ -65,7 +66,7 @@ $paginaActual = basename($_SERVER["PHP_SELF"]);
 
       <a href="logout.php" class="company-nav-link company-nav-link-logout">Cerrar sesión</a>
     </nav>
-    
+
     </aside>
 
 
