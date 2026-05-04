@@ -59,7 +59,7 @@ $favoritos = $bdact->obtenerFavoritosUsuario($idUsuario);
                   class="favorite-icon-btn"
                   aria-label="Quitar de favoritos"
                 >
-                  ♥
+                ❤️
                 </a>
               </div>
 
