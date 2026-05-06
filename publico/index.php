@@ -74,12 +74,13 @@ require_once("head.php");
               <?php if(isset($_SESSION["usuario"])){ 
                 $esFavorito = $bdact->esFavorito($_SESSION["usuario"], $act["id_servicio"]);
               ?>
-                <a 
-                  href="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>&volver=index.php"
+                <button 
+                  type="button"
+                  data-url="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>"
                   class="activity-favorite-btn <?= $esFavorito ? 'activo' : '' ?>"
                 >
                   <?= $esFavorito ? '❤️' : '🤍' ?>
-                </a>
+                </button>
               <?php } 
               $imagen = !empty($act["imagen"]) ? "../" . $act["imagen"] : "../assets/placeholder.jpg";
               ?>
@@ -90,8 +91,11 @@ require_once("head.php");
             <div class="activity-content">
               <?php
                 $datosRating = $bdact->obtenerMediaResenas($act["id_servicio"]);
-                pintarRating($datosRating["media"], $datosRating["total"]);
               ?>
+
+              <a href="actividad.php?idact=<?= $act["id_servicio"] ?>#resenas" class="rating-link">
+                <?php pintarRating($datosRating["media"], $datosRating["total"]); ?>
+              </a>
               <h3><?=$act["nombre_servicio"]?></h3>
               <p>
                 <?=$act["descripcion"]?>

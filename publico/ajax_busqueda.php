@@ -1,10 +1,20 @@
 <?php
+session_start();
 
 require_once("../bd/bdact.php");
 $bdact = new bdact("localhost", 3306, "plataforma_servicios1", "root", "");
 
 require_once("valoracion.php");
 $rutaJson = "../JSON/actividades.json";
+
+function limpiarTexto($texto){
+    $texto = mb_strtolower($texto, 'UTF-8');
+
+    $acentos = ['á','é','í','ó','ú','ü','ñ'];
+    $sinAcentos = ['a','e','i','o','u','u','n'];
+
+    return str_replace($acentos, $sinAcentos, $texto);
+}  
 
 if (!file_exists($rutaJson)) {
     echo "<p>No se encuentra el archivo JSON.</p>";
@@ -37,17 +47,20 @@ foreach ($datos as $empresa) {
         continue;
     }
 
-        $texto = strtolower(
+        $texto = 
             $servicio["nombre_servicio"] . " " .
             $servicio["descripcion"] . " " .
             $servicio["lugar"] . " " .
             $servicio["categoria"] . " " .
             $servicio["subcategoria"]
-        );
+        ;
 
         $coincide = true;
 
-        if ($buscador !== "" && strpos($texto, strtolower($buscador)) === false) {
+        $textoNormalizado = limpiarTexto($texto);
+        $buscadorNormalizado = limpiarTexto($buscador);
+
+        if ($buscador !== "" && strpos($textoNormalizado, $buscadorNormalizado) === false) {
             $coincide = false;
         }
 
@@ -133,13 +146,13 @@ if (empty($resultados)) {
         $imagen = !empty($act["imagenes"][0]) ? "../" . $act["imagenes"][0] : "../assets/placeholder.jpg";
         ?>
         <?php if(isset($_SESSION["usuario"])){ ?>
-            <a 
-                href="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>&volver=<?= $volver ?>"
+            <button 
+                type="button"
+                data-url="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>"
                 class="activity-favorite-btn <?= $esFavorito ? 'activo' : '' ?>"
-                aria-label="<?= $esFavorito ? 'Quitar de favoritos' : 'Añadir a favoritos' ?>"
-            >
+                >
                 <?= $esFavorito ? '❤️' : '🤍' ?>
-            </a>
+            </button>
         <?php } ?>
         <img src="<?= htmlspecialchars($imagen) ?>" alt="<?= htmlspecialchars($act["nombre_servicio"]) ?>" class="activity-image">
       </div>
@@ -147,8 +160,11 @@ if (empty($resultados)) {
       <div class="activity-content">
         <?php
             $datosRating = $bdact->obtenerMediaResenas($act["id_servicio"]);
-            pintarRating($datosRating["media"], $datosRating["total"]);
         ?>
+
+        <a href="actividad.php?idact=<?= $act["id_servicio"] ?>#resenas" class="rating-link">
+            <?php pintarRating($datosRating["media"], $datosRating["total"]); ?>
+        </a>
 
         <h3><?= htmlspecialchars($act["nombre_servicio"]) ?></h3>
 

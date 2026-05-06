@@ -78,12 +78,13 @@ $subcategorias=$bdact->obtenerSubcat($idcatpadre);
                   <div class="subcategory-card">
 
                     <?php if(isset($_SESSION["usuario"])){ ?>
-                      <a 
-                        href="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>&volver=<?= $volver ?>"
+                      <button 
+                        type="button"
+                        data-url="gestionar-favorito.php?idservicio=<?= $act["id_servicio"] ?>"
                         class="activity-favorite-btn <?= $esFavorito ? 'activo' : '' ?>"
                       >
                         <?= $esFavorito ? '❤️' : '🤍' ?>
-                      </a>
+                      </button>
                     <?php } ?>
 
                     <a href="actividad.php?idact=<?= $act['id_servicio'] ?>" class="subcategory-card-link">
@@ -116,6 +117,5 @@ $subcategorias=$bdact->obtenerSubcat($idcatpadre);
  <?php
 require_once("footer.php");
 ?>
-
 </body>
 </html>

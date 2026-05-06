@@ -177,12 +177,8 @@ if($banderaerror==False&&isset($_POST["enviar"])){
     </section>
   </main>
 
-
  <?php
-
     //HE QUITADO EL REQUIRED PARA LAS VALIDACIONES MANUALES
-
-
 require_once("footer.php");
 ?>
 

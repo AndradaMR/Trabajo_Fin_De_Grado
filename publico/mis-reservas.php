@@ -236,3 +236,5 @@ $reservas = $bdact->ObtenerReservasUsuario($id);
   </script>
 
 <?php require_once("footer.php"); ?>
+</body>
+</html>

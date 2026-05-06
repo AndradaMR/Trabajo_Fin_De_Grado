@@ -11,6 +11,7 @@ if (!isset($_GET['idact'])) {
 }
 
 $datosResenas = $bdact->obtenerMediaResenas($id);
+$resenas = $bdact->obtenerResenasServicio($id);
 
 $media = $datosResenas["media"] ? round($datosResenas["media"], 1) : 0;
 $totalResenas = $datosResenas["total"];
@@ -81,12 +82,13 @@ if (isset($actividad["estado"]) && $actividad["estado"] == "cancelado") {
             <div class="activity-gallery-header">
               <span class="section-tag">Experiencia destacada</span>
               <?php if(isset($_SESSION["usuario"])){ ?>
-                <a 
-                  href="gestionar-favorito.php?idservicio=<?= $id ?>&volver=actividad.php?idact=<?= $id ?>" 
+                <button 
+                  type="button"
+                  data-url="gestionar-favorito.php?idservicio=<?= $id ?>"
                   class="activity-favorite-btn <?= $esFavorito ? 'activo' : '' ?>"
                 >
                   <?= $esFavorito ? '❤️' : '🤍' ?>
-                </a>
+                </button>
               <?php } ?>
         
             </div>
@@ -141,6 +143,14 @@ if (isset($actividad["estado"]) && $actividad["estado"] == "cancelado") {
                   <h3>Materiales necesarios</h3>
                   <p><?=$actividad['materiales']?></p>
                 </div>
+                <div>
+                  <?php
+                    $datosRating = $bdact->obtenerMediaResenas($actividad["id_servicio"]);
+                  ?>
+                  <a href="actividad.php?idact=<?= $act["id_servicio"] ?>#resenas" class="rating-link">
+                    <?php pintarRating($datosRating["media"], $datosRating["total"]); ?>
+                  </a>
+                </div>
               </div>
 
               <a href="reserva.php?idact=<?= $id ?>" class="btn btn-primary btn-full reserve-btn">
@@ -150,6 +160,58 @@ if (isset($actividad["estado"]) && $actividad["estado"] == "cancelado") {
           </article>
 
         </div>
+      </div>
+    </section>
+    <section class="activity-reviews-section" id="resenas">
+      <div class="container">
+
+        <div class="reviews-intro">
+          <span class="section-tag">Opiniones</span>
+          <h2>Reseñas de la actividad</h2>
+        </div>
+
+        <?php if(empty($resenas)){ ?>
+
+          <div class="empty-reviews">
+            <p>Esta actividad todavía no tiene reseñas.</p>
+          </div>
+
+        <?php }else{ ?>
+
+          <div class="activity-reviews-grid">
+
+            <?php foreach($resenas as $resena){ ?>
+
+              <article class="activity-review-card">
+
+                <div class="review-header">
+                  <div>
+                    <h3><?= htmlspecialchars($resena["nombre"] . " " . $resena["apellido"]) ?></h3>
+                    <span><?= date("d/m/Y", strtotime($resena["fecha"])) ?></span>
+                  </div>
+
+                  <div class="stars">
+                    <?php
+                      $puntos = (int)$resena["puntuacion"];
+                      for($i=1; $i<=5; $i++){
+                        echo $i <= $puntos ? "★" : "☆";
+                      }
+                    ?>
+                  </div>
+                </div>
+
+                <p class="review-text">
+                  <?= htmlspecialchars($resena["comentario"]) ?>
+                </p>
+
+              </article>
+
+            <?php } ?>
+
+          </div>
+
+        <?php } ?>
+
       </div>
     </section>
   </main>
@@ -189,6 +251,5 @@ if (isset($actividad["estado"]) && $actividad["estado"] == "cancelado") {
  <?php
 require_once("footer.php");
 ?>
-
 </body>
 </html>

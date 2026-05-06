@@ -238,18 +238,19 @@ public function obtenerActividadPorId($idServicio){
 }
 
 public function obtenerDisponibilidadesPorServicio($idServicio){
-    $sentencia = "SELECT *
-            FROM detalle_actividad
-            WHERE id_servicio = :id_servicio
+    $sentencia = "SELECT d.*
+            FROM detalle_actividad d
+            INNER JOIN servicio s ON d.id_servicio = s.id_servicio
+            WHERE d.id_servicio = :id_servicio
             AND s.estado = 'activo'
-            ORDER BY fecha ASC, hora_inicio ASC";
+            ORDER BY d.fecha ASC, d.hora_inicio ASC";
 
     $ejecucion = $this->pdo->prepare($sentencia);
     $ejecucion->execute([
         ":id_servicio" => $idServicio
     ]);
-    $fila = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
-    return $fila;
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
 public function obtenerDetalleActividadPorId($idDetalle){
@@ -627,6 +628,27 @@ public function ServicioTieneHorarios($idServicio){
     $stmt->execute([":id" => $idServicio]);
 
     return $stmt->fetch() != false;
+}
+
+public function obtenerResenasServicio($idServicio){
+    $sentencia = "SELECT 
+                    r.puntuacion,
+                    r.comentario,
+                    r.fecha,
+                    u.nombre,
+                    u.apellido
+                  FROM resena r
+                  INNER JOIN usuario u 
+                    ON r.id_usuario = u.id_usuario
+                  WHERE r.id_servicio = :id_servicio
+                  ORDER BY r.fecha DESC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_servicio" => $idServicio
+    ]);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
 
