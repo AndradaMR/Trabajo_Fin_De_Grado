@@ -1,6 +1,12 @@
 <?php
+
+session_start();
+
+require_once("../bd/bd.php");
+$bbdd = new db("localhost",3306,"plataforma_servicios1","root","");
+
 $titulo="<h1>Bienvenido a Body and Soul</h1>";
-require_once("head.php");
+
 
 if(isset($_SESSION["usuario"])){
   header("Location: index.php");
@@ -79,6 +85,8 @@ if($banderaerror==False&&isset($_POST["enviar"])){
     header("Location: login.php"); //Me voy al inicio de sesion cuadno me registro
     exit();
     }
+
+require_once("head.php"); 
 
 ?>
 

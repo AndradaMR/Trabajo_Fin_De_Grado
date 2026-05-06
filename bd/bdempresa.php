@@ -145,7 +145,7 @@ public function RegistrarSolicitudEmpresa($nombre, $email, $logo, $ciudad, $tele
         ":direccion" => $direccion,
         ":contra" => $contraCifrada,
         ":categoria" => $categoria,
-        "datos" => $descripcion
+        ":datos" => $descripcion
     ]);
 }
 
