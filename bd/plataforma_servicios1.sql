@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-05-2026 a las 22:11:26
+-- Tiempo de generación: 06-05-2026 a las 23:56:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -5753,7 +5753,7 @@ CREATE TABLE `empresa` (
 
 INSERT INTO `empresa` (`id_empresa`, `nombre_empresa`, `categoria_empresa`, `email`, `contrasena`, `direccion`, `telefono`, `ciudad_empresa`, `descripcion_empresa`, `logo_empresa`) VALUES
 (1, 'empresa1', 'deporte', 'contacto@aventuramadrid.com', 'empresa1', 'Calle Mayor 10, Madrid', '910000111', 'Madrid', 'Empresa de actividades de aventura al aire libre', NULL),
-(2, 'empresa2', '', 'info@natureescape.com', 'empresa2', 'Av. Sierra 45, Segovia', '910000222', '', '', NULL),
+(2, 'empresa2', '', 'info@natureescape.com', 'empresa2', 'Av. Sierra 45, Segovia', '910000222', 'Velilla de San Antonio', '', NULL),
 (3, 'Aura', 'bienestar', 'aura@gmail.com', '$2y$10$SPoBSTTB5HO85vAa3WIqVejIl1hKeXAC5Ii3M8Z5mNEFe5L1.E4rS', 'Avenida de Londres, 2C', '657664762', 'Arganda del Rey', 'Nos dedicamos a la meditación', '../img/logos/aura.png'),
 (4, 'Begin', 'bienestar', 'begin@gmail.com', '$2y$10$W57ph8hwButVgvvStDp/4eZ/MAfauDrMwdn0520AMBuA75IEdOyMe', 'Calle Azahar 3', '675887876', 'Madrid', 'Empresa de mindfulness y relajacion', '../img/logos/IMG_4446.JPG');
 
@@ -5775,9 +5775,8 @@ CREATE TABLE `favorito` (
 --
 
 INSERT INTO `favorito` (`id_favorito`, `id_usuario`, `id_servicio`, `fecha`) VALUES
-(24, 12, 3, '2026-05-03 00:17:39'),
-(25, 12, 5, '2026-05-03 00:22:58'),
-(27, 12, 58, '2026-05-03 00:34:33');
+(16, 12, 15, '2026-05-04 23:59:32'),
+(18, 12, 2, '2026-05-05 00:03:47');
 
 -- --------------------------------------------------------
 
@@ -5952,7 +5951,9 @@ INSERT INTO `resena` (`id_resena`, `id_usuario`, `id_servicio`, `puntuacion`, `c
 (3, 4, 2, 5, 'Los monitores explican muy bien.', '2026-04-12 13:30:00'),
 (4, 12, 2, 1, 'No me gusto la experiencia', '2026-05-01 22:36:25'),
 (5, 12, 3, 4, 'Todo muy bien!', '2026-05-01 22:40:58'),
-(6, 12, 4, 5, 'Genial Todo!', '2026-05-01 22:58:08');
+(6, 12, 4, 5, 'Genial Todo!', '2026-05-01 22:58:08'),
+(7, 12, 5, 5, 'Muy buena experiencia, repetiremos.', '2026-05-05 00:28:41'),
+(8, 13, 5, 5, 'Experiencia única!', '2026-05-05 00:39:08');
 
 -- --------------------------------------------------------
 
@@ -5985,7 +5986,9 @@ INSERT INTO `reserva` (`id_reserva`, `id_usuario`, `id_servicio`, `fecha_hora`, 
 (11, 12, 15, '2026-06-01 10:00:00', 'confirmada', 1054),
 (12, 12, 69, '2026-05-29 17:00:00', 'confirmada', 4833),
 (13, 12, 3, '2026-06-07 17:00:00', 'cancelada', 219),
-(14, 12, 71, '2026-05-20 17:00:00', 'confirmada', 4967);
+(14, 12, 71, '2026-05-20 17:00:00', 'confirmada', 4967),
+(15, 13, 5, '2026-04-21 16:00:00', 'confirmada', 21),
+(16, 13, 58, '2026-05-20 10:00:00', 'confirmada', 4056);
 
 -- --------------------------------------------------------
 
@@ -6125,18 +6128,25 @@ CREATE TABLE `solicitud_empresa` (
   `id_empresa` int(11) DEFAULT NULL,
   `nombre` varchar(150) NOT NULL,
   `email` varchar(150) NOT NULL,
+  `logo_empresa` varchar(255) DEFAULT NULL,
   `datos` text DEFAULT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp(),
-  `estado` enum('pendiente','aprobada','rechazada') NOT NULL DEFAULT 'pendiente'
+  `estado` enum('pendiente','aprobada','rechazada') NOT NULL DEFAULT 'pendiente',
+  `ciudad_empresa` varchar(100) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `categoria_empresa` varchar(100) DEFAULT NULL,
+  `contrasena` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `solicitud_empresa`
 --
 
-INSERT INTO `solicitud_empresa` (`id_solicitud`, `id_empresa`, `nombre`, `email`, `datos`, `fecha`, `estado`) VALUES
-(1, NULL, 'Aventuras Extremas', 'aventuras@email.com', 'Empresa especializada en rafting y barranquismo', '2026-03-05 10:00:00', 'pendiente'),
-(2, 1, 'empresa1', 'contacto@aventuramadrid.com', 'Solicitud aprobada para publicar actividades', '2026-03-01 09:00:00', 'aprobada');
+INSERT INTO `solicitud_empresa` (`id_solicitud`, `id_empresa`, `nombre`, `email`, `logo_empresa`, `datos`, `fecha`, `estado`, `ciudad_empresa`, `telefono`, `direccion`, `categoria_empresa`, `contrasena`) VALUES
+(1, 2, 'Aventuras Extremas', 'aventuras@email.com', NULL, 'Empresa especializada en rafting y barranquismo', '2026-03-05 10:00:00', 'pendiente', 'Velilla de San Antonio', '912554485', 'Calle Mayor 7', 'Deporte', ''),
+(2, 1, 'empresa1', 'contacto@aventuramadrid.com', NULL, 'Solicitud aprobada para publicar actividades', '2026-03-01 09:00:00', 'aprobada', 'Madrid', '914447777', 'Avenida de la Ilustracion 19', 'Deporte', ''),
+(3, NULL, 'Vital Move Studio', 'contacto@vitalmove.com', '../img/logos/logo.pngVital Move Studio', 'Centro especializado en yoga, pilates y actividades de bienestar enfocadas en mejorar la salud f&iacute;sica y mental. Ofrecemos clases para todos los niveles, sesiones guiadas y talleres de relajaci&oacute;n.', '2026-05-06 22:32:34', 'pendiente', 'Collado-Mediano', '687452319', 'Calle Mayor 7', 'bienestar', '$2y$10$atrmWIMTy3DB6fFfDOSXMOSxxXLlnrdsVOL43cJ5DQT8kSW1y9zfW');
 
 -- --------------------------------------------------------
 
@@ -6153,23 +6163,24 @@ CREATE TABLE `usuario` (
   `telefono` varchar(20) DEFAULT NULL,
   `id_rol` int(11) NOT NULL,
   `fecha_registro` datetime NOT NULL DEFAULT current_timestamp(),
-  `intentos` int(1) NOT NULL
+  `intentos` int(1) NOT NULL,
+  `estado` enum('activo','suspendido') NOT NULL DEFAULT 'activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `telefono`, `id_rol`, `fecha_registro`, `intentos`) VALUES
-(4, 'Usuario1', '', 'user1@email.com', 'hash789', '600000000', 1, '2026-03-01 09:00:00', 0),
-(6, 'Jonny', 'Mangas', 'Jonny@gmail.com', '$2y$10$fIn2ZYgWvTCt08v2TZT2JuhYc3xVQz6oHKLAcOxSt11rRY9xSKTcW', '666788900', 1, '2026-03-18 22:03:13', 0),
-(7, 'Laura', 'Basurto', 'laura@gmail.com', '$2y$10$TFgCAQxgbCeLXLO1NBb11.rC7j4tAsBnZC7tsp/rO4BglsMfHOBXe', '657664762', 3, '2026-03-18 22:05:57', 0),
-(8, 'Andrada', 'Robitu', 'andrada@gmail.com', '$2y$10$y9ywBfU28rrAMvkqvuQXfu7t9dfuqysoOBaJpz4l4YHc2yWcfWUSC', '787898876', 3, '2026-03-23 20:39:25', 0),
-(9, 'Cris', 'Gonzalez', 'cris@gmail.com', '$2y$10$dMZF/s6KBhkFn20r2Qf2JuYohFPrG6vAYDnITilxDQ2w7E0sePF4u', '198345654', 3, '2026-03-23 20:41:18', 3),
-(10, 'maria', 'perez', 'maria@gmail.com', '$2y$10$.YRpfY37pn/8Al3NG.4EU.bh43aq7UiMIsfPtPK5Er6t.o/tVXETy', '987876776', 1, '2026-03-23 20:54:59', 0),
-(11, 'laura', 'bas', 'lau@gmail.com', '$2y$10$rjJa4NeRTpdx1jGrXwcj1ONNN3My.yvVTzPm3RO3tTyD9DcGVg3rO', '876879876', 2, '2026-03-27 14:11:09', 1),
-(12, 'Cris', 'Gzlez', 'cris22@gmail.com', '$2y$10$9tspqlpKDHvVhEMzOeXY5u.0ER7M9sEGUz/2pexsfbwbtGxJOOuxK', '666666666', 1, '2026-04-14 23:04:22', 0),
-(13, 'pepe', 'pepe', 'pepe@gmail.com', '$2y$10$XDn96/TA4QKjhBfgtIU6pOTIHFE9i34BNNHq/mZ5Oe9mPLbEkQFZy', '666666665', 1, '2026-04-29 23:06:46', 0);
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `telefono`, `id_rol`, `fecha_registro`, `intentos`, `estado`) VALUES
+(4, 'Usuario1', '', 'user1@email.com', 'hash789', '600000000', 1, '2026-03-01 09:00:00', 0, 'activo'),
+(6, 'Jonny', 'Mangas', 'Jonny@gmail.com', '$2y$10$fIn2ZYgWvTCt08v2TZT2JuhYc3xVQz6oHKLAcOxSt11rRY9xSKTcW', '666788900', 1, '2026-03-18 22:03:13', 0, 'activo'),
+(7, 'Laura', 'Basurto', 'laura@gmail.com', '$2y$10$TFgCAQxgbCeLXLO1NBb11.rC7j4tAsBnZC7tsp/rO4BglsMfHOBXe', '657664762', 3, '2026-03-18 22:05:57', 0, 'activo'),
+(8, 'Andrada', 'Robitu', 'andrada@gmail.com', '$2y$10$y9ywBfU28rrAMvkqvuQXfu7t9dfuqysoOBaJpz4l4YHc2yWcfWUSC', '787898876', 3, '2026-03-23 20:39:25', 0, 'activo'),
+(10, 'maria', 'perez', 'maria@gmail.com', '$2y$10$.YRpfY37pn/8Al3NG.4EU.bh43aq7UiMIsfPtPK5Er6t.o/tVXETy', '987876776', 1, '2026-03-23 20:54:59', 0, 'activo'),
+(11, 'laura', 'bas', 'lau@gmail.com', '$2y$10$rjJa4NeRTpdx1jGrXwcj1ONNN3My.yvVTzPm3RO3tTyD9DcGVg3rO', '876879876', 2, '2026-03-27 14:11:09', 1, 'activo'),
+(12, 'Cris', 'Gzlez', 'cris22@gmail.com', '$2y$10$9tspqlpKDHvVhEMzOeXY5u.0ER7M9sEGUz/2pexsfbwbtGxJOOuxK', '666666666', 1, '2026-04-14 23:04:22', 0, 'activo'),
+(13, 'pepe', 'pepe', 'pepe@gmail.com', '$2y$10$XDn96/TA4QKjhBfgtIU6pOTIHFE9i34BNNHq/mZ5Oe9mPLbEkQFZy', '666666665', 1, '2026-04-29 23:06:46', 0, 'activo'),
+(14, 'Cristina', 'Gonzalez', 'cris@gmail.com', '$2y$10$CRSx43h.6XNFoXyGwQQ6DOZnaiItxewVfaZQryEHWElPoZmcgpV92', '699999999', 3, '2026-05-06 10:53:50', 0, 'activo');
 
 --
 -- Índices para tablas volcadas
@@ -6196,6 +6207,12 @@ ALTER TABLE `detalle_actividad`
 ALTER TABLE `empresa`
   ADD PRIMARY KEY (`id_empresa`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indices de la tabla `favorito`
+--
+ALTER TABLE `favorito`
+  ADD PRIMARY KEY (`id_favorito`);
 
 --
 -- Indices de la tabla `imagen_servicio`
@@ -6276,6 +6293,12 @@ ALTER TABLE `empresa`
   MODIFY `id_empresa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `favorito`
+--
+ALTER TABLE `favorito`
+  MODIFY `id_favorito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
 -- AUTO_INCREMENT de la tabla `imagen_servicio`
 --
 ALTER TABLE `imagen_servicio`
@@ -6285,13 +6308,13 @@ ALTER TABLE `imagen_servicio`
 -- AUTO_INCREMENT de la tabla `resena`
 --
 ALTER TABLE `resena`
-  MODIFY `id_resena` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_resena` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva`
 --
 ALTER TABLE `reserva`
-  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -6309,13 +6332,13 @@ ALTER TABLE `servicio`
 -- AUTO_INCREMENT de la tabla `solicitud_empresa`
 --
 ALTER TABLE `solicitud_empresa`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas

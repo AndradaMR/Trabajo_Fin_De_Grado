@@ -1,224 +1,168 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Body and Soul | Dashboard administrador</title>
+<?php
+$paginaActiva = "dashboard";
+$tituloPagina = "Dashboard";
+$etiquetaPagina = "Panel de administración";
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Sansita:wght@700;800;900&display=swap" rel="stylesheet">
+require_once("head-admin.php");
 
-  <link rel="stylesheet" href="../css/admin-styles/admin-dashboard.css">
-</head>
-<body class="admin-dashboard-body">
+$datos = $bdadmin->ObtenerDatosDashboard();
+$solicitudes = $bdadmin->ObtenerUltimasSolicitudes();
+$actividades = $bdadmin->ObtenerUltimasActividades();
+?>
 
-  <div class="admin-layout">
+<main class="admin-content">
 
-    <!-- SIDEBAR -->
-    <aside class="admin-sidebar">
-      <div class="admin-sidebar-top">
-        <img src="../img/logo.PNG" alt="Logo Body and Soul" class="admin-sidebar-logo">
-        <h1>Admin</h1>
+  <section class="admin-stats-grid">
+    <article class="admin-stat-card">
+      <p class="admin-stat-label">Empresas pendientes</p>
+      <h3><?= $datos["pendientes"] ?></h3>
+      <span class="admin-stat-detail"><?= $datos["pendientes_hoy"] ?> nuevas hoy</span>
+    </article>
+
+    <article class="admin-stat-card">
+      <p class="admin-stat-label">Empresas aprobadas</p>
+      <h3><?= $datos["empresas"] ?></h3>
+      <span class="admin-stat-detail">+<?= $datos["empresas_mes"] ?> este mes</span>
+    </article>
+
+    <article class="admin-stat-card">
+      <p class="admin-stat-label">Actividades publicadas</p>
+      <h3><?= $datos["actividades"] ?></h3>
+      <span class="admin-stat-detail"><?= $datos["actividades_canceladas"] ?> suspendidas</span>
+    </article>
+
+    <article class="admin-stat-card">
+      <p class="admin-stat-label">Usuarios registrados</p>
+      <h3><?= $datos["usuarios"] ?></h3>
+      <span class="admin-stat-detail"><?= $datos["usuarios_semana"] ?> nuevos esta semana</span>
+    </article>
+  </section>
+
+  <section class="admin-panels-grid">
+
+    <article class="admin-panel-card">
+      <div class="admin-panel-header">
+        <div>
+          <span class="admin-section-tag">Revisión</span>
+          <h3>Empresas pendientes</h3>
+        </div>
+        <a href="empresas-pendientes.php" class="admin-panel-link">Ver todas</a>
       </div>
 
-      <nav class="admin-sidebar-nav">
-     <a href="dashboard.html" class="admin-nav-link">Dashboard</a>
-        <a href="empresas-pendientes.html" class="admin-nav-link">Empresas pendientes</a>
-        <a href="empresas-aprobadas.html" class="admin-nav-link">Empresas aprobadas</a>
-        <a href="actividades.html" class="admin-nav-link">Actividades</a>
-        <a href="usuarios.html" class="admin-nav-link active">Usuarios</a>
-        <a href="reportes.html" class="admin-nav-link">Reportes</a>
-        <a href="Crear-categoria.html" class="admin-nav-link admin-nav-link-logout">Crear categoría</a>
-        <a href="../logout.php" class="admin-nav-link admin-logout">Cerrar sesión</a>
-      </nav>
-    </aside>
+      <div class="admin-list">
+        <?php if(count($solicitudes) > 0): ?>
+          <?php foreach($solicitudes as $solicitud): ?>
+            <div class="admin-list-item">
+              <div class="admin-list-info">
+                <h4><?= htmlspecialchars($solicitud["nombre"]) ?></h4>
+                <p>
+                  Registro enviado el <?= date("d/m/Y", strtotime($solicitud["fecha"])) ?> ·
+                  <?= htmlspecialchars($solicitud["ciudad_empresa"] ?? "Sin ciudad") ?>
+                </p>
+              </div>
 
-    <!-- CONTENIDO -->
-    <div class="admin-main">
-
-      <!-- TOPBAR -->
-      <header class="admin-topbar">
-        <div class="admin-topbar-left">
-          <span class="admin-page-tag">Panel de administración</span>
-          <h2>Dashboard</h2>
-        </div>
-
-        <div class="admin-topbar-right">
-          <div class="admin-admin-chip">
-            <span class="admin-admin-avatar">A</span>
-            <span>Administrador</span>
+              <div class="admin-list-actions">
+                <a href="detalle-empresa.php?id=<?= $solicitud["id_solicitud"] ?>" class="btn-approve">
+                  Revisar
+                </a>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <div class="admin-list-item">
+            <div class="admin-list-info">
+              <h4>No hay solicitudes pendientes</h4>
+              <p>Actualmente no hay empresas esperando revisión.</p>
+            </div>
           </div>
+        <?php endif; ?>
+      </div>
+    </article>
+
+    <article class="admin-panel-card">
+      <div class="admin-panel-header">
+        <div>
+          <span class="admin-section-tag">Control</span>
+          <h3>Actividades recientes</h3>
         </div>
-      </header>
+        <a href="actividades.php" class="admin-panel-link">Gestionar</a>
+      </div>
 
-      <!-- CONTENIDO CENTRAL -->
-      <main class="admin-content">
-
-        <!-- TARJETAS RESUMEN -->
-        <section class="admin-stats-grid">
-          <article class="admin-stat-card">
-            <p class="admin-stat-label">Empresas pendientes</p>
-            <h3>12</h3>
-            <span class="admin-stat-detail">3 nuevas hoy</span>
-          </article>
-
-          <article class="admin-stat-card">
-            <p class="admin-stat-label">Empresas aprobadas</p>
-            <h3>48</h3>
-            <span class="admin-stat-detail">+5 este mes</span>
-          </article>
-
-          <article class="admin-stat-card">
-            <p class="admin-stat-label">Actividades publicadas</p>
-            <h3>136</h3>
-            <span class="admin-stat-detail">14 en revisión</span>
-          </article>
-
-          <article class="admin-stat-card">
-            <p class="admin-stat-label">Usuarios registrados</p>
-            <h3>324</h3>
-            <span class="admin-stat-detail">18 nuevos esta semana</span>
-          </article>
-        </section>
-
-        <!-- BLOQUES PRINCIPALES -->
-        <section class="admin-panels-grid">
-
-          <!-- EMPRESAS PENDIENTES -->
-          <article class="admin-panel-card">
-            <div class="admin-panel-header">
-              <div>
-                <span class="admin-section-tag">Revisión</span>
-                <h3>Empresas pendientes</h3>
+      <div class="admin-list">
+        <?php if(count($actividades) > 0): ?>
+          <?php foreach($actividades as $actividad): ?>
+            <div class="admin-list-item">
+              <div class="admin-list-info">
+                <h4><?= htmlspecialchars($actividad["nombre_servicio"]) ?></h4>
+                <p>
+                  Subida por <?= htmlspecialchars($actividad["nombre_empresa"]) ?> ·
+                  <?= htmlspecialchars($actividad["categoria_padre"] ?? $actividad["subcategoria"] ?? "Sin categoría") ?>
+                </p>
               </div>
-              <a href="empresas-pendientes.html" class="admin-panel-link">Ver todas</a>
+
+              <span class="admin-status-chip approved">
+                <?= ucfirst(htmlspecialchars($actividad["estado"] ?? "activo")) ?>
+              </span>
             </div>
-
-            <div class="admin-list">
-              <div class="admin-list-item">
-                <div class="admin-list-info">
-                  <h4>Zen Balance Studio</h4>
-                  <p>Registro enviado el 12/03/2026 · Madrid</p>
-                </div>
-                <div class="admin-list-actions">
-                  <button class="btn-approve" type="button">Aprobar</button>
-                  <button class="btn-reject" type="button">Rechazar</button>
-                </div>
-              </div>
-
-              <div class="admin-list-item">
-                <div class="admin-list-info">
-                  <h4>Urban Pádel Club</h4>
-                  <p>Registro enviado el 11/03/2026 · Alcobendas</p>
-                </div>
-                <div class="admin-list-actions">
-                  <button class="btn-approve" type="button">Aprobar</button>
-                  <button class="btn-reject" type="button">Rechazar</button>
-                </div>
-              </div>
-
-              <div class="admin-list-item">
-                <div class="admin-list-info">
-                  <h4>Wellness Spa Center</h4>
-                  <p>Registro enviado el 10/03/2026 · Pozuelo</p>
-                </div>
-                <div class="admin-list-actions">
-                  <button class="btn-approve" type="button">Aprobar</button>
-                  <button class="btn-reject" type="button">Rechazar</button>
-                </div>
-              </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <div class="admin-list-item">
+            <div class="admin-list-info">
+              <h4>No hay actividades recientes</h4>
+              <p>Todavía no hay servicios registrados.</p>
             </div>
-          </article>
+          </div>
+        <?php endif; ?>
+      </div>
+    </article>
 
-          <!-- ACTIVIDADES RECIENTES -->
-          <article class="admin-panel-card">
-            <div class="admin-panel-header">
-              <div>
-                <span class="admin-section-tag">Control</span>
-                <h3>Actividades recientes</h3>
-              </div>
-              <a href="actividades.html" class="admin-panel-link">Gestionar</a>
-            </div>
+    <article class="admin-panel-card">
+      <div class="admin-panel-header">
+        <div>
+          <span class="admin-section-tag">Acciones</span>
+          <h3>Accesos rápidos</h3>
+        </div>
+      </div>
 
-            <div class="admin-list">
-              <div class="admin-list-item">
-                <div class="admin-list-info">
-                  <h4>Yoga Flow Sunset</h4>
-                  <p>Subida por Zen Balance Studio · Bienestar</p>
-                </div>
-                <span class="admin-status-chip pending">Pendiente</span>
-              </div>
+      <div class="admin-quick-actions">
+        <a href="empresas-pendientes.php" class="admin-quick-card">Revisar empresas</a>
+        <a href="actividades.php" class="admin-quick-card">Gestionar actividades</a>
+        <a href="usuarios.php" class="admin-quick-card">Ver usuarios</a>
+        <a href="reportes.php" class="admin-quick-card">Consultar reportes</a>
+        <a href="crear-categoria.php" class="admin-quick-card">Crear categoría</a>
+      </div>
+    </article>
 
-              <div class="admin-list-item">
-                <div class="admin-list-info">
-                  <h4>Partido de pádel indoor</h4>
-                  <p>Subida por Urban Pádel Club · Deporte</p>
-                </div>
-                <span class="admin-status-chip approved">Activa</span>
-              </div>
+    <article class="admin-panel-card">
+      <div class="admin-panel-header">
+        <div>
+          <span class="admin-section-tag">Resumen</span>
+          <h3>Actividad reciente</h3>
+        </div>
+      </div>
 
-              <div class="admin-list-item">
-                <div class="admin-list-info">
-                  <h4>Circuito termal premium</h4>
-                  <p>Subida por Wellness Spa Center · Bienestar</p>
-                </div>
-                <span class="admin-status-chip approved">Activa</span>
-              </div>
-            </div>
-          </article>
+      <ul class="admin-timeline">
+        <?php foreach($solicitudes as $solicitud): ?>
+          <li>
+            <span class="timeline-dot"></span>
+            <p><strong><?= htmlspecialchars($solicitud["nombre"]) ?></strong> ha solicitado alta como empresa.</p>
+          </li>
+        <?php endforeach; ?>
 
-          <!-- ACCIONES RÁPIDAS -->
-          <article class="admin-panel-card">
-            <div class="admin-panel-header">
-              <div>
-                <span class="admin-section-tag">Acciones</span>
-                <h3>Accesos rápidos</h3>
-              </div>
-            </div>
+        <?php foreach($actividades as $actividad): ?>
+          <li>
+            <span class="timeline-dot"></span>
+            <p><strong><?= htmlspecialchars($actividad["nombre_empresa"]) ?></strong> ha publicado “<?= htmlspecialchars($actividad["nombre_servicio"]) ?>”.</p>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+    </article>
 
-            <div class="admin-quick-actions">
-              <a href="empresas-pendientes.html" class="admin-quick-card">Revisar empresas</a>
-              <a href="actividades.html" class="admin-quick-card">Gestionar actividades</a>
-              <a href="usuarios.html" class="admin-quick-card">Ver usuarios</a>
-              <a href="reportes.html" class="admin-quick-card">Consultar reportes</a>
-              <a href="crear-categoria.html" class="admin-quick-card">Crear categoría</a>
-            </div>
-          </article>
+  </section>
+</main>
 
-          <!-- RESUMEN ACTIVIDAD -->
-          <article class="admin-panel-card">
-            <div class="admin-panel-header">
-              <div>
-                <span class="admin-section-tag">Resumen</span>
-                <h3>Actividad reciente del sistema</h3>
-              </div>
-            </div>
-
-            <ul class="admin-timeline">
-              <li>
-                <span class="timeline-dot"></span>
-                <p><strong>Zen Balance Studio</strong> ha solicitado alta como empresa.</p>
-              </li>
-              <li>
-                <span class="timeline-dot"></span>
-                <p><strong>Laura García</strong> ha reservado “Yoga Flow”.</p>
-              </li>
-              <li>
-                <span class="timeline-dot"></span>
-                <p><strong>Urban Pádel Club</strong> ha publicado una nueva actividad.</p>
-              </li>
-              <li>
-                <span class="timeline-dot"></span>
-                <p><strong>Wellness Spa Center</strong> ha actualizado sus datos.</p>
-              </li>
-            </ul>
-          </article>
-
-        </section>
-      </main>
-    </div>
-  </div>
+</div>
+</div>
 
 </body>
-</html>
+</html> 

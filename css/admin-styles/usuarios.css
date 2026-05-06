@@ -1011,3 +1011,59 @@ select {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(255, 143, 163, 0.22);
 }
+
+.reservation-status-wrapper{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.reservas-header-admin{
+  align-items: flex-start;
+}
+
+.reservas-header-admin .admin-status-chip{
+  width: auto;
+  min-width: auto;
+  align-self: flex-start;
+  margin-left: auto;
+  padding: 0.45rem 1rem;
+}
+
+.reservas-header-admin{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.reservas-header-admin .approved-company-title-block{
+  flex: 1;
+}
+
+.reservas-header-admin .admin-status-chip{
+  width: auto;
+  min-width: fit-content;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0.45rem 1rem;
+}
+
+.approved-company-card{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.reserva-card-right{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.reserva-card-right .admin-status-chip,
+.reserva-card-right .btn-detail{
+  width: 100%;
+}
