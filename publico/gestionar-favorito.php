@@ -1,9 +1,10 @@
 <?php
-
 session_start();
 
+header("Content-Type: application/json");
+
 if(!isset($_SESSION["usuario"])){
-    header("Location: login.php");
+    echo json_encode(["success" => false, "error" => "no_sesion"]);
     exit();
 }
 
@@ -11,7 +12,7 @@ require_once("../bd/bdact.php");
 $bdact = new bdact("localhost", 3306, "plataforma_servicios1", "root", "");
 
 if(!isset($_GET["idservicio"])){
-    header("Location: index.php");
+    echo json_encode(["success" => false, "error" => "sin_id"]);
     exit();
 }
 
@@ -20,14 +21,14 @@ $idServicio = (int) $_GET["idservicio"];
 
 if($bdact->esFavorito($idUsuario, $idServicio)){
     $bdact->eliminarFavorito($idUsuario, $idServicio);
+    $esFavorito = false;
 }else{
     $bdact->agregarFavorito($idUsuario, $idServicio);
+    $esFavorito = true;
 }
 
-
-if(isset($_GET["volver"])){
-    header("Location: " . $_GET["volver"]);
-}else{
-    header("Location: index.php");
-}
+echo json_encode([
+    "success" => true,
+    "esFavorito" => $esFavorito
+]);
 exit();

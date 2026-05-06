@@ -262,3 +262,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </main>
 
 <?php require_once("footer.php"); ?>
+</body>
+</html>

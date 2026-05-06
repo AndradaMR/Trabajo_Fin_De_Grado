@@ -157,6 +157,5 @@ if(isset($_POST["guardar"])){
  <?php
 require_once("footer.php");
 ?>
-
 </body>
 </html>

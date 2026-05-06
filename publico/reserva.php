@@ -237,3 +237,5 @@ if (isset($_GET["ok"])) {
 </main>
 
 <?php require_once("footer.php"); ?>
+</body>
+</html>

@@ -122,46 +122,6 @@ $titulo = "<h1>Valorar actividad</h1>";
 </main>
 
 <?php require_once("footer.php"); ?>
+
 </body>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const stars = document.querySelectorAll(".stars-input span");
-    const input = document.getElementById("puntuacion");
-
-    stars.forEach(star => {
-
-      // Hover
-      star.addEventListener("mouseover", function () {
-        const val = this.dataset.value;
-
-        stars.forEach(s => {
-          s.classList.remove("hover");
-          if (s.dataset.value <= val) {
-            s.classList.add("hover");
-          }
-        });
-      });
-
-      // Quitar hover
-      star.addEventListener("mouseout", function () {
-        stars.forEach(s => s.classList.remove("hover"));
-      });
-
-      // Click
-      star.addEventListener("click", function () {
-        const val = this.dataset.value;
-        input.value = val;
-
-        stars.forEach(s => {
-          s.classList.remove("active");
-          if (s.dataset.value <= val) {
-            s.classList.add("active");
-          }
-        });
-      });
-
-    });
-  });
-</script>
 </html>
