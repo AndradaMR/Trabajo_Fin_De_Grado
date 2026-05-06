@@ -59,7 +59,7 @@ require_once("head.php");
           <span class="section-tag">Top actividades</span>
           <h2>Actividades más reservadas</h2>
           <p>
-            Estas son algunas de las experiencias favoritas de nuestras usuarias.
+            Estas son algunas de las experiencias favoritas de nuestros usuarios.
           </p>
         </div>
 

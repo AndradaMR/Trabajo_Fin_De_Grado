@@ -41054,6 +41054,112 @@
                         "plazas_maximas": 15
                     }
                 ]
+            },
+            {
+                "id_servicio": 82,
+                "id_categoria": 13,
+                "nombre_servicio": "Meditación consciente guiada",
+                "categoria": "Bienestar",
+                "subcategoria": "Meditación",
+                "descripcion": "Sesión de meditación consciente guiada orientada a reducir el estrés y mejorar el bienestar emocional. A través de técnicas de respiración y atención plena, aprenderás a centrarte en el momento presente en un entorno tranquilo y relajante. No se requiere experiencia previa, ideal tanto para principiantes como para personas que quieran profundizar en su práctica.",
+                "lugar": "Aura Experiencie, Avenida Roma, 2, Arganda del Rey",
+                "precio": "22.50",
+                "estado": "activo",
+                "duracion": "1 hora y 20 minutos",
+                "materiales": "Esterilla y ropa cómoda",
+                "imagenes": [
+                    "../img//auraportada.png"
+                ],
+                "detalles": [
+                    {
+                        "id_detalle_actividad": 8266,
+                        "fecha": "2026-05-12",
+                        "hora_inicio": "10:10:00",
+                        "hora_fin": "11:30:00",
+                        "plazas_maximas": 13
+                    }
+                ]
+            },
+            {
+                "id_servicio": 85,
+                "id_categoria": 6,
+                "nombre_servicio": "Estiramientos relajantes",
+                "categoria": "Bienestar",
+                "subcategoria": "Yoga",
+                "descripcion": "Estiramientos específicos para relajar y todos los musculos del cuerpo y sentirse totalmente renovada",
+                "lugar": "Aura Experience, Calle mayor, 24, Mostoles",
+                "precio": "14.99",
+                "estado": "activo",
+                "duracion": "1 hora",
+                "materiales": "Esterilla, cintas.",
+                "imagenes": [
+                    "../img/bienestar/ChatGPT Image 4 may 2026, 21_46_00.png"
+                ],
+                "detalles": [
+                    {
+                        "id_detalle_actividad": 8261,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "17:00:00",
+                        "hora_fin": "18:00:00",
+                        "plazas_maximas": 15
+                    },
+                    {
+                        "id_detalle_actividad": 8262,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "17:00:00",
+                        "hora_fin": "18:00:00",
+                        "plazas_maximas": 15
+                    },
+                    {
+                        "id_detalle_actividad": 8263,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "17:00:00",
+                        "hora_fin": "18:00:00",
+                        "plazas_maximas": 15
+                    },
+                    {
+                        "id_detalle_actividad": 8257,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "20:00:00",
+                        "hora_fin": "21:00:00",
+                        "plazas_maximas": 12
+                    },
+                    {
+                        "id_detalle_actividad": 8258,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "20:00:00",
+                        "hora_fin": "21:00:00",
+                        "plazas_maximas": 12
+                    },
+                    {
+                        "id_detalle_actividad": 8259,
+                        "fecha": "2026-05-08",
+                        "hora_inicio": "09:00:00",
+                        "hora_fin": "10:00:00",
+                        "plazas_maximas": 12
+                    },
+                    {
+                        "id_detalle_actividad": 8260,
+                        "fecha": "2026-05-08",
+                        "hora_inicio": "09:00:00",
+                        "hora_fin": "10:00:00",
+                        "plazas_maximas": 12
+                    },
+                    {
+                        "id_detalle_actividad": 8264,
+                        "fecha": "2026-05-11",
+                        "hora_inicio": "17:00:00",
+                        "hora_fin": "18:00:00",
+                        "plazas_maximas": 15
+                    },
+                    {
+                        "id_detalle_actividad": 8265,
+                        "fecha": "2026-05-18",
+                        "hora_inicio": "14:00:00",
+                        "hora_fin": "15:00:00",
+                        "plazas_maximas": 18
+                    }
+                ]
             }
         ]
     }
