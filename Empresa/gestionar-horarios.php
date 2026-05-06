@@ -19,6 +19,7 @@ $empresa=$bdempre->sacardatosempresa($idEmpresa);
 $idServicio = (int) $_GET["idservicio"];
 
 $servicio = $bdact->obtenerActividadPorId($idServicio);
+
 $tieneHorarios = $bdempre->ServicioTieneHorarios($idServicio);
 
 $registro_ok = false;
@@ -29,9 +30,6 @@ $fechaerror = "";
 
 $hora_inicio = "";
 $horainicioerror = "";
-
-$hora_fin = "";
-$horafinerror = "";
 
 $plazas_maximas = "";
 $plazaserror = "";
@@ -54,14 +52,6 @@ if(isset($_POST["hora_inicio"])){
     }
 }
 
-if(isset($_POST["hora_fin"])){
-    $hora_fin = trim($_POST["hora_fin"]);
-
-    if($hora_fin == ""){
-        $horafinerror = "Debes indicar la hora de fin";
-        $banderaerror = true;
-    }
-}
 
 if(isset($_POST["plazas_maximas"])){
     $plazas_maximas = trim($_POST["plazas_maximas"]);
@@ -75,9 +65,14 @@ if(isset($_POST["plazas_maximas"])){
     }
 }
 
-if(isset($_POST["enviar"]) && $banderaerror == false){
+
 
     if(isset($_POST["enviar"]) && $banderaerror == false){
+
+
+    $minutosDuracion=$bdempre->DuracionTextoAMinutos($servicio["duracion"]);
+
+    $hora_fin = date("H:i", strtotime($hora_inicio . " +" . $minutosDuracion . " minutes"));
 
     $bdempre->InsertarDetalleActividad(
         $idServicio,
@@ -89,12 +84,14 @@ if(isset($_POST["enviar"]) && $banderaerror == false){
 
     $bdempre->ActivarServicio($idServicio);
 
+    //Generar json de actividades
+     //require("../bd/generarJSONact.php");
+
     header("Location: gestionar-horarios.php?idservicio=".$idServicio."&ok=1");
     exit();
 }
 
-    $registro_ok = true;
-}
+
 ?>
 
 <div class="company-main">
@@ -165,17 +162,6 @@ if(isset($_POST["enviar"]) && $banderaerror == false){
               value="<?php echo $hora_inicio; ?>"
             >
             <span class="form-error"><?php echo $horainicioerror; ?></span>
-          </div>
-
-          <div class="form-group">
-            <label for="hora_fin">Hora de fin</label>
-            <input 
-              type="time" 
-              id="hora_fin" 
-              name="hora_fin"
-              value="<?php echo $hora_fin; ?>"
-            >
-            <span class="form-error"><?php echo $horafinerror; ?></span>
           </div>
 
         </div>
