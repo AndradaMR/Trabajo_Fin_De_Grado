@@ -5,6 +5,8 @@ $datosempresa=$bdempre->sacardatosempresa($idempresa);
 $actividadesempresa=$bdempre->ObtenerActividadesPorEmpresa($idempresa);
 $catempresa=$bdempre->ObtenerSubcategoriasEmpresa($idempresa);
 
+$actividadesactivas=$bdempre->ObtenerServiciosActivos($idempresa);
+$numactactivas=count($actividadesactivas);
 
 ?>
 
@@ -36,12 +38,12 @@ $catempresa=$bdempre->ObtenerSubcategoriasEmpresa($idempresa);
           </div>
 
           <div class="company-hero-stat">
-            <span class="company-hero-number">5</span>
+            <span class="company-hero-number"><?=$numactactivas?></span>
             <span class="company-hero-label">Servicios activos</span>
           </div>
         </section>
 
-        <!-- TARJETAS RESUMEN -->
+        <!-- TARJETAS RESUMEN LAS QUITAMOS??
         <section class="company-stats-grid">
           <article class="company-stat-card">
             <p class="company-stat-label">Reservas recibidas</p>
@@ -50,7 +52,7 @@ $catempresa=$bdempre->ObtenerSubcategoriasEmpresa($idempresa);
           </article>
 
           <article class="company-stat-card">
-            <p class="company-stat-label">Categorías activas</p>
+            <p class="company-stat-label">Servicios activos</p>
             <h3>3</h3>
             <span class="company-stat-detail">Bienestar, Yoga, Meditación</span>
           </article>
@@ -61,6 +63,7 @@ $catempresa=$bdempre->ObtenerSubcategoriasEmpresa($idempresa);
             <span class="company-stat-detail">Excelente experiencia</span>
           </article>
         </section>
+         -->
 
         <!-- GRID PRINCIPAL -->
         <section class="company-panels-grid">

@@ -274,6 +274,24 @@ public function ObtenerSubcategoriasEmpresa($idEmpresa){
     return $subcategorias;
 }
 
+public function ObtenerServiciosActivos($idEmpresa){
+
+    $sentencia = "SELECT * 
+                  FROM servicio 
+                  WHERE id_empresa = :idEmpresa AND estado = :estado";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":idEmpresa" => $idEmpresa,
+        ":estado" => "activo"
+    ]);
+
+    $actividades = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+
+    return $actividades;
+}
+
 public function ObtenerReservasEmpresa($idempresa){
 
     $sentencia = "SELECT 
@@ -462,6 +480,49 @@ public function ServicioTieneHorarios($idServicio){
     }
 
     return true;
+}
+
+public function ActualizarServicio($idServicio, $idEmpresa, $nombre, $descripcion, $lugar, $idCategoria, $precio, $duracion, $materiales){
+
+    $sentencia = "UPDATE servicio
+                  SET nombre_servicio = :nombre,
+                      descripcion = :descripcion,
+                      lugar = :lugar,
+                      id_categoria = :id_categoria,
+                      precio = :precio,
+                      duracion = :duracion,
+                      materiales = :materiales
+                  WHERE id_servicio = :id_servicio
+                  AND id_empresa = :id_empresa";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":nombre" => $nombre,
+        ":descripcion" => $descripcion,
+        ":lugar" => $lugar,
+        ":id_categoria" => $idCategoria,
+        ":precio" => $precio,
+        ":duracion" => $duracion,
+        ":materiales" => $materiales,
+        ":id_servicio" => $idServicio,
+        ":id_empresa" => $idEmpresa
+    ]);
+}
+
+function DuracionTextoAMinutos($duracion){
+
+    $minutosTotales = 0;
+
+    if(preg_match('/(\d+)\s*hora/', $duracion, $matchHoras)){
+        $minutosTotales += ((int)$matchHoras[1]) * 60;
+    }
+
+    if(preg_match('/(\d+)\s*minuto/', $duracion, $matchMinutos)){
+        $minutosTotales += (int)$matchMinutos[1];
+    }
+
+    return $minutosTotales;
 }
 
 }

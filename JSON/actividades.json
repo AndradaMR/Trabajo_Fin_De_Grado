@@ -41070,7 +41070,15 @@
                 "imagenes": [
                     "../img//auraportada.png"
                 ],
-                "detalles": []
+                "detalles": [
+                    {
+                        "id_detalle_actividad": 8266,
+                        "fecha": "2026-05-12",
+                        "hora_inicio": "10:10:00",
+                        "hora_fin": "11:30:00",
+                        "plazas_maximas": 13
+                    }
+                ]
             },
             {
                 "id_servicio": 85,
@@ -41087,7 +41095,71 @@
                 "imagenes": [
                     "../img/bienestar/ChatGPT Image 4 may 2026, 21_46_00.png"
                 ],
-                "detalles": []
+                "detalles": [
+                    {
+                        "id_detalle_actividad": 8261,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "17:00:00",
+                        "hora_fin": "18:00:00",
+                        "plazas_maximas": 15
+                    },
+                    {
+                        "id_detalle_actividad": 8262,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "17:00:00",
+                        "hora_fin": "18:00:00",
+                        "plazas_maximas": 15
+                    },
+                    {
+                        "id_detalle_actividad": 8263,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "17:00:00",
+                        "hora_fin": "18:00:00",
+                        "plazas_maximas": 15
+                    },
+                    {
+                        "id_detalle_actividad": 8257,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "20:00:00",
+                        "hora_fin": "21:00:00",
+                        "plazas_maximas": 12
+                    },
+                    {
+                        "id_detalle_actividad": 8258,
+                        "fecha": "2026-05-07",
+                        "hora_inicio": "20:00:00",
+                        "hora_fin": "21:00:00",
+                        "plazas_maximas": 12
+                    },
+                    {
+                        "id_detalle_actividad": 8259,
+                        "fecha": "2026-05-08",
+                        "hora_inicio": "09:00:00",
+                        "hora_fin": "10:00:00",
+                        "plazas_maximas": 12
+                    },
+                    {
+                        "id_detalle_actividad": 8260,
+                        "fecha": "2026-05-08",
+                        "hora_inicio": "09:00:00",
+                        "hora_fin": "10:00:00",
+                        "plazas_maximas": 12
+                    },
+                    {
+                        "id_detalle_actividad": 8264,
+                        "fecha": "2026-05-11",
+                        "hora_inicio": "17:00:00",
+                        "hora_fin": "18:00:00",
+                        "plazas_maximas": 15
+                    },
+                    {
+                        "id_detalle_actividad": 8265,
+                        "fecha": "2026-05-18",
+                        "hora_inicio": "14:00:00",
+                        "hora_fin": "15:00:00",
+                        "plazas_maximas": 18
+                    }
+                ]
             }
         ]
     }
