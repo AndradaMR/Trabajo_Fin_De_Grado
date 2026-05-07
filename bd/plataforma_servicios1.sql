@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-05-2026 a las 23:56:20
+-- Tiempo de generación: 07-05-2026 a las 23:34:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -5744,18 +5744,20 @@ CREATE TABLE `empresa` (
   `telefono` varchar(20) DEFAULT NULL,
   `ciudad_empresa` varchar(100) NOT NULL,
   `descripcion_empresa` text NOT NULL,
-  `logo_empresa` varchar(255) DEFAULT NULL
+  `logo_empresa` varchar(255) DEFAULT NULL,
+  `estado` enum('activa','suspendida') NOT NULL DEFAULT 'activa'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `empresa`
 --
 
-INSERT INTO `empresa` (`id_empresa`, `nombre_empresa`, `categoria_empresa`, `email`, `contrasena`, `direccion`, `telefono`, `ciudad_empresa`, `descripcion_empresa`, `logo_empresa`) VALUES
-(1, 'empresa1', 'deporte', 'contacto@aventuramadrid.com', 'empresa1', 'Calle Mayor 10, Madrid', '910000111', 'Madrid', 'Empresa de actividades de aventura al aire libre', NULL),
-(2, 'empresa2', '', 'info@natureescape.com', 'empresa2', 'Av. Sierra 45, Segovia', '910000222', 'Velilla de San Antonio', '', NULL),
-(3, 'Aura', 'bienestar', 'aura@gmail.com', '$2y$10$SPoBSTTB5HO85vAa3WIqVejIl1hKeXAC5Ii3M8Z5mNEFe5L1.E4rS', 'Avenida de Londres, 2C', '657664762', 'Arganda del Rey', 'Nos dedicamos a la meditación', '../img/logos/aura.png'),
-(4, 'Begin', 'bienestar', 'begin@gmail.com', '$2y$10$W57ph8hwButVgvvStDp/4eZ/MAfauDrMwdn0520AMBuA75IEdOyMe', 'Calle Azahar 3', '675887876', 'Madrid', 'Empresa de mindfulness y relajacion', '../img/logos/IMG_4446.JPG');
+INSERT INTO `empresa` (`id_empresa`, `nombre_empresa`, `categoria_empresa`, `email`, `contrasena`, `direccion`, `telefono`, `ciudad_empresa`, `descripcion_empresa`, `logo_empresa`, `estado`) VALUES
+(1, 'Aventura Madrid', 'deporte', 'contacto@aventuramadrid.com', 'empresa1', 'Calle Mayor 10', '910000111', 'Madrid', 'Empresa de actividades de aventura al aire libre', '../img/logos/1711403945_aventuramadrid_logo', 'activa'),
+(2, 'Nature Escape', 'bienestar', 'info@natureescape.com', 'empresa2', 'Av. Sierra 45', '910000222', 'Segovia', '', '../img/logos/4111403945_nature_logo.jpg', 'activa'),
+(3, 'Aura', 'bienestar', 'aura@gmail.com', '$2y$10$SPoBSTTB5HO85vAa3WIqVejIl1hKeXAC5Ii3M8Z5mNEFe5L1.E4rS', 'Avenida de Londres, 2C', '657664762', 'Arganda del Rey', 'Nos dedicamos a la meditación', '../img/logos/aura.png', 'activa'),
+(4, 'Begin', 'bienestar', 'begin@gmail.com', '$2y$10$W57ph8hwButVgvvStDp/4eZ/MAfauDrMwdn0520AMBuA75IEdOyMe', 'Calle Azahar 3', '675887876', 'Madrid', 'Empresa de mindfulness y relajacion', '../img/logos/IMG_4446.JPG', 'activa'),
+(5, 'Vital Move Studio', 'bienestar', 'contacto@vitalmove.com', '$2y$10$atrmWIMTy3DB6fFfDOSXMOSxxXLlnrdsVOL43cJ5DQT8kSW1y9zfW', 'Calle Mayor 7', '687452319', 'Collado-Mediano', 'Centro especializado en yoga, pilates y actividades de bienestar enfocadas en mejorar la salud f&iacute;sica y mental. Ofrecemos clases para todos los niveles, sesiones guiadas y talleres de relajaci&oacute;n.', '../img/logos/1715203945_vital-move-studio_logo.png', 'suspendida');
 
 -- --------------------------------------------------------
 
@@ -6146,7 +6148,7 @@ CREATE TABLE `solicitud_empresa` (
 INSERT INTO `solicitud_empresa` (`id_solicitud`, `id_empresa`, `nombre`, `email`, `logo_empresa`, `datos`, `fecha`, `estado`, `ciudad_empresa`, `telefono`, `direccion`, `categoria_empresa`, `contrasena`) VALUES
 (1, 2, 'Aventuras Extremas', 'aventuras@email.com', NULL, 'Empresa especializada en rafting y barranquismo', '2026-03-05 10:00:00', 'pendiente', 'Velilla de San Antonio', '912554485', 'Calle Mayor 7', 'Deporte', ''),
 (2, 1, 'empresa1', 'contacto@aventuramadrid.com', NULL, 'Solicitud aprobada para publicar actividades', '2026-03-01 09:00:00', 'aprobada', 'Madrid', '914447777', 'Avenida de la Ilustracion 19', 'Deporte', ''),
-(3, NULL, 'Vital Move Studio', 'contacto@vitalmove.com', '../img/logos/logo.pngVital Move Studio', 'Centro especializado en yoga, pilates y actividades de bienestar enfocadas en mejorar la salud f&iacute;sica y mental. Ofrecemos clases para todos los niveles, sesiones guiadas y talleres de relajaci&oacute;n.', '2026-05-06 22:32:34', 'pendiente', 'Collado-Mediano', '687452319', 'Calle Mayor 7', 'bienestar', '$2y$10$atrmWIMTy3DB6fFfDOSXMOSxxXLlnrdsVOL43cJ5DQT8kSW1y9zfW');
+(3, 5, 'Vital Move Studio', 'contacto@vitalmove.com', '../img/logos/logo.pngVital Move Studio', 'Centro especializado en yoga, pilates y actividades de bienestar enfocadas en mejorar la salud f&iacute;sica y mental. Ofrecemos clases para todos los niveles, sesiones guiadas y talleres de relajaci&oacute;n.', '2026-05-06 22:32:34', 'aprobada', 'Collado-Mediano', '687452319', 'Calle Mayor 7', 'bienestar', '$2y$10$atrmWIMTy3DB6fFfDOSXMOSxxXLlnrdsVOL43cJ5DQT8kSW1y9zfW');
 
 -- --------------------------------------------------------
 
@@ -6278,7 +6280,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_actividad`
@@ -6290,7 +6292,7 @@ ALTER TABLE `detalle_actividad`
 -- AUTO_INCREMENT de la tabla `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `id_empresa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_empresa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `favorito`

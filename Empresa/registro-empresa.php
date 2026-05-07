@@ -130,7 +130,8 @@ if($banderaerror == false && isset($_POST["enviar"])){
         $banderaerror = true;
     }else{
 
-    $nombreArchivo = $_FILES["logo_empresa"]["name"];
+    $nombreLimpio = str_replace(" ", "-", strtolower($nombre_empresa));
+    $nombreArchivo = time() . "_" . $nombreLimpio . "_" . basename($_FILES["logo_empresa"]["name"]);
     $ruta = "../img/logos/" . $nombreArchivo;
 
     move_uploaded_file($_FILES["logo_empresa"]["tmp_name"], $ruta);

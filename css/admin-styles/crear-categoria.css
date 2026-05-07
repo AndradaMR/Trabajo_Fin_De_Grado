@@ -1,113 +1,89 @@
-/* FORMULARIO COMO PANEL ADMIN */
 
-.admin-form-card {
-  background-color: var(--admin-surface);
-  border: 1px solid var(--admin-border);
-  border-radius: var(--admin-radius);
-  box-shadow: var(--admin-shadow);
-  padding: 1.4rem;
-  max-width: 600px;
-}
 
-/* HEADER DEL FORM */
-
-.admin-form-header {
+.admin-alert{
+  padding: 1rem 1.2rem;
+  border-radius: 18px;
+  font-weight: 700;
   margin-bottom: 1.2rem;
 }
 
-.admin-form-header h3 {
-  margin: 0 0 0.3rem;
-  font-family: "Sansita", serif;
-  font-size: 1.6rem;
-  color: var(--admin-primary);
+.admin-alert-ok{
+  background-color: rgba(46, 196, 182, 0.14);
+  color: #169486;
 }
 
-.admin-form-header p {
-  margin: 0;
-  color: rgba(46, 46, 46, 0.75);
-  font-size: 0.95rem;
+.admin-alert-error{
+  background-color: rgba(255, 143, 163, 0.16);
+  color: #d35d75;
 }
 
-/* FORM */
-
-.admin-category-form {
+.report-table{
   display: flex;
   flex-direction: column;
+  gap: 0.7rem;
+}
+
+.report-table-row{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
   gap: 1rem;
-}
-
-/* GRUPOS */
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.form-group label {
-  font-weight: 600;
-  color: var(--admin-primary);
-  font-size: 0.95rem;
-}
-
-/* INPUTS IGUALES QUE ACTIVIDADES */
-
-.admin-category-form input,
-.admin-category-form select {
-  width: 100%;
-  padding: 0.9rem 1rem;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  background-color: rgba(46, 196, 182, 0.06);
+  border: 1px solid rgba(46, 196, 182, 0.12);
   border-radius: 16px;
-  border: 2px solid rgba(27, 73, 101, 0.10);
-  background-color: #ffffff;
-  color: var(--admin-text);
-  outline: none;
-  font-size: 0.95rem;
-  transition: var(--admin-transition);
 }
 
-.admin-category-form input::placeholder {
-  color: rgba(46, 46, 46, 0.45);
-}
-
-.admin-category-form input:focus,
-.admin-category-form select:focus {
-  border-color: var(--admin-secondary);
-  box-shadow: 0 0 0 4px rgba(46, 196, 182, 0.14);
-}
-
-/* BOTÓN (MISMO ESTILO QUE APPROVE) */
-
-.btn-submit-category {
+.report-table-head{
+  background-color: #1B4965;
+  color: #F7FDFC;
+  font-weight: 800;
   border: none;
-  border-radius: 999px;
-  padding: 0.75rem 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: var(--admin-transition);
-
-  background-color: var(--admin-secondary);
-  color: #ffffff;
-
-  align-self: flex-start;
-  min-width: 180px;
 }
 
-.btn-submit-category:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(46, 196, 182, 0.22);
+.report-table-head span{
+  color: #F7FDFC !important;
 }
 
-/* OCULTO */
-
-#grupo_categoria_padre {
-  display: none;
+.report-table-row span{
+  color: rgba(46, 46, 46, 0.82);
+  font-weight: 600;
 }
 
-/* RESPONSIVE */
+.report-table-row strong{
+  color: var(--admin-primary);
+  justify-self: start;
+}
 
-@media (max-width: 768px) {
-  .btn-submit-category {
-    width: 100%;
-    align-self: stretch;
-  }
+.admin-content > .admin-form-card{
+  width: 100%;
+  max-width: none;
+}
+
+.categoria-row,
+.report-table-head{
+  grid-template-columns: 1.3fr 1fr 1fr 120px;
+}
+
+.categoria-row .btn-reject{
+  justify-self: end;
+  padding: 0.55rem 0.9rem;
+}
+
+.report-table .report-table-row{
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 140px;
+  align-items: center;
+}
+
+.report-table .report-table-row span,
+.report-table .report-table-row strong{
+  align-self: center;
+}
+
+.report-table .report-table-row .btn-reject{
+  justify-self: end;
+  width: auto;
+  padding: 0.55rem 1rem;
+  margin: 0;
 }

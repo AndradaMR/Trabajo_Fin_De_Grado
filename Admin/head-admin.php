@@ -14,7 +14,7 @@ if(!isset($_SESSION["usuario"])){
 
 $usuarioAdmin = $bbdd->ObtenerUsuario($_SESSION["usuario"]);
 
-if($usuarioAdmin["id_rol"] != 3){
+if($usuarioAdmin == false || $usuarioAdmin["id_rol"] != 3){
     header("Location: ../publico/index.php");
     exit();
 }
@@ -62,7 +62,7 @@ $cssExtra = $cssExtra ?? [];
       <a href="actividades.php" class="admin-nav-link <?= $paginaActiva == 'actividades' ? 'active' : '' ?>">Actividades</a>
       <a href="usuarios.php" class="admin-nav-link <?= $paginaActiva == 'usuarios' ? 'active' : '' ?>">Usuarios</a>
       <a href="reportes.php" class="admin-nav-link <?= $paginaActiva == 'reportes' ? 'active' : '' ?>">Reportes</a>
-      <a href="Crear-categoria.php" class="admin-nav-link <?= $paginaActiva == 'crear-categoria' ? 'active' : '' ?>">Crear categoría</a>
+      <a href="crear-categoria.php" class="admin-nav-link <?= $paginaActiva == 'crear-categoria' ? 'active' : '' ?>">Crear categoría</a>
       <a href="../logout.php" class="admin-nav-link admin-logout">Cerrar sesión</a>
     </nav>
   </aside>
