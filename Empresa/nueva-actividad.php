@@ -7,10 +7,48 @@ if(!isset($_SESSION["empresa"])){
     exit();
 }
 
-
 $idEmpresa = $_SESSION["empresa"];
 
 $empresa = $bdempre->sacardatosempresa($idEmpresa);
+
+if($empresa["estado"] == "suspendida"){
+?>
+<div class="company-main">
+
+  <header class="company-topbar">
+    <div class="company-topbar-left">
+      <span class="company-page-tag">Empresa suspendida</span>
+      <h2>Añadir nueva actividad</h2>
+    </div>
+  </header>
+
+  <main class="company-content">
+    <section class="company-form-hero">
+      <div>
+        <h3>No puedes publicar nuevas actividades</h3>
+        <p>
+          Tu empresa está suspendida temporalmente. Mientras el estado siga suspendido,
+          no podrás crear nuevas actividades ni volver a activar servicios cancelados.
+        </p>
+      </div>
+    </section>
+
+    <div class="booking-alert booking-alert-error">
+      <p>
+        Si necesitas resolver esta situación, contacta con administración.
+      </p>
+    </div>
+  </main>
+
+</div>
+
+</body>
+</html>
+<?php
+    exit();
+}
+?>
+
 $idCategoriaPadre=$bdact->ObtenerIdCategoriaPorNombre($empresa["categoria_empresa"]);
 
 //obtener todas las subcategorias de la categoria de la empresa

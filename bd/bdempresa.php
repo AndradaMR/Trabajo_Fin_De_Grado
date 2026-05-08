@@ -447,16 +447,33 @@ public function InsertarDetalleActividad($idServicio, $fecha, $horaInicio, $hora
     ]);
 }
 
-public function ActivarServicio($idServicio){
+public function ActivarServicio($idServicio, $idEmpresa){
+
+    $sentencia = "SELECT estado 
+                  FROM empresa 
+                  WHERE id_empresa = :id_empresa";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_empresa" => $idEmpresa
+    ]);
+
+    $empresa = $ejecucion->fetch(PDO::FETCH_ASSOC);
+
+    if($empresa == false || $empresa["estado"] == "suspendida"){
+        return false;
+    }
 
     $sentencia = "UPDATE servicio 
                   SET estado = 'activo'
-                  WHERE id_servicio = :id_servicio";
+                  WHERE id_servicio = :id_servicio
+                  AND id_empresa = :id_empresa";
 
     $ejecucion = $this->pdo->prepare($sentencia);
 
-    $ejecucion->execute([
-        ":id_servicio" => $idServicio
+    return $ejecucion->execute([
+        ":id_servicio" => $idServicio,
+        ":id_empresa" => $idEmpresa
     ]);
 }
 

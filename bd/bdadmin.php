@@ -619,6 +619,33 @@ public function EliminarCategoriaAdmin($idCategoria){
     return "ok";
 }
 
+public function ObtenerEmpresaAprobadaPorId($idEmpresa){
+
+    $sentencia = "SELECT 
+                e.*,
+                (
+                    SELECT COUNT(*) 
+                    FROM servicio s
+                    WHERE s.id_empresa = e.id_empresa
+                ) AS total_servicios,
+                (
+                    SELECT COUNT(*) 
+                    FROM servicio s
+                    INNER JOIN reserva r ON s.id_servicio = r.id_servicio
+                    WHERE s.id_empresa = e.id_empresa
+                ) AS total_reservas
+            FROM empresa e
+            WHERE e.id_empresa = :id_empresa
+            LIMIT 1";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_empresa" => $idEmpresa
+    ]);
+
+    return $ejecucion->fetch(PDO::FETCH_ASSOC);
+}
+
 
 
 

@@ -51,7 +51,9 @@ $cssExtra = $cssExtra ?? [];
 
   <aside class="admin-sidebar">
     <div class="admin-sidebar-top">
-      <img src="../img/logo.PNG" alt="Logo Body and Soul" class="admin-sidebar-logo">
+      <a href="../publico/index.php">
+        <img src="../img/logo.PNG" alt="Logo Body and Soul" class="admin-sidebar-logo">
+      </a>
       <h1>Admin</h1>
     </div>
 
@@ -62,8 +64,9 @@ $cssExtra = $cssExtra ?? [];
       <a href="actividades.php" class="admin-nav-link <?= $paginaActiva == 'actividades' ? 'active' : '' ?>">Actividades</a>
       <a href="usuarios.php" class="admin-nav-link <?= $paginaActiva == 'usuarios' ? 'active' : '' ?>">Usuarios</a>
       <a href="reportes.php" class="admin-nav-link <?= $paginaActiva == 'reportes' ? 'active' : '' ?>">Reportes</a>
-      <a href="crear-categoria.php" class="admin-nav-link <?= $paginaActiva == 'crear-categoria' ? 'active' : '' ?>">Crear categoría</a>
-      <a href="../logout.php" class="admin-nav-link admin-logout">Cerrar sesión</a>
+      <a href="crear-categoria.php" class="admin-nav-link <?= $paginaActiva == 'gestionar-categoria' ? 'active' : '' ?>">Gestionar categoría</a>
+      <a href="../publico/perfil.php" class="admin-nav-link">Volver a mi perfil</a>
+      <a href="../publico/perfil.php?cerrar=si" class="admin-nav-link admin-logout">Cerrar sesión</a>
     </nav>
   </aside>
 

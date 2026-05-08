@@ -1,6 +1,6 @@
 <?php
-$paginaActiva = "crear-categoria";
-$tituloPagina = "Crear categoría";
+$paginaActiva = "gestionar-categoria";
+$tituloPagina = "Agregar o eliminar categorías";
 $etiquetaPagina = "Gestión de categorías";
 $cssExtra = [
     "../css/admin-styles/usuarios.css",
@@ -10,24 +10,24 @@ $cssExtra = [
 
 require_once("head-admin.php");
 
-if(isset($_GET["eliminar"])){
-    $idCategoria = (int) $_GET["eliminar"];
+if(isset($_GET["eliminar_categoria"])){
+    $idCategoria = (int) $_GET["eliminar_categoria"];
 
     $resultado = $bdadmin->EliminarCategoriaAdmin($idCategoria);
 
-    header("Location: crear-categoria.php?eliminar=" . $resultado);
+    header("Location: crear-categoria.php?resultado_eliminar=" . $resultado);
     exit();
 }
 
 $mensaje = "";
 $error = "";
 
-if(isset($_GET["eliminar"])){
-    if($_GET["eliminar"] == "ok"){
+if(isset($_GET["resultado_eliminar"])){
+    if($_GET["resultado_eliminar"] == "ok"){
         $mensaje = "Categoría eliminada correctamente.";
-    }else if($_GET["eliminar"] == "tiene_subcategorias"){
+    }else if($_GET["resultado_eliminar"] == "tiene_subcategorias"){
         $error = "No puedes eliminar esta categoría porque tiene subcategorías asociadas.";
-    }else if($_GET["eliminar"] == "tiene_servicios"){
+    }else if($_GET["resultado_eliminar"] == "tiene_servicios"){
         $error = "No puedes eliminar esta subcategoría porque tiene actividades asociadas.";
     }
 }
@@ -86,9 +86,9 @@ foreach($categorias as $categoria){
   <section class="admin-hero-card">
     <div class="admin-hero-text">
       <span class="section-badge">Categorías</span>
-      <h3>Crear nueva categoría</h3>
+      <h3>Gestiona categorías</h3>
       <p>
-        Añade categorías principales o subcategorías para organizar mejor las actividades publicadas en la plataforma.
+        Añade o elimina categorías principales o subcategorías para organizar mejor las actividades publicadas en la plataforma.
       </p>
     </div>
 
@@ -188,7 +188,7 @@ foreach($categorias as $categoria){
             <?= htmlspecialchars($categoria["categoria_padre"] ?? "—") ?>
           </span>
 
-          <a href="crear-categoria.php?eliminar=<?= $categoria["id_categoria"] ?>"
+          <a href="crear-categoria.php?eliminar_categoria=<?= $categoria["id_categoria"] ?>"
             class="btn-reject"
             onclick="return confirm('¿Seguro que quieres eliminar esta categoría?');">
             Eliminar
