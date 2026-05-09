@@ -41,6 +41,7 @@ $paginaActual = basename($_SERVER["PHP_SELF"]);
 
 <script src="../js/filtrosempresaservicio.js"></script>
 <script src="../js/validacionesanadirservicio.js"></script>
+<script src="../js/buscadoractempre.js"></script>
 
 <body class="company-body">
 

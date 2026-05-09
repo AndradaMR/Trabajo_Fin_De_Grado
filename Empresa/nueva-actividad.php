@@ -47,7 +47,7 @@ if($empresa["estado"] == "suspendida"){
 <?php
     exit();
 }
-?>
+
 
 $idCategoriaPadre=$bdact->ObtenerIdCategoriaPorNombre($empresa["categoria_empresa"]);
 

@@ -103,7 +103,7 @@ if (isset($actividad["estado"]) && $actividad["estado"] == "cancelado") {
 
               <div class="activity-image-wrapper">
                 <img
-                  src="../<?=$actividad['imagenes'][0]?>"
+                  src="<?=$actividad['imagenes'][0]?>"
                   alt="<?=$actividad['nombre_servicio']?>"
                   class="activity-main-image"
                 >

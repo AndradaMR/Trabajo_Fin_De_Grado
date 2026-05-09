@@ -36,7 +36,7 @@ $servicios = $bdempre->ObtenerServiciosEmpresa($idEmpresa);
 
           <div class="reservations-summary">
             <span class="reservations-summary-number"><?=$numreservas?></span>
-            <span class="reservations-summary-label">Reservas</span>
+            <span class="reservations-summary-label">Reservas recibidas</span>
           </div>
         </section>
 
