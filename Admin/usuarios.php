@@ -77,19 +77,20 @@ $datosUsuarios = $bdadmin->ObtenerDatosUsuariosAdmin();
       <div class="admin-search-wrap">
         <input
           type="text"
+          id="buscar-usuario-admin"
           name="buscar_usuario"
           class="admin-search-input"
           placeholder="Buscar usuario o email"
         >
       </div>
 
-      <select name="tipo_usuario" class="admin-filter-select">
+      <select id="filtro-tipo-usuario" name="tipo_usuario" class="admin-filter-select">
         <option value="">Todos los tipos</option>
         <option value="cliente">Clientes</option>
         <option value="admin">Administradores</option>
       </select>
 
-      <select name="estado_usuario" class="admin-filter-select">
+      <select id="filtro-estado-usuario" name="estado_usuario" class="admin-filter-select">
         <option value="">Todos los estados</option>
         <option value="activo">Activo</option>
         <option value="suspendido">Suspendido</option>
@@ -97,7 +98,7 @@ $datosUsuarios = $bdadmin->ObtenerDatosUsuariosAdmin();
     </form>
   </section>
 
-  <section class="admin-users-list">
+  <section class="admin-users-list" id="lista-usuarios-admin">
 
     <?php if(count($usuarios) > 0): ?>
 
@@ -216,6 +217,42 @@ $datosUsuarios = $bdadmin->ObtenerDatosUsuariosAdmin();
 
 </div>
 </div>
+
+<script>
+  const buscadorUsuarioAdmin = document.getElementById("buscar-usuario-admin");
+  const filtroTipoUsuario = document.getElementById("filtro-tipo-usuario");
+  const filtroEstadoUsuario = document.getElementById("filtro-estado-usuario");
+  const listaUsuariosAdmin = document.getElementById("lista-usuarios-admin");
+
+  let temporizadorUsuario = null;
+
+  function cargarUsuariosAdmin(){
+      const buscar = buscadorUsuarioAdmin.value;
+      const tipo = filtroTipoUsuario.value;
+      const estado = filtroEstadoUsuario.value;
+
+      const url = "ajax-usuarios.php?buscar=" + encodeURIComponent(buscar) +
+                  "&tipo=" + encodeURIComponent(tipo) +
+                  "&estado=" + encodeURIComponent(estado);
+
+      fetch(url)
+          .then(response => response.text())
+          .then(data => {
+              listaUsuariosAdmin.innerHTML = data;
+          });
+  }
+
+  buscadorUsuarioAdmin.addEventListener("input", function(){
+      clearTimeout(temporizadorUsuario);
+
+      temporizadorUsuario = setTimeout(function(){
+          cargarUsuariosAdmin();
+      }, 300);
+  });
+
+  filtroTipoUsuario.addEventListener("change", cargarUsuariosAdmin);
+  filtroEstadoUsuario.addEventListener("change", cargarUsuariosAdmin);
+</script>
 
 </body>
 </html>

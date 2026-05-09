@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-05-2026 a las 15:32:03
+-- Tiempo de generación: 10-05-2026 a las 00:36:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -5755,7 +5755,7 @@ CREATE TABLE `empresa` (
 --
 
 INSERT INTO `empresa` (`id_empresa`, `nombre_empresa`, `categoria_empresa`, `email`, `contrasena`, `direccion`, `telefono`, `ciudad_empresa`, `descripcion_empresa`, `logo_empresa`, `estado`) VALUES
-(1, 'Aventura Madrid', 'deporte', 'contacto@aventuramadrid.com', 'empresa1', 'Calle Mayor 10', '910000111', 'Madrid', 'Empresa de actividades de aventura al aire libre', '../img/logos/1711403945_aventuramadrid_logo', 'activa'),
+(1, 'Aventura Madrid', 'deporte', 'contacto@aventuramadrid.com', 'empresa1', 'Calle Mayor 10', '910000111', 'Madrid', 'Empresa de actividades de aventura al aire libre', '../img/logos/1711403945_aventuramadrid_logo.jpg', 'activa'),
 (2, 'Nature Escape', 'bienestar', 'info@natureescape.com', 'empresa2', 'Av. Sierra 45', '910000222', 'Segovia', '', '../img/logos/4111403945_nature_logo.jpg', 'activa'),
 (3, 'Aura', 'bienestar', 'aura@gmail.com', '$2y$10$SPoBSTTB5HO85vAa3WIqVejIl1hKeXAC5Ii3M8Z5mNEFe5L1.E4rS', 'Avenida de Londres, 2C', '657664762', 'Arganda del Rey', 'Nos dedicamos a la meditación', '../img/logos/aura.png', 'activa'),
 (4, 'Begin', 'bienestar', 'begin@gmail.com', '$2y$10$W57ph8hwButVgvvStDp/4eZ/MAfauDrMwdn0520AMBuA75IEdOyMe', 'Calle Azahar 3', '675887876', 'Madrid', 'Empresa de mindfulness y relajacion', '../img/logos/IMG_4446.JPG', 'activa'),
@@ -5929,9 +5929,9 @@ INSERT INTO `imagen_servicio` (`id_imagen`, `id_servicio`, `url_imagen`) VALUES
 (132, 78, 'img/bienestar/aromaterapia-aceites1.jpg'),
 (133, 79, 'img/bienestar/aromaterapia-aceites2.jpg'),
 (134, 80, 'img/bienestar/aromaterapia-aceites3.jpg'),
-(136, 82, '../img//auraportada.png'),
-(139, 85, '../img/bienestar/ChatGPT Image 4 may 2026, 21_46_00.png'),
-(140, 86, '../img/bienestar/ChatGPT Image 9 may 2026, 14_51_33 (1).png');
+(136, 82, 'img//auraportada.png'),
+(139, 85, 'img/bienestar/ChatGPT Image 4 may 2026, 21_46_00.png'),
+(140, 86, 'img/bienestar/ChatGPT Image 9 may 2026, 14_51_33 (1).png');
 
 -- --------------------------------------------------------
 
