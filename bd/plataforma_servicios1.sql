@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-05-2026 a las 10:32:07
+-- Tiempo de generación: 09-05-2026 a las 15:32:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -5726,7 +5726,9 @@ INSERT INTO `detalle_actividad` (`id`, `id_servicio`, `fecha`, `hora_inicio`, `h
 (5662, 80, '2026-08-27', '10:00:00', '11:00:00', 15),
 (5663, 80, '2026-08-27', '17:00:00', '18:00:00', 15),
 (5664, 80, '2026-08-30', '10:00:00', '11:00:00', 15),
-(5665, 80, '2026-08-30', '17:00:00', '18:00:00', 15);
+(5665, 80, '2026-08-30', '17:00:00', '18:00:00', 15),
+(8257, 86, '2026-05-12', '18:00:00', '18:00:00', 15),
+(8260, 86, '2026-05-11', '16:30:00', '18:30:00', 12);
 
 -- --------------------------------------------------------
 
@@ -5928,7 +5930,8 @@ INSERT INTO `imagen_servicio` (`id_imagen`, `id_servicio`, `url_imagen`) VALUES
 (133, 79, 'img/bienestar/aromaterapia-aceites2.jpg'),
 (134, 80, 'img/bienestar/aromaterapia-aceites3.jpg'),
 (136, 82, '../img//auraportada.png'),
-(139, 85, '../img/bienestar/ChatGPT Image 4 may 2026, 21_46_00.png');
+(139, 85, '../img/bienestar/ChatGPT Image 4 may 2026, 21_46_00.png'),
+(140, 86, '../img/bienestar/ChatGPT Image 9 may 2026, 14_51_33 (1).png');
 
 -- --------------------------------------------------------
 
@@ -6117,7 +6120,8 @@ INSERT INTO `servicio` (`id_servicio`, `id_empresa`, `nombre_servicio`, `descrip
 (79, 2, 'Ritual de aceites esenciales', 'Tratamiento de bienestar con enfoque sensorial y relajante.', 'Nature Escape Relax Center, Calle Mayor, 18, Madrid', 14, 27.00, '1 hora', 'No se requieren materiales', 'activo'),
 (80, 2, 'Aromaterapia premium', 'Experiencia completa con aceites, ambiente guiado y descanso final.', 'Nature Escape Premium Experience, Calle Alcalá, 120, Madrid', 14, 29.00, '1 hora', 'No se requieren materiales', 'activo'),
 (82, 3, 'Meditación consciente guiada', 'Sesión de meditación consciente guiada orientada a reducir el estrés y mejorar el bienestar emocional. A través de técnicas de respiración y atención plena, aprenderás a centrarte en el momento presente en un entorno tranquilo y relajante. No se requiere experiencia previa, ideal tanto para principiantes como para personas que quieran profundizar en su práctica.', 'Aura Experience, Avenida de Londres, 2C, Arganda del Rey', 13, 22.50, '1 hora y 20 minutos', 'Esterilla y ropa cómoda', 'activo'),
-(85, 3, 'Estiramientos relajantes', 'Estiramientos específicos para relajar y todos los musculos del cuerpo y sentirse totalmente renovada', 'Aura Wellness Center, Calle Mayor, 24, Móstoles', 6, 14.99, '1 hora', 'Esterilla, cintas.', 'activo');
+(85, 3, 'Estiramientos relajantes', 'Estiramientos específicos para relajar y todos los musculos del cuerpo y sentirse totalmente renovada', 'Aura Wellness Center, Calle Mayor, 24, Móstoles', 6, 14.99, '1 hora', 'Esterilla, cintas.', 'activo'),
+(86, 3, 'Meditación para principiantes', 'Clase de meditación y mindfulness pensado para personas que deseen experimentar este ejercicio por primera vez.', 'Aura Experience, Avenida de Londres, 2C, Arganda del Rey', 13, 20.00, '2 horas', 'Esterilla', 'cancelado');
 
 -- --------------------------------------------------------
 
@@ -6286,7 +6290,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `detalle_actividad`
 --
 ALTER TABLE `detalle_actividad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8257;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8261;
 
 --
 -- AUTO_INCREMENT de la tabla `empresa`
@@ -6304,7 +6308,7 @@ ALTER TABLE `favorito`
 -- AUTO_INCREMENT de la tabla `imagen_servicio`
 --
 ALTER TABLE `imagen_servicio`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT de la tabla `resena`
@@ -6328,7 +6332,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `servicio`
 --
 ALTER TABLE `servicio`
-  MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT de la tabla `solicitud_empresa`

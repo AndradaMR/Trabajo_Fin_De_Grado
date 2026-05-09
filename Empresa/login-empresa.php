@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if(isset($_SESSION["empresa"])){
+  header("Location: index.php");
+}
+
 require_once("../bd/bdempresa.php");
 $bdempre= new bdempresa("localhost",3306,"plataforma_servicios1","root","");
 

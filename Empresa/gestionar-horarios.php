@@ -18,7 +18,7 @@ $empresa=$bdempre->sacardatosempresa($idEmpresa);
 
 $idServicio = (int) $_GET["idservicio"];
 
-$servicio = $bdact->obtenerActividadPorId($idServicio);
+$servicio = $bdact->obtenerActividadPorIdConcancelados($idServicio);
 
 $tieneHorarios = $bdempre->ServicioTieneHorarios($idServicio);
 
@@ -52,7 +52,6 @@ if(isset($_POST["hora_inicio"])){
     }
 }
 
-
 if(isset($_POST["plazas_maximas"])){
     $plazas_maximas = trim($_POST["plazas_maximas"]);
 
@@ -69,7 +68,6 @@ if(isset($_POST["plazas_maximas"])){
 
     if(isset($_POST["enviar"]) && $banderaerror == false){
 
-
     $minutosDuracion=$bdempre->DuracionTextoAMinutos($servicio["duracion"]);
 
     $hora_fin = date("H:i", strtotime($hora_inicio . " +" . $minutosDuracion . " minutes"));
@@ -82,10 +80,10 @@ if(isset($_POST["plazas_maximas"])){
         $plazas_maximas
     );
 
-    $bdempre->ActivarServicio($idServicio);
+    $bdempre->ActivarServicio($idServicio,$idEmpresa);
 
     //Generar json de actividades
-     //require("../bd/generarJSONact.php");
+     require("../bd/generarJSONact.php");
 
     header("Location: gestionar-horarios.php?idservicio=".$idServicio."&ok=1");
     exit();

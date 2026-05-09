@@ -22,7 +22,10 @@ if(isset($_POST["cancelar"])){
 
     $idServicio = (int) $_POST["id_servicio"];
 
-    $bdempre->CancelarServicioEmpresa($idServicio, $idEmpresa);
+    $bdempre->CancelarServicioEmpresa($idServicio, $idempresa);
+
+     //Actualizar json de actividades
+     require("../bd/generarJSONact.php");
 
     header("Location: mis-servicios.php");
     exit();
@@ -32,7 +35,10 @@ if(isset($_POST["reactivar_servicio"])){
 
     $idServicio = (int) $_POST["id_servicio"];
 
-    $bdempre->ActivarServicio($idServicio, $idEmpresa);
+    $bdempre->ActivarServicio($idServicio, $idempresa);
+
+      //Actualizar json de actividades
+     require("../bd/generarJSONact.php");
 
     header("Location: mis-servicios.php");
     exit();

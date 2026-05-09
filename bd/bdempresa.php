@@ -395,9 +395,9 @@ public function ExisteServicioEmpresa($idEmpresa, $nombreServicio){
 public function InsertarServicio($idEmpresa, $nombre, $descripcion, $lugar, $idCategoria, $precio, $duracion, $materiales){
 
     $sentencia = "INSERT INTO servicio 
-            (id_empresa, nombre_servicio, descripcion, lugar, id_categoria, precio, duracion, materiales)
+            (id_empresa, nombre_servicio, descripcion, lugar, id_categoria, precio, duracion, materiales, estado)
             VALUES 
-            (:id_empresa, :nombre, :descripcion, :lugar, :id_categoria, :precio, :duracion, :materiales)";
+            (:id_empresa, :nombre, :descripcion, :lugar, :id_categoria, :precio, :duracion, :materiales, :estado)";
 
     $ejecuccion = $this->pdo->prepare($sentencia);
 
@@ -409,7 +409,8 @@ public function InsertarServicio($idEmpresa, $nombre, $descripcion, $lugar, $idC
         ":id_categoria" => $idCategoria,
         ":precio" => $precio,
         ":duracion" => $duracion,
-        ":materiales" => $materiales
+        ":materiales" => $materiales, 
+        ":estado" => "cancelado"
     ]);
 
     // devolver el id del servicio recién creado
