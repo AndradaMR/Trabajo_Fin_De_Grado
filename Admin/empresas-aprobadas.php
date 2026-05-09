@@ -9,6 +9,22 @@ $cssExtra = [
 
 require_once("head-admin.php");
 
+if(isset($_GET["suspender"])){
+    $idEmpresa = (int) $_GET["suspender"];
+    $bdadmin->SuspenderEmpresa($idEmpresa);
+
+    header("Location: empresas-aprobadas.php");
+    exit();
+}
+
+if(isset($_GET["activar"])){
+    $idEmpresa = (int) $_GET["activar"];
+    $bdadmin->ActivarEmpresa($idEmpresa);
+
+    header("Location: empresas-aprobadas.php");
+    exit();
+}
+
 $empresas = $bdadmin->ObtenerEmpresasAprobadas();
 $totalEmpresas = count($empresas);
 ?>
@@ -56,7 +72,17 @@ $totalEmpresas = count($empresas);
     <?php if(count($empresas) > 0): ?>
 
       <?php foreach($empresas as $empresa): ?>
+        <?php
+        $estado = $empresa["estado"] ?? "activa";
 
+        if($estado == "activa"){
+            $claseEstado = "approved";
+            $textoEstado = "Activa";
+        }else{
+            $claseEstado = "blocked";
+            $textoEstado = "Suspendida";
+        }
+        ?>
         <article class="approved-company-card">
           <div class="approved-company-main">
             <div class="approved-company-header">
@@ -79,7 +105,9 @@ $totalEmpresas = count($empresas);
                 </p>
               </div>
 
-              <span class="admin-status-chip approved">Activa</span>
+              <span class="admin-status-chip <?= $claseEstado ?>">
+                  <?= $textoEstado ?>
+              </span>
             </div>
 
             <p class="approved-company-description">
@@ -116,6 +144,22 @@ $totalEmpresas = count($empresas);
           </div>
 
           <div class="approved-company-actions">
+            <?php if($estado == "activa"): ?>
+              <a href="empresas-aprobadas.php?suspender=<?= $empresa["id_empresa"] ?>" 
+                class="btn-warning"
+                onclick="return confirm('¿Suspender esta empresa? También se cancelarán sus actividades.');">
+                  Suspender
+              </a>
+
+          <?php else: ?>
+
+              <a href="empresas-aprobadas.php?activar=<?= $empresa["id_empresa"] ?>" 
+                class="btn-approve"
+                onclick="return confirm('¿Reactivar esta empresa?');">
+                  Reactivar
+              </a>
+
+          <?php endif; ?>
             <a href="detalle-empresa-aprobada.php?id=<?= $empresa["id_empresa"] ?>" class="btn-detail">
               Ver empresa
             </a>

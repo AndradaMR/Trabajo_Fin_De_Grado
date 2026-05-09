@@ -282,8 +282,8 @@ public function ObtenerDatosUsuariosAdmin(){
         "con_reservas" => "SELECT COUNT(DISTINCT id_usuario) FROM reserva"
     ];
 
-    foreach($consultas as $clave => $sql){
-        $ejecucion = $this->pdo->prepare($sql);
+    foreach($consultas as $clave => $sentencia){
+        $ejecucion = $this->pdo->prepare($sentencia);
         $ejecucion->execute();
         $datos[$clave] = $ejecucion->fetchColumn();
     }
@@ -343,6 +343,309 @@ public function ObtenerReservasUsuarioAdmin($idUsuario){
 
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
+
+public function ObtenerResumenReportes(){
+
+    $datos = [];
+
+    $consultas = [
+        "total_reservas" => "SELECT COUNT(*) FROM reserva",
+        "reservas_confirmadas" => "SELECT COUNT(*) FROM reserva WHERE estado = 'confirmada'",
+        "reservas_canceladas" => "SELECT COUNT(*) FROM reserva WHERE estado = 'cancelada'",
+        "usuarios_activos" => "SELECT COUNT(*) FROM usuario WHERE estado = 'activo'",
+        "empresas_total" => "SELECT COUNT(*) FROM empresa",
+        "actividades_activas" => "SELECT COUNT(*) FROM servicio WHERE estado = 'activo'"
+    ];
+
+    foreach($consultas as $clave => $sentencia){
+        $ejecucion = $this->pdo->prepare($sentencia);
+        $ejecucion->execute();
+        $datos[$clave] = $ejecucion->fetchColumn();
+    }
+
+    return $datos;
+}
+
+public function ObtenerActividadesMasReservadas(){
+
+    $sentencia = "SELECT 
+                s.id_servicio,
+                s.nombre_servicio,
+                e.nombre_empresa,
+                COUNT(r.id_reserva) AS total_reservas
+            FROM servicio s
+            LEFT JOIN reserva r ON s.id_servicio = r.id_servicio
+            INNER JOIN empresa e ON s.id_empresa = e.id_empresa
+            GROUP BY s.id_servicio, s.nombre_servicio, e.nombre_empresa
+            ORDER BY total_reservas DESC
+            LIMIT 5";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerEmpresasConMasReservas(){
+
+    $sentencia = "SELECT 
+                e.id_empresa,
+                e.nombre_empresa,
+                COUNT(r.id_reserva) AS total_reservas
+            FROM empresa e
+            LEFT JOIN servicio s ON e.id_empresa = s.id_empresa
+            LEFT JOIN reserva r ON s.id_servicio = r.id_servicio
+            GROUP BY e.id_empresa, e.nombre_empresa
+            ORDER BY total_reservas DESC
+            LIMIT 5";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerUsuariosMasActivos(){
+
+    $sentencia = "SELECT 
+                u.id_usuario,
+                u.nombre,
+                u.apellido,
+                u.email,
+                COUNT(r.id_reserva) AS total_reservas
+            FROM usuario u
+            LEFT JOIN reserva r ON u.id_usuario = r.id_usuario
+            GROUP BY u.id_usuario, u.nombre, u.apellido, u.email
+            ORDER BY total_reservas DESC
+            LIMIT 5";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerCategoriasMasPopulares(){
+
+    $sentencia = "SELECT 
+                COALESCE(cp.nombre, c.nombre) AS categoria,
+                COUNT(r.id_reserva) AS total_reservas
+            FROM categoria c
+            LEFT JOIN categoria cp ON c.id_categoria_padre = cp.id_categoria
+            INNER JOIN servicio s ON s.id_categoria = c.id_categoria
+            LEFT JOIN reserva r ON s.id_servicio = r.id_servicio
+            GROUP BY categoria
+            ORDER BY total_reservas DESC
+            LIMIT 5";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function SuspenderEmpresa($idEmpresa){
+
+    try{
+
+        $this->pdo->beginTransaction();
+
+        // suspender empresa
+        $sentencia = "UPDATE empresa
+                SET estado = 'suspendida'
+                WHERE id_empresa = :id_empresa";
+
+        $ejecucion = $this->pdo->prepare($sentencia);
+        $ejecucion->execute([
+            ":id_empresa" => $idEmpresa
+        ]);
+
+        // cancelar servicios
+        $sentencia2 = "UPDATE servicio
+                 SET estado = 'cancelado'
+                 WHERE id_empresa = :id_empresa";
+
+        $ejecucion2 = $this->pdo->prepare($sentencia2);
+        $ejecucion2->execute([
+            ":id_empresa" => $idEmpresa
+        ]);
+
+        // cancelar reservas asociadas
+        $sentencia3 = "UPDATE reserva r
+                 INNER JOIN servicio s 
+                 ON r.id_servicio = s.id_servicio
+                 SET r.estado = 'cancelada'
+                 WHERE s.id_empresa = :id_empresa";
+
+        $ejecucion3 = $this->pdo->prepare($sentencia3);
+        $ejecucion3->execute([
+            ":id_empresa" => $idEmpresa
+        ]);
+
+        $this->pdo->commit();
+
+        return true;
+
+    }catch(Exception $e){
+
+        $this->pdo->rollBack();
+        return false;
+    }
+}
+
+public function ActivarEmpresa($idEmpresa){
+
+    $sentencia = "UPDATE empresa 
+            SET estado = 'activa'
+            WHERE id_empresa = :id_empresa";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    return $ejecucion->execute([
+        ":id_empresa" => $idEmpresa
+    ]);
+}
+
+public function ObtenerCategoriasAdmin(){
+
+    $sentencia = "SELECT 
+                c.id_categoria,
+                c.nombre,
+                c.id_categoria_padre,
+                cp.nombre AS categoria_padre
+            FROM categoria c
+            LEFT JOIN categoria cp ON c.id_categoria_padre = cp.id_categoria
+            ORDER BY cp.nombre ASC, c.nombre ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerCategoriasPadreAdmin(){
+
+    $sentencia = "SELECT * 
+            FROM categoria 
+            WHERE id_categoria_padre IS NULL
+            ORDER BY nombre ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ExisteCategoriaAdmin($nombre, $idPadre){
+
+    if($idPadre == null){
+        $sentencia = "SELECT id_categoria 
+                FROM categoria 
+                WHERE nombre = :nombre 
+                AND id_categoria_padre IS NULL
+                LIMIT 1";
+
+        $ejecucion = $this->pdo->prepare($sentencia);
+        $ejecucion->execute([":nombre" => $nombre]);
+    }else{
+        $sentencia = "SELECT id_categoria 
+                FROM categoria 
+                WHERE nombre = :nombre 
+                AND id_categoria_padre = :id_padre
+                LIMIT 1";
+
+        $ejecucion = $this->pdo->prepare($sentencia);
+        $ejecucion->execute([
+            ":nombre" => $nombre,
+            ":id_padre" => $idPadre
+        ]);
+    }
+
+    return $ejecucion->fetch(PDO::FETCH_ASSOC) != false;
+}
+
+public function CrearCategoriaAdmin($nombre, $idPadre){
+
+    $sentencia = "INSERT INTO categoria (nombre, id_categoria_padre)
+            VALUES (:nombre, :id_padre)";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    return $ejecucion->execute([
+        ":nombre" => $nombre,
+        ":id_padre" => $idPadre
+    ]);
+}
+
+public function CategoriaTieneHijas($idCategoria){
+
+    $sentencia = "SELECT COUNT(*) 
+            FROM categoria 
+            WHERE id_categoria_padre = :id";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([":id" => $idCategoria]);
+
+    return $ejecucion->fetchColumn() > 0;
+}
+
+public function CategoriaTieneServicios($idCategoria){
+
+    $sentencia = "SELECT COUNT(*) 
+            FROM servicio 
+            WHERE id_categoria = :id";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([":id" => $idCategoria]);
+
+    return $ejecucion->fetchColumn() > 0;
+}
+
+public function EliminarCategoriaAdmin($idCategoria){
+
+    if($this->CategoriaTieneHijas($idCategoria)){
+        return "tiene_subcategorias";
+    }
+
+    if($this->CategoriaTieneServicios($idCategoria)){
+        return "tiene_servicios";
+    }
+
+    $sentencia = "DELETE FROM categoria 
+            WHERE id_categoria = :id";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([":id" => $idCategoria]);
+
+    return "ok";
+}
+
+public function ObtenerEmpresaAprobadaPorId($idEmpresa){
+
+    $sentencia = "SELECT 
+                e.*,
+                (
+                    SELECT COUNT(*) 
+                    FROM servicio s
+                    WHERE s.id_empresa = e.id_empresa
+                ) AS total_servicios,
+                (
+                    SELECT COUNT(*) 
+                    FROM servicio s
+                    INNER JOIN reserva r ON s.id_servicio = r.id_servicio
+                    WHERE s.id_empresa = e.id_empresa
+                ) AS total_reservas
+            FROM empresa e
+            WHERE e.id_empresa = :id_empresa
+            LIMIT 1";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_empresa" => $idEmpresa
+    ]);
+
+    return $ejecucion->fetch(PDO::FETCH_ASSOC);
+}
+
 
 
 
