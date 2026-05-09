@@ -7,11 +7,16 @@ if(!isset($_SESSION["empresa"])){
     exit();
 }
 
-$idEmpresa = $_SESSION["empresa"];
-$empresa=$bdempre->sacardatosempresa($idEmpresa);
+
+$empresa=$bdempre->sacardatosempresa($idempresa);
 $categoriaempre=$empresa["categoria_empresa"];
-$servicios = $bdempre->ObtenerServiciosEmpresa($idEmpresa);
+$servicios = $bdempre->ObtenerServiciosEmpresa($idempresa);
 $totalServicios = count($servicios);
+$actividadesactivas=$bdempre->ObtenerServiciosActivos($idempresa);
+$numactactivas=count($actividadesactivas);
+$actividadescanceladas=$totalServicios-$numactactivas;
+
+$catempresa=$bdempre->ObtenerSubcategoriasEmpresa($idempresa);
 
 if(isset($_POST["cancelar"])){
 
@@ -62,8 +67,12 @@ if(isset($_POST["reactivar_servicio"])){
           </div>
 
           <div class="services-summary">
-            <span class="services-summary-number"><?=$totalServicios?></span>
-            <span class="services-summary-label">Servicios</span>
+            <span class="services-summary-number"><?=$numactactivas?></span>
+            <span class="services-summary-label">Servicios activos</span>
+          </div>
+          <div class="services-summary">
+            <span class="services-summary-number"><?=$actividadescanceladas?></span>
+            <span class="services-summary-label">Servicios cancelados</span>
           </div>
         </section>
 
@@ -74,16 +83,21 @@ if(isset($_POST["reactivar_servicio"])){
           </div>
 
           <div class="services-filters">
-            <select>
+            <select id="filtro-categoria">
               <option value="">Todas las categorías</option>
-              <option value="bienestar">Bienestar</option>
-              <option value="deporte">Deporte</option>
+              <?php
+              foreach($catempresa as  $cat){
+            ?>
+              <option value="<?=$cat["nombre"]?>"><?=$cat["nombre"]?></option>
+            <?php
+              }
+              ?>
             </select>
 
-            <select>
+            <select id="filtro-estado">
               <option value="">Todos los estados</option>
-              <option value="activo">Activo</option>
-              <option value="borrador">Borrador</option>
+              <option value="activo">Activa</option>
+              <option value="borrador">Cancelada</option>
             </select>
           </div>
         </section>
@@ -102,7 +116,14 @@ if(isset($_POST["reactivar_servicio"])){
 
         ?>
 
-          <article class="service-company-card">
+          <article 
+  class="service-company-card"
+  data-nombre="<?=strtolower(htmlspecialchars($servicio["nombre_servicio"]))?>"
+data-lugar="<?=strtolower(htmlspecialchars($servicio["lugar"]))?>"
+data-descripcion="<?=strtolower(htmlspecialchars($servicio["descripcion"]))?>"
+data-subcategoria="<?=strtolower(htmlspecialchars($servicio["subcategoria"]))?>"
+data-estado="<?=strtolower(htmlspecialchars($servicio["estado"]))?>"
+>
             <div class="service-company-image">
               <img src="<?=$imagen?>" alt="<?=htmlspecialchars($servicio["nombre_servicio"])?>">
             </div>
@@ -143,7 +164,7 @@ if(isset($_POST["reactivar_servicio"])){
               <?php if($servicio["estado"] == "activo"){ ?>
               <form method="post" onsubmit="return confirm('¿Seguro que quieres cancelar este servicio? También se cancelarán sus reservas.');">
                 <input type="hidden" name="id_servicio" value="<?=$servicio["id_servicio"]?>">
-                <button type="submit" name="cancelar_servicio" class="btn-reject">
+                <button type="submit" name="cancelar" class="btn-reject">
                   Cancelar servicio
                 </button>
               </form>
