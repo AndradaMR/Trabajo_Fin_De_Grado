@@ -32,27 +32,28 @@ $totalPendientes = count($solicitudes);
 
   <section class="pending-filters-card">
     <div class="pending-search">
-      <label for="buscar-empresa" class="sr-only">Buscar empresa</label>
-      <input type="text" id="buscar-empresa" placeholder="Buscar empresa, ciudad o email">
+      <label for="buscar-empresa-pendiente" class="sr-only">Buscar empresa</label>
+      <input type="text" id="buscar-empresa-pendiente" placeholder="Buscar empresa, ciudad o email">
     </div>
 
     <div class="pending-filters">
-      <select>
+      <select id="filtro-categoria-pendiente">
         <option value="">Todas las categorías</option>
         <option value="deporte">Deporte</option>
         <option value="bienestar">Bienestar</option>
       </select>
 
-      <select>
+      <select id="filtro-ciudad-pendiente">
         <option value="">Todas las ciudades</option>
-        <option value="madrid">Madrid</option>
-        <option value="pozuelo">Pozuelo</option>
-        <option value="alcobendas">Alcobendas</option>
+        <option value="Madrid">Madrid</option>
+        <option value="Pozuelo">Pozuelo</option>
+        <option value="Alcobendas">Alcobendas</option>
+        <option value="Collado-Mediano">Collado-Mediano</option>
       </select>
     </div>
   </section>
 
-  <section class="pending-list">
+  <section class="pending-list" id="lista-empresas-pendientes">
 
     <?php if(count($solicitudes) > 0): ?>
 
@@ -159,6 +160,42 @@ $totalPendientes = count($solicitudes);
 
 </div>
 </div>
+
+<script>
+  const buscadorPendiente = document.getElementById("buscar-empresa-pendiente");
+  const filtroCategoriaPendiente = document.getElementById("filtro-categoria-pendiente");
+  const filtroCiudadPendiente = document.getElementById("filtro-ciudad-pendiente");
+  const listaPendientes = document.getElementById("lista-empresas-pendientes");
+
+  let temporizadorPendiente = null;
+
+  function cargarEmpresasPendientes(){
+      const buscar = buscadorPendiente.value;
+      const categoria = filtroCategoriaPendiente.value;
+      const ciudad = filtroCiudadPendiente.value;
+
+      const url = "ajax-empresas-pendientes.php?buscar=" + encodeURIComponent(buscar) +
+                  "&categoria=" + encodeURIComponent(categoria) +
+                  "&ciudad=" + encodeURIComponent(ciudad);
+
+      fetch(url)
+          .then(response => response.text())
+          .then(data => {
+              listaPendientes.innerHTML = data;
+          });
+  }
+
+  buscadorPendiente.addEventListener("input", function(){
+      clearTimeout(temporizadorPendiente);
+
+      temporizadorPendiente = setTimeout(function(){
+          cargarEmpresasPendientes();
+      }, 300);
+  });
+
+  filtroCategoriaPendiente.addEventListener("change", cargarEmpresasPendientes);
+  filtroCiudadPendiente.addEventListener("change", cargarEmpresasPendientes);
+</script>
 
 </body>
 </html>

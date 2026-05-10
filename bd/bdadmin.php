@@ -9,15 +9,39 @@ public function __construct($host,$port,$db,$user,$pass) {
     $this->pdo = new PDO("mysql:host=".$host.";port=".$port.";dbname=".$db.";charset=utf8", $user, $pass);
     }
 
-public function ObtenerSolicitudesPendientes(){
+public function ObtenerSolicitudesPendientes($buscar = "", $categoria = "", $ciudad = ""){
 
     $sentencia = "SELECT * 
-                  FROM solicitud_empresa 
-                  WHERE estado = 'pendiente'
-                  ORDER BY fecha DESC";
+            FROM solicitud_empresa 
+            WHERE estado = 'pendiente'";
+
+    $parametros = [];
+
+    if($buscar != ""){
+        $sentencia .= " AND (
+                    nombre LIKE :buscar
+                    OR email LIKE :buscar
+                    OR ciudad_empresa LIKE :buscar
+                    OR telefono LIKE :buscar
+                  )";
+
+        $parametros[":buscar"] = "%" . $buscar . "%";
+    }
+
+    if($categoria != ""){
+        $sentencia .= " AND categoria_empresa = :categoria";
+        $parametros[":categoria"] = $categoria;
+    }
+
+    if($ciudad != ""){
+        $sentencia .= " AND ciudad_empresa = :ciudad";
+        $parametros[":ciudad"] = $ciudad;
+    }
+
+    $sentencia .= " ORDER BY fecha DESC";
 
     $ejecucion = $this->pdo->prepare($sentencia);
-    $ejecucion->execute();
+    $ejecucion->execute($parametros);
 
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -107,50 +131,101 @@ public function RechazarEmpresa($idSolicitud){
     ]);
 }
 
-public function ObtenerEmpresasAprobadas(){
+public function ObtenerEmpresasAprobadas($buscar = "", $categoria = "", $estado = ""){
 
     $sentencia = "SELECT 
-                    e.*,
-                    (
-                        SELECT COUNT(*) 
-                        FROM servicio s 
-                        WHERE s.id_empresa = e.id_empresa
-                    ) AS total_servicios
-                  FROM empresa e
-                  ORDER BY e.id_empresa DESC";
+                e.*,
+                (
+                    SELECT COUNT(*) 
+                    FROM servicio s 
+                    WHERE s.id_empresa = e.id_empresa
+                ) AS total_servicios
+            FROM empresa e
+            WHERE 1=1";
+
+    $parametros = [];
+
+    if($buscar != ""){
+        $sentencia .= " AND (
+                    e.nombre_empresa LIKE :buscar
+                    OR e.email LIKE :buscar
+                    OR e.ciudad_empresa LIKE :buscar
+                    OR e.telefono LIKE :buscar
+                  )";
+        $parametros[":buscar"] = "%" . $buscar . "%";
+    }
+
+    if($categoria != ""){
+        $sentencia .= " AND e.categoria_empresa = :categoria";
+        $parametros[":categoria"] = $categoria;
+    }
+
+    if($estado != ""){
+        $sentencia .= " AND e.estado = :estado";
+        $parametros[":estado"] = $estado;
+    }
+
+    $sentencia .= " ORDER BY e.id_empresa DESC";
 
     $ejecucion = $this->pdo->prepare($sentencia);
-    $ejecucion->execute();
+    $ejecucion->execute($parametros);
 
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function ObtenerTodasActividades(){
+public function ObtenerTodasActividades($buscar = "", $categoria = "", $estado = ""){
 
     $sentencia = "SELECT 
-                    s.*,
-                    e.nombre_empresa,
-                    c.nombre AS subcategoria,
-                    cp.nombre AS categoria_padre,
-                    (
-                        SELECT url_imagen 
-                        FROM imagen_servicio i
-                        WHERE i.id_servicio = s.id_servicio
-                        LIMIT 1
-                    ) AS imagen,
-                    (
-                        SELECT COUNT(*) 
-                        FROM reserva r
-                        WHERE r.id_servicio = s.id_servicio
-                    ) AS total_reservas
-                  FROM servicio s
-                  INNER JOIN empresa e ON s.id_empresa = e.id_empresa
-                  INNER JOIN categoria c ON s.id_categoria = c.id_categoria
-                  LEFT JOIN categoria cp ON c.id_categoria_padre = cp.id_categoria
-                  ORDER BY s.id_servicio DESC";
+                s.*,
+                e.nombre_empresa,
+                c.nombre AS subcategoria,
+                cp.nombre AS categoria_padre,
+                (
+                    SELECT url_imagen 
+                    FROM imagen_servicio i
+                    WHERE i.id_servicio = s.id_servicio
+                    LIMIT 1
+                ) AS imagen,
+                (
+                    SELECT COUNT(*) 
+                    FROM reserva r
+                    WHERE r.id_servicio = s.id_servicio
+                ) AS total_reservas
+            FROM servicio s
+            INNER JOIN empresa e ON s.id_empresa = e.id_empresa
+            INNER JOIN categoria c ON s.id_categoria = c.id_categoria
+            LEFT JOIN categoria cp ON c.id_categoria_padre = cp.id_categoria
+            WHERE 1=1";
+
+    $parametros = [];
+
+    if($buscar != ""){
+        $sentencia .= " AND (
+                    s.nombre_servicio LIKE :buscar
+                    OR e.nombre_empresa LIKE :buscar
+                    OR s.lugar LIKE :buscar
+                    OR s.descripcion LIKE :buscar
+                  )";
+        $parametros[":buscar"] = "%" . $buscar . "%";
+    }
+
+    if($categoria != ""){
+        $sentencia .= " AND (
+                    cp.nombre = :categoria
+                    OR c.nombre = :categoria
+                  )";
+        $parametros[":categoria"] = $categoria;
+    }
+
+    if($estado != ""){
+        $sentencia .= " AND s.estado = :estado";
+        $parametros[":estado"] = $estado;
+    }
+
+    $sentencia .= " ORDER BY s.id_servicio DESC";
 
     $ejecucion = $this->pdo->prepare($sentencia);
-    $ejecucion->execute();
+    $ejecucion->execute($parametros);
 
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -291,28 +366,54 @@ public function ObtenerDatosUsuariosAdmin(){
     return $datos;
 }
 
-public function ObtenerUsuariosAdmin(){
+public function ObtenerUsuariosAdmin($buscar = "", $tipo = "", $estado = ""){
 
     $sentencia = "SELECT 
-                    u.*,
+                u.*,
 
-                    (
-                        SELECT COUNT(*) 
-                        FROM reserva r
-                        WHERE r.id_usuario = u.id_usuario
-                    ) AS total_reservas,
+                (
+                    SELECT COUNT(*) 
+                    FROM reserva r
+                    WHERE r.id_usuario = u.id_usuario
+                ) AS total_reservas,
 
-                    (
-                        SELECT COUNT(*) 
-                        FROM resena rs
-                        WHERE rs.id_usuario = u.id_usuario
-                    ) AS total_resenas
+                (
+                    SELECT COUNT(*) 
+                    FROM resena rs
+                    WHERE rs.id_usuario = u.id_usuario
+                ) AS total_resenas
 
-                  FROM usuario u
-                  ORDER BY u.fecha_registro DESC";
+            FROM usuario u
+            WHERE 1=1";
+
+    $parametros = [];
+
+    if($buscar != ""){
+        $sentencia .= " AND (
+                    u.nombre LIKE :buscar
+                    OR u.apellido LIKE :buscar
+                    OR u.email LIKE :buscar
+                  )";
+        $parametros[":buscar"] = "%" . $buscar . "%";
+    }
+
+    if($tipo != ""){
+        if($tipo == "admin"){
+            $sentencia .= " AND u.id_rol = 3";
+        }else if($tipo == "cliente"){
+            $sentencia .= " AND u.id_rol != 3";
+        }
+    }
+
+    if($estado != ""){
+        $sentencia .= " AND u.estado = :estado";
+        $parametros[":estado"] = $estado;
+    }
+
+    $sentencia .= " ORDER BY u.fecha_registro DESC";
 
     $ejecucion = $this->pdo->prepare($sentencia);
-    $ejecucion->execute();
+    $ejecucion->execute($parametros);
 
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -645,6 +746,9 @@ public function ObtenerEmpresaAprobadaPorId($idEmpresa){
 
     return $ejecucion->fetch(PDO::FETCH_ASSOC);
 }
+
+
+
 
 
 

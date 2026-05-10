@@ -53,22 +53,21 @@ $totalActividades = count($actividades);
     </div>
 
     <div class="activities-filters">
-      <select>
+      <select id="filtro-categoria">
         <option value="">Todas las categorías</option>
-        <option value="deporte">Deporte</option>
-        <option value="bienestar">Bienestar</option>
+        <option value="Deporte">Deporte</option>
+        <option value="Bienestar">Bienestar</option>
       </select>
 
-      <select>
+      <select id="filtro-estado">
         <option value="">Todos los estados</option>
-        <option value="activa">Activa</option>
-        <option value="revision">En revisión</option>
-        <option value="oculta">Oculta</option>
+        <option value="activo">Activa</option>
+        <option value="cancelado">Cancelada</option>
       </select>
     </div>
   </section>
 
-  <section class="approved-list">
+  <section class="approved-list" id="lista-actividades">
 
     <?php if(count($actividades) > 0): ?>
 
@@ -89,6 +88,8 @@ $totalActividades = count($actividades);
 
           if($imagen == "" || $imagen == null){
               $imagen = "../assets/placeholder.jpg";
+          }else{
+              $imagen = "../" . ltrim($imagen, "/");
           }
         ?>
 
@@ -189,6 +190,40 @@ $totalActividades = count($actividades);
 
 </div>
 </div>
+  <script>
+    const buscadorActividad = document.getElementById("buscar-actividad");
+    const filtroCategoria = document.getElementById("filtro-categoria");
+    const filtroEstado = document.getElementById("filtro-estado");
+    const listaActividades = document.getElementById("lista-actividades");
 
+    let temporizador = null;
+
+    function cargarActividades(){
+        const buscar = buscadorActividad.value;
+        const categoria = filtroCategoria.value;
+        const estado = filtroEstado.value;
+
+        const url = "ajax-actividades.php?buscar=" + encodeURIComponent(buscar) +
+                    "&categoria=" + encodeURIComponent(categoria) +
+                    "&estado=" + encodeURIComponent(estado);
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                listaActividades.innerHTML = data;
+            });
+    }
+
+    buscadorActividad.addEventListener("input", function(){
+        clearTimeout(temporizador);
+
+        temporizador = setTimeout(function(){
+            cargarActividades();
+        }, 300);
+    });
+
+    filtroCategoria.addEventListener("change", cargarActividades);
+    filtroEstado.addEventListener("change", cargarActividades);
+  </script>
 </body>
 </html>

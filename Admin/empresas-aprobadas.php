@@ -53,21 +53,21 @@ $totalEmpresas = count($empresas);
     </div>
 
     <div class="approved-filters">
-      <select>
+      <select id="filtro-categoria-empresa">
         <option value="">Todas las categorías</option>
         <option value="deporte">Deporte</option>
         <option value="bienestar">Bienestar</option>
       </select>
 
-      <select>
+      <select id="filtro-estado-empresa">
         <option value="">Todos los estados</option>
         <option value="activa">Activa</option>
-        <option value="bloqueada">Bloqueada</option>
+        <option value="suspendida">Suspendida</option>
       </select>
     </div>
   </section>
 
-  <section class="approved-list">
+  <section class="approved-list" id="lista-empresas-aprobadas">
 
     <?php if(count($empresas) > 0): ?>
 
@@ -191,6 +191,42 @@ $totalEmpresas = count($empresas);
 
 </div>
 </div>
+
+<script>
+  const buscadorEmpresa = document.getElementById("buscar-aprobada");
+  const filtroCategoriaEmpresa = document.getElementById("filtro-categoria-empresa");
+  const filtroEstadoEmpresa = document.getElementById("filtro-estado-empresa");
+  const listaEmpresasAprobadas = document.getElementById("lista-empresas-aprobadas");
+
+  let temporizadorEmpresa = null;
+
+  function cargarEmpresasAprobadas(){
+      const buscar = buscadorEmpresa.value;
+      const categoria = filtroCategoriaEmpresa.value;
+      const estado = filtroEstadoEmpresa.value;
+
+      const url = "ajax-empresas-aprobadas.php?buscar=" + encodeURIComponent(buscar) +
+                  "&categoria=" + encodeURIComponent(categoria) +
+                  "&estado=" + encodeURIComponent(estado);
+
+      fetch(url)
+          .then(response => response.text())
+          .then(data => {
+              listaEmpresasAprobadas.innerHTML = data;
+          });
+  }
+
+  buscadorEmpresa.addEventListener("input", function(){
+      clearTimeout(temporizadorEmpresa);
+
+      temporizadorEmpresa = setTimeout(function(){
+          cargarEmpresasAprobadas();
+      }, 300);
+  });
+
+  filtroCategoriaEmpresa.addEventListener("change", cargarEmpresasAprobadas);
+  filtroEstadoEmpresa.addEventListener("change", cargarEmpresasAprobadas);
+</script>
 
 </body>
 </html>
