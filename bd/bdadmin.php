@@ -370,7 +370,6 @@ public function ObtenerUsuariosAdmin($buscar = "", $tipo = "", $estado = ""){
 
     $sentencia = "SELECT 
                 u.*,
-
                 (
                     SELECT COUNT(*) 
                     FROM reserva r
@@ -398,10 +397,16 @@ public function ObtenerUsuariosAdmin($buscar = "", $tipo = "", $estado = ""){
     }
 
     if($tipo != ""){
+
         if($tipo == "admin"){
             $sentencia .= " AND u.id_rol = 3";
+
         }else if($tipo == "cliente"){
             $sentencia .= " AND u.id_rol != 3";
+
+        }else{
+            $sentencia .= " AND u.id_rol = :tipo";
+            $parametros[":tipo"] = $tipo;
         }
     }
 
@@ -747,10 +752,107 @@ public function ObtenerEmpresaAprobadaPorId($idEmpresa){
     return $ejecucion->fetch(PDO::FETCH_ASSOC);
 }
 
+public function ObtenerCategoriasFiltroAdmin(){
+    $sentencia = "SELECT id_categoria, nombre
+            FROM categoria
+            WHERE id_categoria_padre IS NULL
+            ORDER BY nombre ASC";
 
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
 
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
 
+public function ObtenerSubcategoriasFiltroAdmin(){
+    $sentencia = "SELECT id_categoria, nombre
+            FROM categoria
+            WHERE id_categoria_padre IS NOT NULL
+            ORDER BY nombre ASC";
 
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
 
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerEstadosReservaFiltroAdmin(){
+    $sentencia = "SELECT DISTINCT estado
+            FROM reserva
+            ORDER BY estado ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerCiudadesEmpresasPendientes(){
+
+    $sentencia = "SELECT DISTINCT ciudad_empresa
+            FROM solicitud_empresa
+            WHERE ciudad_empresa IS NOT NULL
+            AND ciudad_empresa <> ''
+            ORDER BY ciudad_empresa ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerEstadosEmpresas(){
+
+    $sentencia = "SELECT DISTINCT estado
+            FROM empresa
+            WHERE estado IS NOT NULL
+            AND estado <> ''
+            ORDER BY estado ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerEstadosServicios(){
+
+    $sentencia = "SELECT DISTINCT estado
+            FROM servicio
+            WHERE estado IS NOT NULL
+            AND estado <> ''
+            ORDER BY estado ASC";
+
+    $ejecucuion = $this->pdo->prepare($sentencia);
+    $ejecucuion->execute();
+
+    return $ejecucuion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerTiposUsuario(){
+
+    $sentencia = "SELECT id_rol, nombre
+            FROM rol
+            ORDER BY nombre ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerEstadosUsuario(){
+
+    $sentencia = "SELECT DISTINCT estado
+            FROM usuario
+            WHERE estado IS NOT NULL
+            AND estado <> ''
+            ORDER BY estado ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
 
 }

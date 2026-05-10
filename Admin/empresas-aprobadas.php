@@ -27,6 +27,13 @@ if(isset($_GET["activar"])){
 
 $empresas = $bdadmin->ObtenerEmpresasAprobadas();
 $totalEmpresas = count($empresas);
+
+$categorias = $bdadmin->ObtenerCategoriasFiltroAdmin();
+$estados = $bdadmin->ObtenerEstadosEmpresas();
+
+$categoriaSeleccionada = $_GET["categoria"] ?? "";
+$estadoSeleccionado = $_GET["estado"] ?? "";
+
 ?>
 
 <main class="admin-content">
@@ -53,16 +60,38 @@ $totalEmpresas = count($empresas);
     </div>
 
     <div class="approved-filters">
-      <select id="filtro-categoria-empresa">
-        <option value="">Todas las categorías</option>
-        <option value="deporte">Deporte</option>
-        <option value="bienestar">Bienestar</option>
+      <select id="filtro-categoria-empresa" name="categoria">
+
+          <option value="">Todas las categorías</option>
+
+          <?php foreach($categorias as $categoria){ ?>
+
+              <option value="<?= htmlspecialchars($categoria["nombre"]) ?>"
+                  <?= ($categoriaSeleccionada == $categoria["nombre"]) ? "selected" : "" ?>>
+
+                  <?= htmlspecialchars($categoria["nombre"]) ?>
+
+              </option>
+
+          <?php } ?>
+
       </select>
 
-      <select id="filtro-estado-empresa">
-        <option value="">Todos los estados</option>
-        <option value="activa">Activa</option>
-        <option value="suspendida">Suspendida</option>
+      <select id="filtro-estado-empresa" name="estado">
+
+          <option value="">Todos los estados</option>
+
+          <?php foreach($estados as $estado){ ?>
+
+              <option value="<?= htmlspecialchars($estado["estado"]) ?>"
+                  <?= ($estadoSeleccionado == $estado["estado"]) ? "selected" : "" ?>>
+
+                  <?= ucfirst(htmlspecialchars($estado["estado"])) ?>
+
+              </option>
+
+          <?php } ?>
+
       </select>
     </div>
   </section>

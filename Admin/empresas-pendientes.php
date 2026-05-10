@@ -11,6 +11,13 @@ require_once("head-admin.php");
 
 $solicitudes = $bdadmin->ObtenerSolicitudesPendientes();
 $totalPendientes = count($solicitudes);
+
+$categorias = $bdadmin->ObtenerCategoriasFiltroAdmin();
+$categoriaSeleccionada = $_GET["categoria"] ?? "";
+
+$ciudades = $bdadmin->ObtenerCiudadesEmpresasPendientes();
+$ciudadSeleccionada = $_GET["ciudad"] ?? "";
+
 ?>
 
 <main class="admin-content">
@@ -39,16 +46,22 @@ $totalPendientes = count($solicitudes);
     <div class="pending-filters">
       <select id="filtro-categoria-pendiente">
         <option value="">Todas las categorías</option>
-        <option value="deporte">Deporte</option>
-        <option value="bienestar">Bienestar</option>
+        <?php foreach($categorias as $cat){ ?>
+            <option value="<?= $cat["id_categoria"] ?>"
+                <?= ($categoriaSeleccionada == $cat["id_categoria"]) ? "selected" : "" ?>>
+                <?= htmlspecialchars($cat["nombre"]) ?>
+            </option>
+        <?php } ?>
       </select>
 
       <select id="filtro-ciudad-pendiente">
         <option value="">Todas las ciudades</option>
-        <option value="Madrid">Madrid</option>
-        <option value="Pozuelo">Pozuelo</option>
-        <option value="Alcobendas">Alcobendas</option>
-        <option value="Collado-Mediano">Collado-Mediano</option>
+        <?php foreach($ciudades as $ciudad){ ?>
+            <option value="<?= htmlspecialchars($ciudad["ciudad_empresa"]) ?>"
+                <?= ($ciudadSeleccionada == $ciudad["ciudad_empresa"]) ? "selected" : "" ?>>
+                <?= htmlspecialchars($ciudad["ciudad_empresa"]) ?>
+            </option>
+        <?php } ?>
       </select>
     </div>
   </section>
