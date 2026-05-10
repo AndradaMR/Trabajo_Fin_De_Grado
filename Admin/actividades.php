@@ -27,6 +27,13 @@ if(isset($_GET["activar"])){
 
 $actividades = $bdadmin->ObtenerTodasActividades();
 $totalActividades = count($actividades);
+$categorias = $bdadmin->ObtenerCategoriasFiltroAdmin();
+
+$estados = $bdadmin->ObtenerEstadosServicios();
+
+$categoriaSeleccionada = $_GET["categoria"] ?? "";
+$estadoSeleccionado = $_GET["estado"] ?? "";
+
 ?>
 
 <main class="admin-content">
@@ -55,14 +62,30 @@ $totalActividades = count($actividades);
     <div class="activities-filters">
       <select id="filtro-categoria">
         <option value="">Todas las categorías</option>
-        <option value="Deporte">Deporte</option>
-        <option value="Bienestar">Bienestar</option>
+        <?php foreach($categorias as $categoria){ ?>
+
+            <option value="<?= htmlspecialchars($categoria["nombre"]) ?>"
+                <?= ($categoriaSeleccionada == $categoria["nombre"]) ? "selected" : "" ?>>
+
+                <?= htmlspecialchars($categoria["nombre"]) ?>
+
+            </option>
+
+        <?php } ?>
       </select>
 
       <select id="filtro-estado">
         <option value="">Todos los estados</option>
-        <option value="activo">Activa</option>
-        <option value="cancelado">Cancelada</option>
+        <?php foreach($estados as $estado){ ?>
+
+            <option value="<?= htmlspecialchars($estado["estado"]) ?>"
+                <?= ($estadoSeleccionado == $estado["estado"]) ? "selected" : "" ?>>
+
+                <?= ucfirst(htmlspecialchars($estado["estado"])) ?>
+
+            </option>
+
+        <?php } ?>
       </select>
     </div>
   </section>

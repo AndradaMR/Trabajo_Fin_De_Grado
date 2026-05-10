@@ -27,6 +27,13 @@ if(isset($_GET["activar"])){
 
 $usuarios = $bdadmin->ObtenerUsuariosAdmin();
 $datosUsuarios = $bdadmin->ObtenerDatosUsuariosAdmin();
+
+$tiposUsuario = $bdadmin->ObtenerTiposUsuario();
+$estadosUsuario = $bdadmin->ObtenerEstadosUsuario();
+
+$tipoSeleccionado = $_GET["tipo_usuario"] ?? "";
+$estadoSeleccionado = $_GET["estado_usuario"] ?? "";
+
 ?>
 
 <main class="admin-content">
@@ -85,15 +92,31 @@ $datosUsuarios = $bdadmin->ObtenerDatosUsuariosAdmin();
       </div>
 
       <select id="filtro-tipo-usuario" name="tipo_usuario" class="admin-filter-select">
-        <option value="">Todos los tipos</option>
-        <option value="cliente">Clientes</option>
-        <option value="admin">Administradores</option>
+        <option value="">Todos los tipos</option> 
+        <?php foreach($tiposUsuario as $tipo){ ?>
+
+            <option value="<?= $tipo["id_rol"] ?>"
+                <?= ($tipoSeleccionado == $tipo["id_rol"]) ? "selected" : "" ?>>
+
+                <?= ucfirst(htmlspecialchars($tipo["nombre"])) ?>
+
+            </option>
+
+        <?php } ?>
       </select>
 
       <select id="filtro-estado-usuario" name="estado_usuario" class="admin-filter-select">
         <option value="">Todos los estados</option>
-        <option value="activo">Activo</option>
-        <option value="suspendido">Suspendido</option>
+        <?php foreach($estadosUsuario as $estado){ ?>
+
+            <option value="<?= htmlspecialchars($estado["estado"]) ?>"
+                <?= ($estadoSeleccionado == $estado["estado"]) ? "selected" : "" ?>>
+
+                <?= ucfirst(htmlspecialchars($estado["estado"])) ?>
+
+            </option>
+
+        <?php } ?>
       </select>
     </form>
   </section>

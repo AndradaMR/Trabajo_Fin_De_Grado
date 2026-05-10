@@ -130,13 +130,12 @@ if($banderaerror == false && isset($_POST["enviar"])){
         $banderaerror = true;
     }else{
 
+    $fecha = date("Ymd_His");
     $nombreLimpio = str_replace(" ", "-", strtolower($nombre_empresa));
-    $nombreArchivo = time() . "_" . $nombreLimpio . "_" . basename($_FILES["logo_empresa"]["name"]);
+    $nombreArchivo = $fecha . "_" . $nombreLimpio . "_" . basename($_FILES["logo_empresa"]["name"]);
     $ruta = "../img/logos/" . $nombreArchivo;
-
     move_uploaded_file($_FILES["logo_empresa"]["tmp_name"], $ruta);
-
-    $logo_empresa = "../img/logos/" . $nombreArchivo.$nombre_empresa;
+    $logo_empresa = $ruta;
 
     $bdempre->RegistrarSolicitudEmpresa(
     $nombre_empresa,
