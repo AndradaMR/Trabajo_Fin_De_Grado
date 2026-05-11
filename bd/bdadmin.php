@@ -349,17 +349,55 @@ public function ObtenerDatosUsuariosAdmin(){
     $datos = [];
 
     $consultas = [
-        "total" => "SELECT COUNT(*) FROM usuario",
-        "activos" => "SELECT COUNT(*) FROM usuario WHERE estado = 'activo'",
-        "suspendidos" => "SELECT COUNT(*) FROM usuario WHERE estado = 'suspendido'",
-        "nuevos_hoy" => "SELECT COUNT(*) FROM usuario WHERE DATE(fecha_registro) = CURDATE()",
-        "nuevos_semana" => "SELECT COUNT(*) FROM usuario WHERE fecha_registro >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)",
-        "con_reservas" => "SELECT COUNT(DISTINCT id_usuario) FROM reserva"
+
+        "total" => "
+            SELECT 
+                (SELECT COUNT(*) FROM usuario)
+                +
+                (SELECT COUNT(*) FROM empresa)
+        ",
+
+        "activos" => "
+        SELECT 
+        (SELECT COUNT(*) FROM usuario WHERE estado = 'activo')
+        +
+        (SELECT COUNT(*) FROM empresa WHERE estado IN ('activa'))
+        ",
+
+        "suspendidos" => "
+    SELECT 
+        (SELECT COUNT(*) FROM usuario WHERE estado = 'suspendido')
+        +
+        (SELECT COUNT(*) FROM empresa WHERE estado IN ('suspendida'))
+",
+
+        "nuevos_hoy" => "
+            SELECT 
+                (SELECT COUNT(*) FROM usuario WHERE DATE(fecha_registro) = CURDATE())
+                +
+                (SELECT COUNT(*) FROM empresa WHERE DATE(fecha_registro) = CURDATE())
+        ",
+
+        "nuevos_semana" => "
+            SELECT 
+                (SELECT COUNT(*) FROM usuario 
+                 WHERE fecha_registro >= DATE_SUB(CURDATE(), INTERVAL 7 DAY))
+                +
+                (SELECT COUNT(*) FROM empresa 
+                 WHERE fecha_registro >= DATE_SUB(CURDATE(), INTERVAL 7 DAY))
+        ",
+
+        "con_reservas" => "
+            SELECT COUNT(DISTINCT id_usuario) 
+            FROM reserva
+        "
     ];
 
     foreach($consultas as $clave => $sentencia){
+
         $ejecucion = $this->pdo->prepare($sentencia);
         $ejecucion->execute();
+
         $datos[$clave] = $ejecucion->fetchColumn();
     }
 
@@ -368,8 +406,20 @@ public function ObtenerDatosUsuariosAdmin(){
 
 public function ObtenerUsuariosAdmin($buscar = "", $tipo = "", $estado = ""){
 
-    $sentencia = "SELECT 
-                u.*,
+    $sentencia = "
+        SELECT *
+        FROM (
+            SELECT 
+                u.id_usuario AS id,
+                u.id_usuario AS id_usuario,
+                u.nombre AS nombre,
+                u.apellido AS apellido,
+                u.email AS email,
+                u.fecha_registro AS fecha_registro,
+                u.estado AS estado,
+                u.id_rol AS id_rol,
+                'usuario' AS tipo_cuenta,
+
                 (
                     SELECT COUNT(*) 
                     FROM reserva r
@@ -383,39 +433,68 @@ public function ObtenerUsuariosAdmin($buscar = "", $tipo = "", $estado = ""){
                 ) AS total_resenas
 
             FROM usuario u
-            WHERE 1=1";
+
+            UNION ALL
+
+            SELECT 
+                e.id_empresa AS id,
+                e.id_empresa AS id_usuario,
+                e.nombre_empresa AS nombre,
+                '' AS apellido,
+                e.email AS email,
+                e.fecha_registro AS fecha_registro,
+                e.estado AS estado,
+                2 AS id_rol,
+                'empresa' AS tipo_cuenta,
+
+                (
+                    SELECT COUNT(*) 
+                    FROM reserva r
+                    INNER JOIN servicio s ON r.id_servicio = s.id_servicio
+                    WHERE s.id_empresa = e.id_empresa
+                ) AS total_reservas,
+
+                0 AS total_resenas
+
+            FROM empresa e
+        ) cuentas
+        WHERE 1=1
+    ";
 
     $parametros = [];
 
     if($buscar != ""){
         $sentencia .= " AND (
-                    u.nombre LIKE :buscar
-                    OR u.apellido LIKE :buscar
-                    OR u.email LIKE :buscar
-                  )";
+                            nombre LIKE :buscar
+                            OR apellido LIKE :buscar
+                            OR email LIKE :buscar
+                        )";
         $parametros[":buscar"] = "%" . $buscar . "%";
     }
 
     if($tipo != ""){
 
         if($tipo == "admin"){
-            $sentencia .= " AND u.id_rol = 3";
+            $sentencia .= " AND tipo_cuenta = 'usuario' AND id_rol = 3";
 
         }else if($tipo == "cliente"){
-            $sentencia .= " AND u.id_rol != 3";
+            $sentencia .= " AND tipo_cuenta = 'usuario' AND id_rol != 3";
+
+        }else if($tipo == "empresa"){
+            $sentencia .= " AND tipo_cuenta = 'empresa'";
 
         }else{
-            $sentencia .= " AND u.id_rol = :tipo";
+            $sentencia .= " AND tipo_cuenta = 'usuario' AND id_rol = :tipo";
             $parametros[":tipo"] = $tipo;
         }
     }
 
     if($estado != ""){
-        $sentencia .= " AND u.estado = :estado";
+        $sentencia .= " AND estado = :estado";
         $parametros[":estado"] = $estado;
     }
 
-    $sentencia .= " ORDER BY u.fecha_registro DESC";
+    $sentencia .= " ORDER BY fecha_registro DESC";
 
     $ejecucion = $this->pdo->prepare($sentencia);
     $ejecucion->execute($parametros);

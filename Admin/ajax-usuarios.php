@@ -17,13 +17,15 @@ if(count($usuarios) > 0){
         $inicial = strtoupper(substr($usuario["nombre"], 0, 1));
         $estado = $usuario["estado"] ?? "activo";
 
-        if($usuario["id_rol"] == 3){
-            $rolTexto = "Administrador";
-        }else{
-            $rolTexto = "Cliente";
-        }
+        if($usuario["tipo_cuenta"] == "empresa"){
+    $rolTexto = "Empresa";
+}else if($usuario["id_rol"] == 3){
+    $rolTexto = "Administrador";
+}else{
+    $rolTexto = "Cliente";
+}
 
-        if($estado == "activo"){
+        if($estado == "activo" || $estado == "activa"){
             $estadoClase = "status-active";
             $estadoTexto = "Activo";
         }else{
@@ -53,7 +55,9 @@ if(count($usuarios) > 0){
             </p>
 
             <p class="admin-user-description">
-              Usuario registrado en la plataforma Body and Soul.
+              <?= ($usuario["tipo_cuenta"] == "empresa") 
+    ? "Empresa registrada en la plataforma Body and Soul." 
+    : "Usuario registrado en la plataforma Body and Soul." ?>
             </p>
 
             <div class="admin-user-data-grid">
@@ -80,27 +84,29 @@ if(count($usuarios) > 0){
           </div>
 
           <div class="admin-user-actions">
-            <a href="reservas-usuario.php?id=<?= $usuario["id_usuario"] ?>" class="btn-admin btn-primary">
-              Ver reservas
-            </a>
+            <?php if($usuario["tipo_cuenta"] != "empresa"): ?>
+  <a href="reservas-usuario.php?id=<?= $usuario["id"] ?>" class="btn-admin btn-primary">
+    Ver reservas
+  </a>
+<?php endif; ?>
 
-            <?php if($usuario["id_rol"] != 3): ?>
+<?php if($usuario["id_rol"] != 3): ?>
 
-              <?php if($estado == "activo"): ?>
-                <a href="usuarios.php?suspender=<?= $usuario["id_usuario"] ?>" 
-                   class="btn-admin btn-warning"
-                   onclick="return confirm('¿Suspender este usuario?');">
-                  Suspender
-                </a>
-              <?php else: ?>
-                <a href="usuarios.php?activar=<?= $usuario["id_usuario"] ?>" 
-                   class="btn-admin btn-success"
-                   onclick="return confirm('¿Reactivar este usuario?');">
-                  Reactivar
-                </a>
-              <?php endif; ?>
+  <?php if($estado == "activo" || $estado == "activa"): ?>
+    <a href="usuarios.php?suspender=<?= $usuario["id"] ?>&tipo=<?= $usuario["tipo_cuenta"] ?>" 
+       class="btn-admin btn-warning"
+       onclick="return confirm('¿Suspender esta cuenta?');">
+      Suspender
+    </a>
+  <?php else: ?>
+    <a href="usuarios.php?activar=<?= $usuario["id"] ?>&tipo=<?= $usuario["tipo_cuenta"] ?>" 
+       class="btn-admin btn-success"
+       onclick="return confirm('¿Reactivar esta cuenta?');">
+      Reactivar
+    </a>
+  <?php endif; ?>
 
-            <?php endif; ?>
+<?php endif; ?>
           </div>
         </article>
 
