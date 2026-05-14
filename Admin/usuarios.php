@@ -9,17 +9,27 @@ $cssExtra = [
 
 require_once("head-admin.php");
 
-if(isset($_GET["suspender"])){
-    $idUsuario = (int) $_GET["suspender"];
-    $bdadmin->SuspenderUsuario($idUsuario);
+if(isset($_GET["suspender"]) && isset($_GET["tipo"])){
+    $id = (int) $_GET["suspender"];
+
+    if($_GET["tipo"] == "empresa"){
+        $bdadmin->SuspenderEmpresa($id);
+    }else{
+        $bdadmin->SuspenderUsuario($id);
+    }
 
     header("Location: usuarios.php");
     exit();
 }
 
-if(isset($_GET["activar"])){
-    $idUsuario = (int) $_GET["activar"];
-    $bdadmin->ActivarUsuario($idUsuario);
+if(isset($_GET["activar"]) && isset($_GET["tipo"])){
+    $id = (int) $_GET["activar"];
+
+    if($_GET["tipo"] == "empresa"){
+        $bdadmin->ActivarEmpresa($id);
+    }else{
+        $bdadmin->ActivarUsuario($id);
+    }
 
     header("Location: usuarios.php");
     exit();
@@ -27,7 +37,6 @@ if(isset($_GET["activar"])){
 
 $usuarios = $bdadmin->ObtenerUsuariosAdmin();
 $datosUsuarios = $bdadmin->ObtenerDatosUsuariosAdmin();
-
 $tiposUsuario = $bdadmin->ObtenerTiposUsuario();
 $estadosUsuario = $bdadmin->ObtenerEstadosUsuario();
 
@@ -92,18 +101,26 @@ $estadoSeleccionado = $_GET["estado_usuario"] ?? "";
       </div>
 
       <select id="filtro-tipo-usuario" name="tipo_usuario" class="admin-filter-select">
-        <option value="">Todos los tipos</option> 
-        <?php foreach($tiposUsuario as $tipo){ ?>
 
-            <option value="<?= $tipo["id_rol"] ?>"
-                <?= ($tipoSeleccionado == $tipo["id_rol"]) ? "selected" : "" ?>>
+    <option value="">Todos los tipos</option> 
 
-                <?= ucfirst(htmlspecialchars($tipo["nombre"])) ?>
+    <option value="empresa"
+        <?= ($tipoSeleccionado == "empresa") ? "selected" : "" ?>>
+        Empresa
+    </option>
 
-            </option>
+    <?php foreach($tiposUsuario as $tipo){ ?>
 
-        <?php } ?>
-      </select>
+        <option value="<?= $tipo["id_rol"] ?>"
+            <?= ($tipoSeleccionado == $tipo["id_rol"]) ? "selected" : "" ?>>
+
+            <?= ucfirst(htmlspecialchars($tipo["nombre"])) ?>
+
+        </option>
+
+    <?php } ?>
+
+</select>
 
       <select id="filtro-estado-usuario" name="estado_usuario" class="admin-filter-select">
         <option value="">Todos los estados</option>
@@ -132,13 +149,15 @@ $estadoSeleccionado = $_GET["estado_usuario"] ?? "";
           $inicial = strtoupper(substr($usuario["nombre"], 0, 1));
           $estado = $usuario["estado"] ?? "activo";
 
-          if($usuario["id_rol"] == 3){
+          if($usuario["tipo_cuenta"] == "empresa"){
+              $rolTexto = "Empresa";
+          }else if($usuario["id_rol"] == 3){
               $rolTexto = "Administrador";
           }else{
               $rolTexto = "Cliente";
           }
 
-          if($estado == "activo"){
+          if($estado == "activo" || $estado == "activa"){
               $estadoClase = "status-active";
               $estadoTexto = "Activo";
           }else{
@@ -168,8 +187,10 @@ $estadoSeleccionado = $_GET["estado_usuario"] ?? "";
             </p>
 
             <p class="admin-user-description">
-              Usuario registrado en la plataforma Body and Soul.
-            </p>
+  <?= ($usuario["tipo_cuenta"] == "empresa") 
+      ? "Empresa registrada en la plataforma Body and Soul." 
+      : "Usuario registrado en la plataforma Body and Soul." ?>
+</p>
 
             <div class="admin-user-data-grid">
               <div class="admin-user-data-box">
@@ -195,25 +216,33 @@ $estadoSeleccionado = $_GET["estado_usuario"] ?? "";
           </div>
 
           <div class="admin-user-actions">
-            <a href="reservas-usuario.php?id=<?= $usuario["id_usuario"] ?>" class="btn-admin btn-primary">
-              Ver reservas
-            </a>
+            <?php if($usuario["tipo_cuenta"] != "empresa"): ?>
+
+  <a href="reservas-usuario.php?id=<?= $usuario["id"] ?>" class="btn-admin btn-primary">
+    Ver reservas
+  </a>
+
+<?php endif; ?>
 
             <?php if($usuario["id_rol"] != 3): ?>
 
-              <?php if($estado == "activo"): ?>
-                <a href="usuarios.php?suspender=<?= $usuario["id_usuario"] ?>" 
-                   class="btn-admin btn-warning"
-                   onclick="return confirm('¿Suspender este usuario?');">
-                  Suspender
-                </a>
-              <?php else: ?>
-                <a href="usuarios.php?activar=<?= $usuario["id_usuario"] ?>" 
-                   class="btn-admin btn-success"
-                   onclick="return confirm('¿Reactivar este usuario?');">
-                  Reactivar
-                </a>
-              <?php endif; ?>
+              <?php if($estado == "activo" || $estado == "activa"): ?>
+
+    <a href="usuarios.php?suspender=<?= $usuario["id"] ?>&tipo=<?= $usuario["tipo_cuenta"] ?>" 
+       class="btn-admin btn-warning"
+       onclick="return confirm('¿Suspender esta cuenta?');">
+      Suspender
+    </a>
+
+<?php else: ?>
+
+    <a href="usuarios.php?activar=<?= $usuario["id"] ?>&tipo=<?= $usuario["tipo_cuenta"] ?>" 
+       class="btn-admin btn-success"
+       onclick="return confirm('¿Reactivar esta cuenta?');">
+      Reactivar
+    </a>
+
+<?php endif; ?>
 
             <?php endif; ?>
           </div>
