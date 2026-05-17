@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-05-2026 a las 00:36:11
+-- Tiempo de generación: 18-05-2026 a las 00:16:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -50,7 +50,8 @@ INSERT INTO `categoria` (`id_categoria`, `nombre`, `id_categoria_padre`) VALUES
 (11, 'Spa', 2),
 (12, 'Masajes', 2),
 (13, 'Meditación', 2),
-(14, 'Aromaterapia', 2);
+(14, 'Aromaterapia', 2),
+(18, 'categoria NUEVA PRUEBA', NULL);
 
 -- --------------------------------------------------------
 
@@ -5993,7 +5994,8 @@ INSERT INTO `reserva` (`id_reserva`, `id_usuario`, `id_servicio`, `fecha_hora`, 
 (13, 12, 3, '2026-06-07 17:00:00', 'cancelada', 219),
 (14, 12, 71, '2026-05-20 17:00:00', 'confirmada', 4967),
 (15, 13, 5, '2026-04-21 16:00:00', 'confirmada', 21),
-(16, 13, 58, '2026-05-20 10:00:00', 'confirmada', 4056);
+(16, 13, 58, '2026-05-20 10:00:00', 'confirmada', 4056),
+(17, 12, 69, '2026-05-20 10:00:00', 'confirmada', 4826);
 
 -- --------------------------------------------------------
 
@@ -6178,7 +6180,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `telefono`, `id_rol`, `fecha_registro`, `intentos`, `estado`) VALUES
-(4, 'Usuario1', '', 'user1@email.com', 'hash789', '600000000', 1, '2026-03-01 09:00:00', 0, 'activo'),
+(4, 'Usuario1', '', 'user1@email.com', 'hash789', '600000000', 1, '2026-03-01 09:00:00', 0, 'suspendido'),
 (6, 'Jonny', 'Mangas', 'Jonny@gmail.com', '$2y$10$fIn2ZYgWvTCt08v2TZT2JuhYc3xVQz6oHKLAcOxSt11rRY9xSKTcW', '666788900', 1, '2026-03-18 22:03:13', 0, 'activo'),
 (7, 'Laura', 'Basurto', 'laura@gmail.com', '$2y$10$TFgCAQxgbCeLXLO1NBb11.rC7j4tAsBnZC7tsp/rO4BglsMfHOBXe', '657664762', 3, '2026-03-18 22:05:57', 0, 'activo'),
 (8, 'Andrada', 'Robitu', 'andrada@gmail.com', '$2y$10$y9ywBfU28rrAMvkqvuQXfu7t9dfuqysoOBaJpz4l4YHc2yWcfWUSC', '787898876', 3, '2026-03-23 20:39:25', 0, 'activo'),
@@ -6218,7 +6220,9 @@ ALTER TABLE `empresa`
 -- Indices de la tabla `favorito`
 --
 ALTER TABLE `favorito`
-  ADD PRIMARY KEY (`id_favorito`);
+  ADD PRIMARY KEY (`id_favorito`),
+  ADD KEY `fk_favorito_usuario` (`id_usuario`),
+  ADD KEY `fk_favorito_servicio` (`id_servicio`);
 
 --
 -- Indices de la tabla `imagen_servicio`
@@ -6284,7 +6288,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_actividad`
@@ -6320,7 +6324,7 @@ ALTER TABLE `resena`
 -- AUTO_INCREMENT de la tabla `reserva`
 --
 ALTER TABLE `reserva`
-  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -6361,6 +6365,13 @@ ALTER TABLE `categoria`
 --
 ALTER TABLE `detalle_actividad`
   ADD CONSTRAINT `fk_detalle_servicio` FOREIGN KEY (`id_servicio`) REFERENCES `servicio` (`id_servicio`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `favorito`
+--
+ALTER TABLE `favorito`
+  ADD CONSTRAINT `fk_favorito_servicio` FOREIGN KEY (`id_servicio`) REFERENCES `servicio` (`id_servicio`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_favorito_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `imagen_servicio`
