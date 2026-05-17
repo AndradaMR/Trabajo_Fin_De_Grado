@@ -88,6 +88,7 @@ require_once("head.php");
                   type="email"
                   id="email"
                   name="email"
+                  value="<?=$email?>"
                   placeholder="Introduce tu correo"
                 >
                 <small><?php echo $emailerror; ?></small>

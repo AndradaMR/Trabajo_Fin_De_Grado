@@ -30,6 +30,8 @@ public function ComprobarLoginEmpresa($email, $contraseña){
             
             return $fila["id_empresa"]; 
         
+        }else{
+    return "fallocontraseña";
         }
     }
 }
