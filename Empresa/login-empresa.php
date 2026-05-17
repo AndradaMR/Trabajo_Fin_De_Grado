@@ -45,6 +45,7 @@ if($banderaerror == false && isset($_POST["enviar"])){
 
     }else{
       //Si todo ha ido bien me ha devuelto el id de la empresa por lo que inicio sesion
+  
         $_SESSION["empresa"] = $respuesta;
         header("Location: index.php");
         exit();

@@ -273,7 +273,7 @@ if(isset($_POST["enviar"])){
     if($banderaerror == false && isset($_POST["enviar"])){
 
     $nombreArchivo = $_FILES["imagen"]["name"];
-    $ruta = "../img/".$empresa["categoria_empresa"]."/" . $nombreArchivo;
+    $ruta = "img/".$empresa["categoria_empresa"]."/" . $nombreArchivo;
 
     move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta);
 

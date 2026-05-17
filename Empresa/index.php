@@ -19,9 +19,6 @@ $numactactivas=count($actividadesactivas);
           <h2>Bienvenida, <?=$datosempresa["nombre_empresa"]?></h2>
         </div>
 
-        <div class="company-topbar-right">
-          <a href="nueva-actividad.php" class="company-add-btn">+ Añadir servicio</a>
-        </div>
       </header>
 
       <main class="company-content">
@@ -86,7 +83,7 @@ $numactactivas=count($actividadesactivas);
 
               <div class="company-info-item">
                 <span class="info-label">Categoría principal</span>
-                <span class="info-value"><?=$datosempresa["categoria_empresa"]?></span>
+                <span class="info-value"><?=ucfirst($datosempresa["categoria_empresa"])?></span>
               </div>
 
               <div class="company-info-item">

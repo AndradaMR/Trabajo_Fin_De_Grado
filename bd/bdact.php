@@ -88,20 +88,6 @@ public function ObtenerCategoriaConPadre($idCategoriaHijo){
 }
 
 
-//AUN NO SE USA tiene en cuenta si la cat es padre(ver como hacer con la descripcion de las cathijo)
-//Debe obtener la descripcion de las categorias padre
-function obtenerdescripcioncat($idcat) {
-    $sentencia = "SELECT descripcion FROM categoria WHERE id_categoria = :id_categoria_padre";
-
-    $ejecuccion = $this->pdo->prepare($sentencia);
-    $ejecuccion->execute([
-        ":id_categoria" => $idcat
-    ]);
-
-    $fila=$ejecuccion->fetch(PDO::FETCH_ASSOC);
-    return $fila["descripcion"];
-}
-
 //Obtiene todas las subcategorias de la categoria padre dada
 public function obtenerSubcat($idcatpadre){
 
@@ -314,6 +300,7 @@ public function crearReserva($idUsuario, $idServicio, $fechaHora, $idDetalle){
 }
 
 public function ObtenerReservasUsuario($idUsuario){
+
     $sentencia = "SELECT 
                     r.id_reserva,
                     r.estado,
@@ -330,26 +317,39 @@ public function ObtenerReservasUsuario($idUsuario){
                     i.url_imagen AS imagen,
                     c.nombre AS subcategoria,
                     cp.nombre AS categoria_padre
+
                   FROM reserva r
+
                   INNER JOIN servicio s 
                     ON r.id_servicio = s.id_servicio
+
                   INNER JOIN detalle_actividad d 
                     ON r.id_detalle_actividad = d.id
+
                   LEFT JOIN categoria c 
                     ON s.id_categoria = c.id_categoria
+
                   LEFT JOIN categoria cp 
                     ON c.id_categoria_padre = cp.id_categoria
-                  LEFT JOIN imagen_servicio i 
-                    ON s.id_servicio = i.id_servicio
+
+                  LEFT JOIN (
+                        SELECT id_servicio, MIN(url_imagen) AS url_imagen
+                        FROM imagen_servicio
+                        GROUP BY id_servicio
+                  ) i ON s.id_servicio = i.id_servicio
+
                   WHERE r.id_usuario = :id_usuario
+
                   ORDER BY d.fecha ASC, d.hora_inicio ASC";
 
     $ejecucion = $this->pdo->prepare($sentencia);
+
     $ejecucion->execute([
         ":id_usuario" => $idUsuario
     ]);
 
     $fila = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+
     return $fila;
 }
 

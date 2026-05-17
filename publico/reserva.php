@@ -124,8 +124,8 @@ if (isset($_GET["ok"])) {
 
         <!-- DERECHA: INFO + RESERVA -->
         <article class="booking-form-card">
-          <div class="booking-info-header">
-            <h3><?= htmlentities($actividad["nombre_servicio"]) ?></h3>
+           <div class="booking-card-header">
+            <span class="section-tag">Información</span>
           </div>
 
           <div class="booking-info-content">
@@ -139,6 +139,9 @@ if (isset($_GET["ok"])) {
               <div class="info-item">
                 <h4>Duración</h4>
                 <p><?= !empty($actividad["duracion"]) ? htmlentities($actividad["duracion"]) : 'No especificada' ?></p>
+                <h4>Precio</h4>
+                  <p><?=$actividad['precio']?>€</p>
+                
               </div>
             </div>
 
@@ -176,7 +179,7 @@ if (isset($_GET["ok"])) {
 
                 <!-- HORAS -->
                 <div class="time-slots-block">
-                  <h4>Selecciona fecha y hora</h4>
+                  <h4>Selecciona hora</h4>
 
                   <div class="time-slots-grid">
                     <?php

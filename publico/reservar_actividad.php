@@ -62,7 +62,7 @@ $fechaHora = $franja["fecha"] . " " . $franja["hora_inicio"];
 $reservaOk = $bdact->crearReserva($idUsuario, $idServicio, $fechaHora, $idDetalle);
 
 if ($reservaOk) {
-    header("Location: perfil.php?reserva=ok");
+    header("Location: mis-reservas.php");
     exit;
 } else {
     echo "No se pudo realizar la reserva";

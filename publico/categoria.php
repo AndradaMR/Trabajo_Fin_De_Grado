@@ -10,8 +10,7 @@ if(isset($_GET["cat"])){
   header("Location: index.php");
 }
 
-//CUANDO LA TENGAMOS LA PONEMOS ABAJO EN EL P
-//$descripcion=$bdact->obtenerdescripcioncat($idcatpadre);
+
 
 //Obtenemos SOLO las subcategorias de la categoria donde estamos
 $subcategorias=$bdact->obtenerSubcat($idcatpadre);
@@ -25,9 +24,6 @@ $subcategorias=$bdact->obtenerSubcat($idcatpadre);
       <div class="container">
         <span class="section-tag">Explora actividades</span>
         <h2 class="category-title"><?=$nombrecatpadre?></h2>
-        <p class="category-description">
-          Aqui tenemos que añadir la descripcion de la nombrecat(añadir a la bbdd)(ya esta hecha la funcion)
-        </p>
       </div>
 
       <div class="subcategory-nav">

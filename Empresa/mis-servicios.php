@@ -57,7 +57,8 @@ if(isset($_POST["reactivar_servicio"])){
         </div>
 
         <div class="company-topbar-right">
-          <a href="nueva-actividad.html" class="company-add-btn">+ Añadir servicio</a>
+          <a href="nueva-actividad.php
+          " class="company-add-btn">+ Añadir servicio</a>
         </div>
       </header>
 
@@ -103,7 +104,7 @@ if(isset($_POST["reactivar_servicio"])){
             <select id="filtro-estado">
               <option value="">Todos los estados</option>
               <option value="activo">Activa</option>
-              <option value="borrador">Cancelada</option>
+              <option value="cancelado">Cancelada</option>
             </select>
           </div>
         </section>
@@ -131,7 +132,7 @@ data-subcategoria="<?=strtolower(htmlspecialchars($servicio["subcategoria"]))?>"
 data-estado="<?=strtolower(htmlspecialchars($servicio["estado"]))?>"
 >
             <div class="service-company-image">
-              <img src="<?=$imagen?>" alt="<?=htmlspecialchars($servicio["nombre_servicio"])?>">
+              <img src="../<?=$imagen?>" alt="<?=htmlspecialchars($servicio["nombre_servicio"])?>">
             </div>
 
             <div class="service-company-main">
@@ -157,7 +158,7 @@ data-estado="<?=strtolower(htmlspecialchars($servicio["estado"]))?>"
 
                 <div class="service-info-item">
                   <span class="info-label">Estado</span>
-                  <span class="info-value"><?=$servicio["estado"]?></span>
+                  <span class="info-value"><?=ucfirst($servicio["estado"])?></span>
                 </div>
 
               </div>
