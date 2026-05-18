@@ -20,7 +20,7 @@ $empresa = $bdempre->sacardatosempresa($idEmpresa);
 $idCategoriaPadre = $bdact->ObtenerIdCategoriaPorNombre($empresa["categoria_empresa"]);
 $subcat = $bdact->obtenerSubcat($idCategoriaPadre);
 
-$servicio = $bdact->obtenerActividadPorId($idServicio);
+$servicio = $bdempre->obtenerActividadPorIdempresa($idServicio);
 
 if($servicio == false || $servicio["id_empresa"] != $idEmpresa){
     header("Location: mis-servicios.php");
@@ -140,6 +140,33 @@ if(isset($_POST["enviar"])){
             $materiales
         );
 
+        if(isset($_FILES["imagenes"]) && !empty($_FILES["imagenes"]["name"][0])){
+
+    $tiposPermitidos = ["image/jpeg", "image/png", "image/webp"];
+
+    for($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++){
+
+        if($_FILES["imagenes"]["error"][$i] == 0){
+
+            $tipoArchivo = $_FILES["imagenes"]["type"][$i];
+
+            if(in_array($tipoArchivo, $tiposPermitidos)){
+
+                $nombreArchivo = time() . "_" . $i . "_" . basename($_FILES["imagenes"]["name"][$i]);
+
+                $rutaBD = "img/" . $empresa["categoria_empresa"] . "/" . $nombreArchivo;
+                $rutaServidor = "../" . $rutaBD;
+
+                move_uploaded_file($_FILES["imagenes"]["tmp_name"][$i], $rutaServidor);
+
+                $bdempre->InsertarImagenServicio($idServicio, $rutaBD);
+            }
+        }
+    }
+}
+
+require("../bd/generarJSONact.php");
+
         header("Location: editar-servicio.php?id=".$idServicio."&ok=1");
         exit();
     }
@@ -178,7 +205,7 @@ if(isset($_POST["enviar"])){
     <?php } ?>
 
     <section class="company-form-card">
-      <form action="" method="post" class="company-service-form">
+      <form action="" method="post" class="company-service-form" enctype="multipart/form-data">
 
         <div class="form-grid">
 
@@ -300,6 +327,17 @@ if(isset($_POST["enviar"])){
 
             <span class="form-error"><?php echo $materialeserror; ?></span>
           </div>
+
+          <div class="form-group full-width">
+          <label for="imagenes">Añadir más imágenes</label>
+          <input 
+            type="file" 
+            id="imagenes" 
+            name="imagenes[]" 
+            accept="image/*"
+            multiple
+          >
+        </div>
 
         </div>
 

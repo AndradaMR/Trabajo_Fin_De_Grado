@@ -21806,6 +21806,34 @@
                         "plazas_maximas": 10
                     }
                 ]
+            },
+            {
+                "id_servicio": 88,
+                "id_categoria": 12,
+                "nombre_servicio": "prueba2",
+                "categoria": "Bienestar",
+                "subcategoria": "Masajes",
+                "descripcion": "prueba",
+                "lugar": "Calle de Bailen, 6, Majadahonda",
+                "precio": "40.00",
+                "estado": "cancelado",
+                "duracion": "1 hora",
+                "materiales": "nignuno",
+                "imagenes": [
+                    "img/bienestar/1779126253_0_ChatGPT Image 13 may 2026, 21_12_22.png",
+                    "img/bienestar/1779126253_1_ChatGPT Image 9 may 2026, 14_51_33 (1).png",
+                    "img/bienestar/1779126253_2_ChatGPT Image 4 may 2026, 21_46_00 (1).png",
+                    "img/bienestar/1779127599_0_WhatsApp Image 2026-03-08 at 13.13.08.jpeg"
+                ],
+                "detalles": [
+                    {
+                        "id_detalle_actividad": 8262,
+                        "fecha": "2026-06-12",
+                        "hora_inicio": "10:00:00",
+                        "hora_fin": "11:00:00",
+                        "plazas_maximas": 8
+                    }
+                ]
             }
         ]
     }
