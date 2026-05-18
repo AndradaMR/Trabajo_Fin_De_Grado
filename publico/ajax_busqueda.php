@@ -33,6 +33,7 @@ $buscador = trim($_GET["buscador"] ?? "");
 $categoria = $_GET["categoria"] ?? "";
 $precio = $_GET["precio"] ?? "";
 $fecha = $_GET["fecha"] ?? "";
+$ubicacion = trim($_GET["ubicacion"] ?? "");
 $resultados = [];
 
 foreach ($datos as $empresa) {
@@ -62,6 +63,21 @@ foreach ($datos as $empresa) {
 
         if ($buscador !== "" && strpos($textoNormalizado, $buscadorNormalizado) === false) {
             $coincide = false;
+        }
+        
+        $ubicacionNormalizada = limpiarTexto($ubicacion);
+
+        if($ubicacion !== ""){
+
+            $textoUbicacion = 
+                $servicio["lugar"] . " " .
+                ($servicio["codigo_postal"] ?? "");
+
+            $textoUbicacionNormalizado = limpiarTexto($textoUbicacion);
+
+            if(strpos($textoUbicacionNormalizado, $ubicacionNormalizada) === false){
+                $coincide = false;
+            }
         }
 
         if ($categoria !== "" && $servicio["categoria"] !== $categoria) {

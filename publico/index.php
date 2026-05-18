@@ -16,6 +16,7 @@ require_once("head.php");
               Encuentra actividades de deporte, bienestar y experiencias que te ayuden a cuidarte por dentro y por fuera.
             </p>
           </div>
+
           <div class="home-search-block">
             <form class="home-search-form" action="resultados.php" method="get">
               <label for="buscador" class="sr-only">Buscar actividad</label>
@@ -24,8 +25,18 @@ require_once("head.php");
                 id="buscador"
                 name="buscador"
                 class="search-input"
-                placeholder="¿Que te gustaría hacer?"
+                placeholder="¿Qué te gustaría hacer?"
               />
+
+              <label for="ubicacion" class="sr-only">Ubicación</label>
+              <input 
+                type="text"
+                id="ubicacion"
+                name="ubicacion"
+                class="search-input"
+                placeholder="¿Donde te gustaría realizar la actividad?"
+              >
+
             </form>
 
             <div class="home-filter-row">
@@ -124,6 +135,7 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
   document.addEventListener("DOMContentLoaded", function () {
 
     const input = document.getElementById("buscador");
+    const ubicacion = document.getElementById("ubicacion").value;
     const contenedor = document.getElementById("resultadosBusqueda");
     const categoria = document.getElementById("categoria_filtro");
     const precio = document.getElementById("precio");
@@ -146,7 +158,8 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
         "ajax_busqueda.php?buscador=" + encodeURIComponent(texto) +
         "&categoria=" + encodeURIComponent(cat) +
         "&precio=" + encodeURIComponent(pre) +
-        "&fecha=" + encodeURIComponent(fecha)
+        "&fecha=" + encodeURIComponent(fecha) +
+        "&ubicacion="+ encodeURIComponent(ubicacion)
       )
         .then(res => res.text())
         .then(data => {

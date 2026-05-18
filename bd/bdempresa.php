@@ -394,12 +394,12 @@ public function ExisteServicioEmpresa($idEmpresa, $nombreServicio){
     return true;
 }
 
-public function InsertarServicio($idEmpresa, $nombre, $descripcion, $lugar, $idCategoria, $precio, $duracion, $materiales){
+public function InsertarServicio($idEmpresa, $nombre, $descripcion, $lugar, $idCategoria, $precio, $duracion, $materiales, $idMunicipio, $codigoPostal, $latitud, $longitud){
 
     $sentencia = "INSERT INTO servicio 
-            (id_empresa, nombre_servicio, descripcion, lugar, id_categoria, precio, duracion, materiales, estado)
+            (id_empresa, nombre_servicio, descripcion, lugar, id_categoria, precio, duracion, materiales, estado, id_municipio, codigo_postal, latitud, longitud)
             VALUES 
-            (:id_empresa, :nombre, :descripcion, :lugar, :id_categoria, :precio, :duracion, :materiales, :estado)";
+            (:id_empresa, :nombre, :descripcion, :lugar, :id_categoria, :precio, :duracion, :materiales, :estado, :id_municipio, :codigo_postal, :latitud, :longitud)";
 
     $ejecuccion = $this->pdo->prepare($sentencia);
 
@@ -412,10 +412,13 @@ public function InsertarServicio($idEmpresa, $nombre, $descripcion, $lugar, $idC
         ":precio" => $precio,
         ":duracion" => $duracion,
         ":materiales" => $materiales, 
-        ":estado" => "cancelado"
+        ":estado" => "cancelado",
+        ":id_municipio" => $idMunicipio,
+        ":codigo_postal" => $codigoPostal,
+        ":latitud" => $latitud,
+        ":longitud" => $longitud
     ]);
 
-    // devolver el id del servicio recién creado
     return $this->pdo->lastInsertId();
 }
 
@@ -502,7 +505,7 @@ public function ServicioTieneHorarios($idServicio){
     return true;
 }
 
-public function ActualizarServicio($idServicio, $idEmpresa, $nombre, $descripcion, $lugar, $idCategoria, $precio, $duracion, $materiales){
+public function ActualizarServicio($idServicio, $idEmpresa, $nombre, $descripcion, $lugar, $idCategoria, $precio, $duracion, $materiales, $idMunicipio, $codigoPostal){
 
     $sentencia = "UPDATE servicio
                   SET nombre_servicio = :nombre,
@@ -511,7 +514,9 @@ public function ActualizarServicio($idServicio, $idEmpresa, $nombre, $descripcio
                       id_categoria = :id_categoria,
                       precio = :precio,
                       duracion = :duracion,
-                      materiales = :materiales
+                      materiales = :materiales,
+                      id_municipio = :id_municipio,
+                      codigo_postal = :codigo_postal
                   WHERE id_servicio = :id_servicio
                   AND id_empresa = :id_empresa";
 
@@ -525,6 +530,8 @@ public function ActualizarServicio($idServicio, $idEmpresa, $nombre, $descripcio
         ":precio" => $precio,
         ":duracion" => $duracion,
         ":materiales" => $materiales,
+        ":id_municipio" => $idMunicipio,
+        ":codigo_postal" => $codigoPostal,
         ":id_servicio" => $idServicio,
         ":id_empresa" => $idEmpresa
     ]);
@@ -553,6 +560,83 @@ public function obtenerActividadPorIdempresa($idServicio){
     ]);
     $fila = $ejecucion->fetch(PDO::FETCH_ASSOC);
     return $fila;
+}
+
+public function ObtenerProvincias(){
+
+    $sentencia = "SELECT *
+                  FROM provincia
+                  ORDER BY nombre ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerMunicipiosPorProvincia($idProvincia){
+
+    $sentencia = "SELECT *
+                  FROM municipio
+                  WHERE id_provincia = :id_provincia
+                  ORDER BY nombre ASC";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":id_provincia" => $idProvincia
+    ]);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerMunicipioPorId($idMunicipio){
+
+    $sentencia = "SELECT 
+                    m.*,
+                    p.nombre AS provincia
+                  FROM municipio m
+                  INNER JOIN provincia p
+                    ON m.id_provincia = p.id_provincia
+                  WHERE m.id_municipio = :id_municipio";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":id_municipio" => $idMunicipio
+    ]);
+
+    return $ejecucion->fetch(PDO::FETCH_ASSOC);
+}
+
+public function ObtenerCoordenadas($direccionMapa){
+
+    $url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" . urlencode($direccionMapa);
+
+    $opciones = [
+        "http" => [
+            "header" => "User-Agent: BodyAndSoulTFG/1.0\r\n"
+        ]
+    ];
+
+    $contexto = stream_context_create($opciones);
+
+    $respuesta = file_get_contents($url, false, $contexto);
+
+    if($respuesta === false){
+        return false;
+    }
+
+    $datos = json_decode($respuesta, true);
+
+    if(empty($datos)){
+        return false;
+    }
+
+    return [
+        "latitud" => $datos[0]["lat"],
+        "longitud" => $datos[0]["lon"]
+    ];
 }
 
 }
