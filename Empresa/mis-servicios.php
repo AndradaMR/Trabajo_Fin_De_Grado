@@ -16,6 +16,7 @@ $actividadesactivas=$bdempre->ObtenerServiciosActivos($idempresa);
 $numactactivas=count($actividadesactivas);
 $actividadescanceladas=$totalServicios-$numactactivas;
 
+
 $catempresa=$bdempre->ObtenerSubcategoriasEmpresa($idempresa);
 
 if(isset($_POST["cancelar"])){
@@ -120,6 +121,7 @@ if(isset($_POST["reactivar_servicio"])){
         <?php foreach($servicios as $servicio){ 
           
           $imagen =$servicio["imagen"];
+          $tieneHorarios = $bdempre->ServicioTieneHorarios($servicio["id_servicio"]);
 
         ?>
 
@@ -176,13 +178,15 @@ data-estado="<?=strtolower(htmlspecialchars($servicio["estado"]))?>"
                 </button>
               </form>
             <?php }else{ ?>
+            <?php if($tieneHorarios){ ?>
               <form method="post" onsubmit="return confirm('¿Seguro que quieres reactivar este servicio? Los usuarios tendrán que reservar de nuevo.');">
                 <input type="hidden" name="id_servicio" value="<?=$servicio["id_servicio"]?>">
                 <button type="submit" name="reactivar_servicio" class="btn-reject">
                   Reactivar servicio
                 </button>
               </form>
-            <?php } ?>
+            <?php }
+            }?>
             </div>
           </article>
 

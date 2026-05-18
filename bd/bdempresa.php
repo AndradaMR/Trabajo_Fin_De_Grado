@@ -545,6 +545,16 @@ function DuracionTextoAMinutos($duracion){
     return $minutosTotales;
 }
 
+public function obtenerActividadPorIdempresa($idServicio){
+    $sentencia = "SELECT * FROM servicio WHERE id_servicio = :id_servicio";
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute([
+        ":id_servicio" => $idServicio
+    ]);
+    $fila = $ejecucion->fetch(PDO::FETCH_ASSOC);
+    return $fila;
+}
+
 }
 
 ?>

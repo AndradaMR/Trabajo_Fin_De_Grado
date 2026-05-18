@@ -256,26 +256,29 @@ if(isset($_POST["materiales"])){
 
 if(isset($_POST["enviar"])){
 
-    if(!isset($_FILES["imagen"]) || $_FILES["imagen"]["error"] == 4){
-        $imagenerror = "Debes subir una imagen principal";
+    if(!isset($_FILES["imagenes"]) || empty($_FILES["imagenes"]["name"][0])){
+        $imagenerror = "Debes subir al menos una imagen";
         $banderaerror = true;
     }else{
-        $tiposPermitidos = ["image/jpeg", "image/png", "image/webp"];
-        $tipoArchivo = $_FILES["imagen"]["type"];
 
-        if(!in_array($tipoArchivo, $tiposPermitidos)){
-            $imagenerror = "La imagen debe ser JPG, PNG o WEBP";
-            $banderaerror = true;
+        $tiposPermitidos = ["image/jpeg", "image/png", "image/webp"];
+
+        for($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++){
+
+            if($_FILES["imagenes"]["error"][$i] == 0){
+
+                $tipoArchivo = $_FILES["imagenes"]["type"][$i];
+
+                if(!in_array($tipoArchivo, $tiposPermitidos)){
+                    $imagenerror = "Todas las imágenes deben ser JPG, PNG o WEBP";
+                    $banderaerror = true;
+                }
+            }
         }
     }
 }
 
     if($banderaerror == false && isset($_POST["enviar"])){
-
-    $nombreArchivo = $_FILES["imagen"]["name"];
-    $ruta = "img/".$empresa["categoria_empresa"]."/" . $nombreArchivo;
-
-    move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta);
 
     $idServicio = $bdempre->InsertarServicio(
     $idEmpresa,
@@ -287,6 +290,19 @@ if(isset($_POST["enviar"])){
     $duracion,
     $materiales
     );
+
+    for($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++){
+
+    if($_FILES["imagenes"]["error"][$i] == 0){
+
+        $nombreArchivo = time() . "_" . $i . "_" . basename($_FILES["imagenes"]["name"][$i]);
+        $ruta = "img/" . $empresa["categoria_empresa"] . "/" . $nombreArchivo;
+
+        move_uploaded_file($_FILES["imagenes"]["tmp_name"][$i], "../" . $ruta);
+
+        $bdempre->InsertarImagenServicio($idServicio, $ruta);
+    }
+}
 
     $bdempre->InsertarImagenServicio($idServicio, $ruta);
 
@@ -501,12 +517,13 @@ if(isset($_POST["enviar"])){
 
     <!-- IMAGEN -->
     <div class="form-group full-width">
-      <label for="imagen">Imagen principal</label>
+      <label for="imagenes">Imágenes de la actividad</label>
       <input 
         type="file" 
-        id="imagen" 
-        name="imagen" 
+        id="imagenes" 
+        name="imagenes[]" 
         accept="image/*"
+        multiple
       >
       <span class="form-error"><?php echo $imagenerror; ?></span>
     </div>
