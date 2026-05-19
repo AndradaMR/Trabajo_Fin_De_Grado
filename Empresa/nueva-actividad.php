@@ -48,6 +48,16 @@ if($empresa["estado"] == "suspendida"){
     exit();
 }
 
+$provincias = $bdempre->ObtenerProvincias();
+
+$id_provincia = $_POST["id_provincia"] ?? "";
+$id_municipio = $_POST["id_municipio"] ?? "";
+
+$provinciaerror = "";
+$municipioerror = "";
+
+$codigo_postal = "";
+$codigopostalerror = "";
 
 $idCategoriaPadre=$bdact->ObtenerIdCategoriaPorNombre($empresa["categoria_empresa"]);
 
@@ -70,9 +80,6 @@ $duracionerror = "";
 
 $direccion_lugar = "";
 $direccionlugarerror = "";
-
-$localidad_lugar = "";
-$localidadlugarerror = "";
 
 $nombre_lugar = "";
 $lugar = "";
@@ -196,28 +203,34 @@ if(isset($_POST["direccion_lugar"])){
     }
 }
 
-if(isset($_POST["localidad_lugar"])){
-    $localidad_lugar = trim($_POST["localidad_lugar"]);
-
-    if($localidad_lugar == ""){
-        $localidadlugarerror = "Debes indicar la localidad";
-        $banderaerror = true;
-    }
-}
-
 if(isset($_POST["nombre_lugar"])){
     $nombre_lugar = trim($_POST["nombre_lugar"]);
 }
 
-if($direccion_lugar != "" && $localidad_lugar != ""){
+if(isset($_POST["codigo_postal"])){
+    $codigo_postal = trim($_POST["codigo_postal"]);
 
-    if($nombre_lugar != ""){
-        $lugar = $nombre_lugar . ", " . $direccion_lugar . ", " . $localidad_lugar;
-    }else{
-        $lugar = $direccion_lugar . ", " . $localidad_lugar;
+    if($codigo_postal == ""){
+        $codigopostalerror = "Debes indicar el código postal";
+        $banderaerror = true;
+    }else if(!preg_match('/^[0-9]{5}$/', $codigo_postal)){
+        $codigopostalerror = "El código postal debe tener 5 números";
+        $banderaerror = true;
     }
 }
 
+if(isset($_POST["enviar"])){
+
+    if($id_provincia == ""){
+        $provinciaerror = "Debes seleccionar una provincia";
+        $banderaerror = true;
+    }
+
+    if($id_municipio == ""){
+        $municipioerror = "Debes seleccionar un municipio";
+        $banderaerror = true;
+    }
+}
 
 if(isset($_POST["precio"])){
     $precio = trim($_POST["precio"]);
@@ -280,37 +293,54 @@ if(isset($_POST["enviar"])){
 
     if($banderaerror == false && isset($_POST["enviar"])){
 
-    $idServicio = $bdempre->InsertarServicio(
-    $idEmpresa,
-    $nombre_servicio,
-    $descripcion,
-    $lugar,
-    $id_categoria,
-    $precio,
-    $duracion,
-    $materiales
-    );
+      $municipio = $bdempre->ObtenerMunicipioPorId($id_municipio);
 
-    for($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++){
+      if($nombre_lugar != ""){
+        $lugar = $nombre_lugar . ", " . $direccion_lugar . ", " . $municipio["nombre"];
+      }else{
+          $lugar = $direccion_lugar . ", " . $municipio["nombre"];
+      }
 
-    if($_FILES["imagenes"]["error"][$i] == 0){
+      $direccionMapa = $direccion_lugar . ", " . $codigo_postal . ", " . $municipio["nombre"] . ", " . $municipio["provincia"] . ", España";
 
-        $nombreArchivo = time() . "_" . $i . "_" . basename($_FILES["imagenes"]["name"][$i]);
-        $ruta = "img/" . $empresa["categoria_empresa"] . "/" . $nombreArchivo;
+      $coordenadas = $bdempre->ObtenerCoordenadas($direccionMapa);
 
-        move_uploaded_file($_FILES["imagenes"]["tmp_name"][$i], "../" . $ruta);
+      if($coordenadas == false){
+          $direccionlugarerror = "No hemos podido localizar la dirección. Revisa la calle, número, código postal y municipio.";
+          $banderaerror = true;
+      }
 
-        $bdempre->InsertarImagenServicio($idServicio, $ruta);
+      $idServicio = $bdempre->InsertarServicio(
+        $idEmpresa,
+        $nombre_servicio,
+        $descripcion,
+        $lugar,
+        $id_categoria,
+        $precio,
+        $duracion,
+        $materiales,
+        $id_municipio,
+        $codigo_postal,
+        $coordenadas["latitud"],
+        $coordenadas["longitud"]
+      );
+
+      for($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++){
+
+          if($_FILES["imagenes"]["error"][$i] == 0){
+
+              $nombreArchivo = time() . "_" . $i . "_" . basename($_FILES["imagenes"]["name"][$i]);
+              $ruta = "img/" . $empresa["categoria_empresa"] . "/" . $nombreArchivo;
+
+              move_uploaded_file($_FILES["imagenes"]["tmp_name"][$i], "../" . $ruta);
+
+              $bdempre->InsertarImagenServicio($idServicio, $ruta);
+          }
+      }
+
+      header("Location: gestionar-horarios.php?idservicio=".$idServicio);
+      exit();
     }
-}
-
-    $bdempre->InsertarImagenServicio($idServicio, $ruta);
-
-    $registro_ok = true;
-
-    header("Location: gestionar-horarios.php?idservicio=".$idServicio);
-    exit();
-}
 ?>
 
 <div class="company-main">
@@ -444,17 +474,49 @@ if(isset($_POST["enviar"])){
       <span class="form-error"><?php echo $direccionlugarerror; ?></span>
     </div>
 
-    <!-- LOCALIDAD -->
+    <!-- PROVINCIA -->
     <div class="form-group">
-      <label for="localidad_lugar">Localidad</label>
+      <label for="id_provincia">Provincia</label>
+
+      <select id="id_provincia" name="id_provincia">
+        <option value="">Selecciona una provincia</option>
+
+        <?php foreach($provincias as $provincia){ ?>
+          <option 
+            value="<?php echo $provincia["id_provincia"]; ?>"
+            <?php if($id_provincia == $provincia["id_provincia"]){ echo "selected"; } ?>
+          >
+            <?php echo $provincia["nombre"]; ?>
+          </option>
+        <?php } ?>
+      </select>
+
+      <span class="form-error"><?php echo $provinciaerror; ?></span>
+    </div>
+
+    <!-- MUNICIPIO -->
+    <div class="form-group">
+      <label for="id_municipio">Municipio</label>
+
+      <select id="id_municipio" name="id_municipio">
+        <option value="">Selecciona primero una provincia</option>
+      </select>
+
+      <span class="form-error"><?php echo $municipioerror; ?></span>
+    </div>
+
+    <div class="form-group">
+      <label for="codigo_postal">Código postal</label>
+
       <input 
-        type="text" 
-        id="localidad_lugar" 
-        name="localidad_lugar" 
-        placeholder="Ej. Madrid"
-        value="<?php echo $localidad_lugar; ?>"
+        type="text"
+        id="codigo_postal"
+        name="codigo_postal"
+        maxlength="5"
+        value="<?php echo $codigo_postal; ?>"
       >
-      <span class="form-error"><?php echo $localidadlugarerror; ?></span>
+
+      <span class="form-error"><?php echo $codigopostalerror; ?></span>
     </div>
 
     <!-- NOMBRE LUGAR -->
@@ -541,6 +603,57 @@ if(isset($_POST["enviar"])){
 
   </main>
 </div>
+
+<script>
+  const selectProvincia = document.getElementById("id_provincia");
+  const selectMunicipio = document.getElementById("id_municipio");
+
+  const municipioSeleccionado = "<?php echo $id_municipio; ?>";
+
+  function cargarMunicipios(idProvincia, idMunicipioSeleccionado = ""){
+
+      selectMunicipio.innerHTML = "<option value=''>Cargando municipios...</option>";
+
+      if(idProvincia === ""){
+          selectMunicipio.innerHTML = "<option value=''>Selecciona primero una provincia</option>";
+          return;
+      }
+
+      fetch("obtener-municipios.php?id_provincia=" + idProvincia)
+          .then(response => response.json())
+          .then(municipios => {
+
+              selectMunicipio.innerHTML = "<option value=''>Selecciona un municipio</option>";
+
+              municipios.forEach(function(municipio){
+
+                  let selected = "";
+
+                  if(idMunicipioSeleccionado == municipio.id_municipio){
+                      selected = "selected";
+                  }
+
+                  selectMunicipio.innerHTML += `
+                      <option value="${municipio.id_municipio}" ${selected}>
+                          ${municipio.nombre}
+                      </option>
+                  `;
+              });
+          })
+          .catch(error => {
+              console.error(error);
+              selectMunicipio.innerHTML = "<option value=''>Error cargando municipios</option>";
+          });
+  }
+
+  selectProvincia.addEventListener("change", function(){
+      cargarMunicipios(this.value);
+  });
+
+  if(selectProvincia.value !== ""){
+      cargarMunicipios(selectProvincia.value, municipioSeleccionado);
+  }
+</script>
 
 </body>
 </html>

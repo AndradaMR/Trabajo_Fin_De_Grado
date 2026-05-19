@@ -22,6 +22,46 @@ $subcat = $bdact->obtenerSubcat($idCategoriaPadre);
 
 $servicio = $bdempre->obtenerActividadPorIdempresa($idServicio);
 
+$lugarCompleto = $servicio["lugar"] ?? "";
+
+$nombre_lugar = "";
+$direccion_lugar = "";
+
+$partesLugar = array_map("trim", explode(",", $lugarCompleto));
+
+if(count($partesLugar) >= 3){
+
+    $nombre_lugar = $partesLugar[0];
+
+    // Quitamos el primer elemento = nombre del lugar
+    array_shift($partesLugar);
+
+    // Quitamos el último elemento = municipio
+    array_pop($partesLugar);
+
+    // Lo que queda es la dirección
+    $direccion_lugar = implode(", ", $partesLugar);
+
+}else if(count($partesLugar) == 2){
+
+    $direccion_lugar = $partesLugar[0];
+
+}else{
+    $direccion_lugar = $lugarCompleto;
+}
+
+$id_municipio = $servicio["id_municipio"] ?? "";
+$codigo_postal = $servicio["codigo_postal"] ?? "";
+
+$id_provincia = "";
+
+if($id_municipio != ""){
+    $municipioActual = $bdempre->ObtenerMunicipioPorId($id_municipio);
+    $id_provincia = $municipioActual["id_provincia"];
+}
+
+$provincias = $bdempre->ObtenerProvincias();
+
 if($servicio == false || $servicio["id_empresa"] != $idEmpresa){
     header("Location: mis-servicios.php");
     exit();
@@ -48,13 +88,15 @@ $descripcionerror = "";
 $materiales = $servicio["materiales"];
 $materialeserror = "";
 
-$direccion_lugar = "";
-$localidad_lugar = "";
-$nombre_lugar = "";
-$lugar = $servicio["lugar"];
+if($id_municipio != ""){
+    $municipioActual = $bdempre->ObtenerMunicipioPorId($id_municipio);
+    $id_provincia = $municipioActual["id_provincia"];
+}
 
+$provinciaerror = "";
+$municipioerror = "";
+$codigopostalerror = "";
 $direccionlugarerror = "";
-$localidadlugarerror = "";
 
 if(isset($_POST["enviar"])){
 
@@ -66,8 +108,11 @@ if(isset($_POST["enviar"])){
     $materiales = trim($_POST["materiales"]);
 
     $direccion_lugar = trim($_POST["direccion_lugar"]);
-    $localidad_lugar = trim($_POST["localidad_lugar"]);
     $nombre_lugar = trim($_POST["nombre_lugar"]);
+
+    $id_provincia = $_POST["id_provincia"] ?? "";
+    $id_municipio = $_POST["id_municipio"] ?? "";
+    $codigo_postal = trim($_POST["codigo_postal"] ?? "");
 
     if($nombre_servicio == ""){
         $nombreservicioerror = "El nombre de la actividad no puede estar vacío";
@@ -113,57 +158,73 @@ if(isset($_POST["enviar"])){
         $banderaerror = true;
     }
 
-    if($localidad_lugar == ""){
-        $localidadlugarerror = "Debes indicar la localidad";
+    if($id_provincia == ""){
+        $provinciaerror = "Debes seleccionar una provincia";
         $banderaerror = true;
     }
 
-    if($direccion_lugar != "" && $localidad_lugar != ""){
-        if($nombre_lugar != ""){
-            $lugar = $nombre_lugar . ", " . $direccion_lugar . ", " . $localidad_lugar;
-        }else{
-            $lugar = $direccion_lugar . ", " . $localidad_lugar;
-        }
+    if($id_municipio == ""){
+        $municipioerror = "Debes seleccionar un municipio";
+        $banderaerror = true;
     }
+
+    if($codigo_postal == ""){
+        $codigopostalerror = "Debes indicar el código postal";
+        $banderaerror = true;
+
+    }else if(!preg_match('/^[0-9]{5}$/', $codigo_postal)){
+        $codigopostalerror = "El código postal debe tener 5 números";
+        $banderaerror = true;
+    }
+
 
     if($banderaerror == false){
+      $municipio = $bdempre->ObtenerMunicipioPorId($id_municipio);
 
-        $bdempre->ActualizarServicio(
-            $idServicio,
-            $idEmpresa,
-            $nombre_servicio,
-            $descripcion,
-            $lugar,
-            $id_categoria,
-            $precio,
-            $duracion,
-            $materiales
-        );
+      if($nombre_lugar != ""){
+          $lugar = $nombre_lugar . ", " . $direccion_lugar . ", " . $municipio["nombre"];
+      }else{
+          $lugar = $direccion_lugar . ", " . $municipio["nombre"];
+      }
 
-        if(isset($_FILES["imagenes"]) && !empty($_FILES["imagenes"]["name"][0])){
+      $bdempre->ActualizarServicio(
+          $idServicio,
+          $idEmpresa,
+          $nombre_servicio,
+          $descripcion,
+          $lugar,
+          $id_categoria,
+          $precio,
+          $duracion,
+          $materiales,
+          $id_municipio,
+          $codigo_postal
+      );
 
-    $tiposPermitidos = ["image/jpeg", "image/png", "image/webp"];
+      if(isset($_FILES["imagenes"]) && !empty($_FILES["imagenes"]["name"][0])){
 
-    for($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++){
+        $tiposPermitidos = ["image/jpeg", "image/png", "image/webp"];
 
-        if($_FILES["imagenes"]["error"][$i] == 0){
+        for($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++){
 
-            $tipoArchivo = $_FILES["imagenes"]["type"][$i];
+            if($_FILES["imagenes"]["error"][$i] == 0){
 
-            if(in_array($tipoArchivo, $tiposPermitidos)){
+                $tipoArchivo = $_FILES["imagenes"]["type"][$i];
 
-                $nombreArchivo = time() . "_" . $i . "_" . basename($_FILES["imagenes"]["name"][$i]);
+                if(in_array($tipoArchivo, $tiposPermitidos)){
 
-                $rutaBD = "img/" . $empresa["categoria_empresa"] . "/" . $nombreArchivo;
-                $rutaServidor = "../" . $rutaBD;
+                    $nombreArchivo = time() . "_" . $i . "_" . basename($_FILES["imagenes"]["name"][$i]);
 
-                move_uploaded_file($_FILES["imagenes"]["tmp_name"][$i], $rutaServidor);
+                    $rutaBD = "img/" . $empresa["categoria_empresa"] . "/" . $nombreArchivo;
+                    $rutaServidor = "../" . $rutaBD;
 
-                $bdempre->InsertarImagenServicio($idServicio, $rutaBD);
+                    move_uploaded_file($_FILES["imagenes"]["tmp_name"][$i], $rutaServidor);
+
+                    $bdempre->InsertarImagenServicio($idServicio, $rutaBD);
+                }
             }
         }
-    }
-}
+      }
 
 require("../bd/generarJSONact.php");
 
@@ -275,16 +336,44 @@ require("../bd/generarJSONact.php");
             <span class="form-error"><?php echo $direccionlugarerror; ?></span>
           </div>
 
+          <!-- PROVINCIA -->
           <div class="form-group">
-            <label for="localidad_lugar">Localidad</label>
+            <label for="id_provincia">Provincia</label>
+            <select id="id_provincia" name="id_provincia">
+              <option value="">Selecciona una provincia</option>
+
+              <?php foreach($provincias as $provincia){ ?>
+                <option 
+                  value="<?php echo $provincia["id_provincia"]; ?>"
+                  <?php if($id_provincia == $provincia["id_provincia"]){ echo "selected"; } ?>
+                >
+                  <?php echo $provincia["nombre"]; ?>
+                </option>
+              <?php } ?>
+            </select>
+            <span class="form-error"><?php echo $provinciaerror; ?></span>
+          </div>
+
+          <!-- MUNICIPIO -->
+          <div class="form-group">
+            <label for="id_municipio">Municipio</label>
+            <select id="id_municipio" name="id_municipio">
+              <option value="">Selecciona primero una provincia</option>
+            </select>
+            <span class="form-error"><?php echo $municipioerror; ?></span>
+          </div>
+            
+           <!-- CODIGO POSTAL -->
+          <div class="form-group">
+            <label for="codigo_postal">Código postal</label>
             <input 
-              type="text" 
-              id="localidad_lugar" 
-              name="localidad_lugar"
-              placeholder="Ej. Madrid"
-              value="<?php echo htmlspecialchars($localidad_lugar); ?>"
+              type="text"
+              id="codigo_postal"
+              name="codigo_postal"
+              maxlength="5"
+              value="<?php echo htmlspecialchars($codigo_postal); ?>"
             >
-            <span class="form-error"><?php echo $localidadlugarerror; ?></span>
+            <span class="form-error"><?php echo $codigopostalerror; ?></span>
           </div>
 
           <div class="form-group full-width">
@@ -356,6 +445,57 @@ require("../bd/generarJSONact.php");
 
   </main>
 </div>
+
+<script>
+  const selectProvincia = document.getElementById("id_provincia");
+  const selectMunicipio = document.getElementById("id_municipio");
+
+  const municipioSeleccionado = "<?php echo $id_municipio; ?>";
+
+  function cargarMunicipios(idProvincia, idMunicipioSeleccionado = ""){
+
+      selectMunicipio.innerHTML = "<option value=''>Cargando municipios...</option>";
+
+      if(idProvincia === ""){
+          selectMunicipio.innerHTML = "<option value=''>Selecciona primero una provincia</option>";
+          return;
+      }
+
+      fetch("obtener-municipios.php?id_provincia=" + idProvincia)
+          .then(response => response.json())
+          .then(municipios => {
+
+              selectMunicipio.innerHTML = "<option value=''>Selecciona un municipio</option>";
+
+              municipios.forEach(function(municipio){
+
+                  let selected = "";
+
+                  if(idMunicipioSeleccionado == municipio.id_municipio){
+                      selected = "selected";
+                  }
+
+                  selectMunicipio.innerHTML += `
+                      <option value="${municipio.id_municipio}" ${selected}>
+                          ${municipio.nombre}
+                      </option>
+                  `;
+              });
+          })
+          .catch(error => {
+              console.error(error);
+              selectMunicipio.innerHTML = "<option value=''>Error cargando municipios</option>";
+          });
+  }
+
+  selectProvincia.addEventListener("change", function(){
+      cargarMunicipios(this.value);
+  });
+
+  if(selectProvincia.value !== ""){
+      cargarMunicipios(selectProvincia.value, municipioSeleccionado);
+  }
+</script>
 
 </body>
 </html>
