@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-05-2026 a las 00:33:21
+-- Tiempo de generación: 19-05-2026 a las 22:37:51
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -5933,7 +5933,6 @@ INSERT INTO `imagen_servicio` (`id_imagen`, `id_servicio`, `url_imagen`) VALUES
 (132, 78, 'img/bienestar/aromaterapia-aceites1.jpg'),
 (133, 79, 'img/bienestar/aromaterapia-aceites2.jpg'),
 (134, 80, 'img/bienestar/aromaterapia-aceites3.jpg'),
-(136, 82, 'img//auraportada.png'),
 (139, 85, 'img/bienestar/ChatGPT Image 4 may 2026, 21_46_00.png'),
 (140, 86, 'img/bienestar/ChatGPT Image 9 may 2026, 14_51_33 (1).png'),
 (141, 87, 'img/bienestar/1779137972_0_pexels-arthousestudio-7363334.jpg'),
@@ -5941,7 +5940,9 @@ INSERT INTO `imagen_servicio` (`id_imagen`, `id_servicio`, `url_imagen`) VALUES
 (143, 87, 'img/bienestar/1779139413_0_pexels-arthousestudio-7363334.jpg'),
 (144, 87, 'img/bienestar/1779139413_1_pexels-bertellifotografia-13870009.jpg'),
 (145, 88, 'img/bienestar/1779139823_0_pexels-mikhail-nilov-7500315.jpg'),
-(146, 88, 'img/bienestar/1779139823_1_pexels-fbyf-studio-1601304170-29735918.jpg');
+(146, 88, 'img/bienestar/1779139823_1_pexels-fbyf-studio-1601304170-29735918.jpg'),
+(147, 82, 'img/bienestar/1779216184_0_pexels-rulynurulihsan-32097008.jpg'),
+(148, 82, 'img/bienestar/1779216184_1_pexels-george-pak-7969158.jpg');
 
 -- --------------------------------------------------------
 
@@ -14216,11 +14217,11 @@ CREATE TABLE `reserva` (
 
 INSERT INTO `reserva` (`id_reserva`, `id_usuario`, `id_servicio`, `fecha_hora`, `estado`, `id_detalle_actividad`) VALUES
 (3, 4, 2, '2026-04-12 09:00:00', 'confirmada', 3),
-(4, 12, 3, '2026-04-13 19:00:00', 'confirmada', 4),
+(4, 12, 3, '2026-04-13 19:00:00', 'cancelada', 4),
 (5, 12, 2, '2026-04-12 09:00:00', 'confirmada', 3),
 (6, 12, 4, '2026-04-22 18:30:00', 'confirmada', 35),
 (7, 12, 5, '2026-04-21 16:00:00', 'confirmada', 21),
-(8, 12, 3, '2026-06-01 10:00:00', 'confirmada', 214),
+(8, 12, 3, '2026-06-01 10:00:00', 'cancelada', 214),
 (9, 12, 24, '2026-05-29 17:00:00', 'cancelada', 1683),
 (10, 12, 57, '2026-06-01 17:00:00', 'confirmada', 3995),
 (11, 12, 15, '2026-06-01 10:00:00', 'confirmada', 1054),
@@ -14281,7 +14282,7 @@ CREATE TABLE `servicio` (
 INSERT INTO `servicio` (`id_servicio`, `id_empresa`, `nombre_servicio`, `descripcion`, `lugar`, `id_categoria`, `precio`, `duracion`, `materiales`, `estado`, `id_municipio`, `codigo_postal`, `latitud`, `longitud`) VALUES
 (1, 1, 'Ruta guiada de senderismo', 'Excursión guiada por la sierra con monitor especializado', 'Aventura Madrid Outdoor, Carretera de las Dehesas, 12, Cercedilla', 5, 25.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4328, '28470', 40.74200000, -4.05500000),
 (2, 1, 'Escalada para principiantes', 'Curso de iniciación a la escalada en roca', 'Aventura Madrid Climb, Avenida de La Pedriza, 8, Manzanares el Real', 4, 40.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4371, '28410', 40.72830000, -3.86070000),
-(3, 3, 'Clase de Yoga al aire libre', 'Sesión de yoga para todos los niveles', 'Aura Experience, Avenida de Madrid, 24, Arganda del Rey', 6, 15.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4304, '28500', 40.30380000, -3.43420000),
+(3, 3, 'Clase de Yoga al aire libre', 'Sesión de yoga para todos los niveles', 'Aura Experience, Avenida de Madrid, 24, Arganda del Rey', 6, 15.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'cancelado', 4304, '28500', 40.30380000, -3.43420000),
 (4, 1, 'Ruta de senderismo al atardecer', 'Ruta guiada por montaña con vistas panorámicas al atardecer.', 'Aventura Madrid Trek, Carretera de las Dehesas, 14, Cercedilla', 5, 30.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4328, '28470', 40.74500000, -4.05200000),
 (5, 1, 'Senderismo en familia', 'Excursión de dificultad baja pensada para familias con niños.', 'Aventura Madrid Family, Paseo de los Españoles, 5, Navacerrada', 5, 18.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'cancelado', 4382, '28491', 40.72910000, -4.01120000),
 (6, 1, 'Ruta de senderismo con picnic', 'Actividad de senderismo suave con parada para picnic incluido.', 'Aventura Madrid Nature, Plaza de la Constitución, 3, Bustarviejo', 5, 35.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4318, '28720', 40.85820000, -3.70170000),
@@ -14359,7 +14360,7 @@ INSERT INTO `servicio` (`id_servicio`, `id_empresa`, `nombre_servicio`, `descrip
 (78, 2, 'Aromaterapia energizante', 'Experiencia sensorial con fragancias cítricas y estimulantes.', 'Nature Escape Wellness Room, Avenida Sierra, 21, Segovia', 14, 23.00, '1 hora', 'No se requieren materiales', 'activo', 6038, '40006', 40.94590000, -4.10780000),
 (79, 2, 'Ritual de aceites esenciales', 'Tratamiento de bienestar con enfoque sensorial y relajante.', 'Nature Escape Relax Center, Calle Mayor, 18, Madrid', 14, 27.00, '1 hora', 'No se requieren materiales', 'activo', 4369, '28013', 40.42080000, -3.70180000),
 (80, 2, 'Aromaterapia premium', 'Experiencia completa con aceites, ambiente guiado y descanso final.', 'Nature Escape Premium Experience, Calle de Alcalá, 120, Madrid', 14, 29.00, '1 hora', 'No se requieren materiales', 'activo', 4369, '28009', 40.41680000, -3.70080000),
-(82, 3, 'Meditación consciente guiada', 'Sesión de meditación consciente guiada orientada a reducir el estrés y mejorar el bienestar emocional. A través de técnicas de respiración y atención plena, aprenderás a centrarte en el momento presente en un entorno tranquilo y relajante. No se requiere experiencia previa, ideal tanto para principiantes como para personas que quieran profundizar en su práctica.', 'Aura Experience, Avenida de Madrid, 24, Arganda del Rey', 13, 22.50, '1 hora y 20 minutos', 'Esterilla y ropa cómoda', 'activo', 4304, '28500', 40.30280000, -3.43220000),
+(82, 3, 'Meditación consciente guiada', 'Sesión de meditación consciente guiada orientada a reducir el estrés y mejorar el bienestar emocional. A través de técnicas de respiración y atención plena, aprenderás a centrarte en el momento presente en un entorno tranquilo y relajante. No se requiere experiencia previa, ideal tanto para principiantes como para personas que quieran profundizar en su práctica.', 'Aura Experience, Calle Mayor 5, Velilla de San Antonio', 13, 22.50, '1 hora y 20 minutos', 'Esterilla y ropa cómoda', 'activo', 4453, '28500', 40.30280000, -3.43220000),
 (85, 3, 'Estiramientos relajantes', 'Estiramientos específicos para relajar y todos los musculos del cuerpo y sentirse totalmente renovada', 'Aura Wellness Center, Calle Mayor, 24, Móstoles', 6, 14.99, '1 hora', 'Esterilla, cintas.', 'activo', 4381, '28931', 40.32230000, -3.86390000),
 (86, 3, 'Meditación para principiantes', 'Clase de meditación y mindfulness pensado para personas que deseen experimentar este ejercicio por primera vez.', 'Aura Experience, Avenida de Madrid, 24, Arganda del Rey', 13, 20.00, '2 horas', 'Esterilla', 'cancelado', 4304, '28500', 40.30180000, -3.43520000),
 (87, 3, 'Sesión de mindfulness al atardecer', 'Actividad guiada de mindfulness y relajación enfocada en reducir el estrés y mejorar el bienestar emocional.', 'Espacio Alma Serena, Calle Floridablanca, 20, San Lorenzo de El Escorial', 13, 18.00, '1 hora y 30 minutos', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4418, '28200', 40.59340000, -4.14440000),
@@ -14566,7 +14567,7 @@ ALTER TABLE `favorito`
 -- AUTO_INCREMENT de la tabla `imagen_servicio`
 --
 ALTER TABLE `imagen_servicio`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT de la tabla `municipio`
