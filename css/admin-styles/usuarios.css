@@ -794,11 +794,28 @@ select {
   padding: 1.4rem;
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 1.2rem;
 
   margin-bottom: 1.4rem;
+}
+
+.admin-hero-stat {
+  background-color: var(--company-surface-alt);
+  border-radius: 20px;
+  width: 180px; 
+  min-height: 120px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.services-stats{
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
 }
 
 .admin-hero-text {
