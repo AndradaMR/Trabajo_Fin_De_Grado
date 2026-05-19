@@ -190,7 +190,7 @@ require_once("head.php");
 require_once("footer.php");
 ?>
 
-<script src="js/validacionesRegistro.js"></script>
+<script src="../js/validacionesRegistroUsuario.js"></script>
 
 </body>
 </html>
