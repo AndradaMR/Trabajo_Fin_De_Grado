@@ -91,14 +91,15 @@ foreach($categorias as $categoria){
         Añade o elimina categorías principales o subcategorías para organizar mejor las actividades publicadas en la plataforma.
       </p>
     </div>
-
-    <div class="admin-hero-stat">
-      <span class="admin-hero-number"><?= $totalPadres ?></span>
-      <span class="admin-hero-label">Categorías</span>
-    </div>
-    <div class="admin-hero-stat">
-      <span class="admin-hero-number" style="margin-top:0.7rem;"><?= $totalSubcategorias ?></span>
-      <span class="admin-hero-label">Subcategorías</span>
+    <div class="services-stats">
+      <div class="admin-hero-stat">
+        <span class="admin-hero-number"><?= $totalPadres ?></span>
+        <span class="admin-hero-label">Categorías</span>
+      </div>
+      <div class="admin-hero-stat">
+        <span class="admin-hero-number" style="margin-top:0.7rem;"><?= $totalSubcategorias ?></span>
+        <span class="admin-hero-label">Subcategorías</span>
+      </div>
     </div>
   </section>
 

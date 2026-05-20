@@ -12,7 +12,7 @@
     </div>
   </footer>
 
-  <script src="js/favoritos.js"></script>
+  <script src="../js/favoritos.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const stars = document.querySelectorAll(".stars-input span");

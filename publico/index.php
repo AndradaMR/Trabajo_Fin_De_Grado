@@ -17,8 +17,9 @@ require_once("head.php");
             </p>
           </div>
 
-          <div class="home-search-block">
+          
             <form class="home-search-form" action="resultados.php" method="get">
+              <div class="home-search-block">
               <label for="buscador" class="sr-only">Buscar actividad</label>
               <input
                 type="text"
@@ -35,10 +36,8 @@ require_once("head.php");
                 name="ubicacion"
                 class="search-input"
                 placeholder="¿Donde te gustaría realizar la actividad?"
-              >
-
-            </form>
-
+              />
+            </div>
             <div class="home-filter-row">
               <select id="categoria_filtro" name="categoria" class="filter-pill filter-select">
                 <option value="">Categoría</option>
@@ -59,8 +58,11 @@ require_once("head.php");
                 <option value="50+">Más de 50€</option>
               </select>
             </div>
-          </div>
+            <button type="submit" style="display:none;"></button>
+            </form>
+          
         </div>
+        <div id="mapa-index" class="mapa-index"></div>
         <div id="resultadosBusqueda" class="resultados-live"></div>
       </div>
     </section>
@@ -132,10 +134,11 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
 </script>
 
 <script>
+  
   document.addEventListener("DOMContentLoaded", function () {
 
     const input = document.getElementById("buscador");
-    const ubicacion = document.getElementById("ubicacion").value;
+    const inputUbicacion = document.getElementById("ubicacion");
     const contenedor = document.getElementById("resultadosBusqueda");
     const categoria = document.getElementById("categoria_filtro");
     const precio = document.getElementById("precio");
@@ -144,12 +147,37 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
 
     let fecha = "";
 
+    const mapaIndex = L.map("mapa-index").setView([40.4168, -3.7038], 9);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap"
+    }).addTo(mapaIndex);
+
+    let marcadoresMapa = [];
+
+    const formulario = document.querySelector(".home-search-form");
+    formulario.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const texto = input.value.trim();
+      const ubi = inputUbicacion.value.trim();
+      const cat = categoria.value;
+      const pre = precio.value;
+
+      window.location.href =
+        "resultados.php?buscador=" + encodeURIComponent(texto) +
+        "&categoria=" + encodeURIComponent(cat) +
+        "&precio=" + encodeURIComponent(pre) +
+        "&fecha=" + encodeURIComponent(fecha) +
+        "&ubicacion=" + encodeURIComponent(ubi);
+    });
+
     function buscar() {
       const texto = input.value.trim();
       const cat = categoria.value;
       const pre = precio.value;
+      const ubi = inputUbicacion.value.trim();
 
-      if (texto.length < 2 && cat === "" && pre === "" && fecha === "") {
+      if (texto.length < 2 && ubi.length < 2 && cat === "" && pre === "" && fecha === "") {
         contenedor.innerHTML = "";
         return;
       }
@@ -159,15 +187,49 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
         "&categoria=" + encodeURIComponent(cat) +
         "&precio=" + encodeURIComponent(pre) +
         "&fecha=" + encodeURIComponent(fecha) +
-        "&ubicacion="+ encodeURIComponent(ubicacion)
+        "&ubicacion="+ encodeURIComponent(ubi)
       )
         .then(res => res.text())
         .then(data => {
           contenedor.innerHTML = data;
         });
+      fetch(
+        "ajax_mapa.php?buscador=" + encodeURIComponent(texto) +
+        "&categoria=" + encodeURIComponent(cat) +
+        "&precio=" + encodeURIComponent(pre) +
+        "&fecha=" + encodeURIComponent(fecha) +
+        "&ubicacion=" + encodeURIComponent(ubi)
+      )
+        .then(res => res.json())
+        .then(actividades => {
+
+          marcadoresMapa.forEach(marker => mapaIndex.removeLayer(marker));
+          marcadoresMapa = [];
+
+          actividades.forEach(act => {
+            const marker = L.marker([
+              parseFloat(act.latitud),
+              parseFloat(act.longitud)
+            ]).addTo(mapaIndex);
+
+            marker.bindPopup(`
+              <strong>${act.nombre_servicio}</strong><br>
+              ${act.lugar}<br>
+              <a href="actividad.php?idact=${act.id_servicio}">Ver actividad</a>
+            `);
+
+            marcadoresMapa.push(marker);
+          });
+
+          if(marcadoresMapa.length > 0){
+            const grupo = L.featureGroup(marcadoresMapa);
+            mapaIndex.fitBounds(grupo.getBounds().pad(0.2));
+          }
+        });
     }
 
     input.addEventListener("input", buscar);
+    inputUbicacion.addEventListener("input", buscar);
     categoria.addEventListener("change", buscar);
     precio.addEventListener("change", buscar);
 

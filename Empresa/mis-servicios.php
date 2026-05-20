@@ -73,14 +73,15 @@ if(isset($_POST["reactivar_servicio"])){
               Consulta, organiza y edita los servicios que has creado en la plataforma.
             </p>
           </div>
-
-          <div class="services-summary">
-            <span class="services-summary-number"><?=$numactactivas?></span>
-            <span class="services-summary-label">Servicios activos</span>
-          </div>
-          <div class="services-summary">
-            <span class="services-summary-number"><?=$actividadescanceladas?></span>
-            <span class="services-summary-label">Servicios cancelados</span>
+          <div class="services-stats">
+            <div class="services-summary">
+              <span class="services-summary-number"><?=$numactactivas?></span>
+              <span class="services-summary-label">Servicios activos</span>
+            </div>
+            <div class="services-summary">
+              <span class="services-summary-number"><?=$actividadescanceladas?></span>
+              <span class="services-summary-label">Servicios cancelados</span>
+            </div>
           </div>
         </section>
 

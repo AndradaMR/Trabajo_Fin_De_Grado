@@ -63,6 +63,8 @@ foreach ($categorias as $categoria) {
   <link rel="stylesheet" href="../css/public-styles/mis-reservas.css"/>
   <link rel="stylesheet" href="../css/public-styles/mis-valoraciones.css"/>
   <link rel="stylesheet" href="../css/public-styles/favoritos.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 
 <body>

@@ -7,7 +7,7 @@ $buscador = trim($_GET["buscador"] ?? "");
 $categoria = trim($_GET["categoria"] ?? "");
 $subcategoria = trim($_GET["subcategoria"] ?? "");
 $precio = trim($_GET["precio"] ?? "");
-
+$ubicacion = trim($_GET["ubicacion"] ?? "");
 
 $rutaJson = "../JSON/actividades.json";
 $datos = json_decode(file_get_contents($rutaJson), true);
@@ -34,6 +34,18 @@ foreach ($datos as $empresa) {
                 $coincide = false;
             }
         }
+
+        if ($ubicacion !== "") {
+
+          $textoUbicacion = strtolower(
+              $servicio["lugar"] . " " .
+              ($servicio["codigo_postal"] ?? "")
+          );
+
+          if (strpos($textoUbicacion, strtolower($ubicacion)) === false) {
+              $coincide = false;
+          }
+      }
 
         if ($categoria !== "" && $servicio["categoria"] !== $categoria) {
             $coincide = false;
@@ -78,6 +90,9 @@ foreach ($datos as $empresa) {
         <span class="section-tag">Resultados</span>
         <h2>Actividades encontradas</h2>
         <p>Hemos encontrado <?= count($resultados) ?> actividades.</p>
+        <?php if(!empty($resultados)){ ?>
+          <div id="mapa-resultados" style="height: 420px; margin: 2rem 0; border-radius: 20px; overflow: hidden;"></div>
+        <?php } ?>
       </div>
 
       <div class="activities-grid">
@@ -138,7 +153,43 @@ foreach ($datos as $empresa) {
     </div>
   </section>
 </main>
+<script>
+  const actividadesMapa = <?= json_encode(array_values(array_filter($resultados, function($act){
+      return !empty($act["latitud"]) && !empty($act["longitud"]);
+  })), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
 
+  if(document.getElementById("mapa-resultados") && actividadesMapa.length > 0){
+
+      const mapa = L.map("mapa-resultados").setView([40.4168, -3.7038], 9);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "© OpenStreetMap"
+      }).addTo(mapa);
+
+      const marcadores = [];
+
+      actividadesMapa.forEach(function(act){
+
+          const marcador = L.marker([
+              parseFloat(act.latitud), 
+              parseFloat(act.longitud)
+          ]).addTo(mapa);
+
+          marcador.bindPopup(`
+              <strong>${act.nombre_servicio}</strong><br>
+              ${act.lugar}<br>
+              <a href="actividad.php?idact=${act.id_servicio}">Ver actividad</a>
+          `);
+
+          marcadores.push(marcador);
+      });
+
+      if(marcadores.length > 0){
+          const grupo = L.featureGroup(marcadores);
+          mapa.fitBounds(grupo.getBounds().pad(0.2));
+      }
+  }
+</script>
 <?php require_once("footer.php"); ?>
 </body>
 </html>

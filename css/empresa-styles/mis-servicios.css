@@ -166,9 +166,15 @@ body.company-body {
   padding: 1.5rem;
   margin-bottom: 1.2rem;
   display: flex;
-  justify-content: space-between;
+  
   gap: 1rem;
   align-items: center;
+}
+
+.services-stats{
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
 }
 
 .company-section-badge {
@@ -201,6 +207,8 @@ body.company-body {
   background-color: rgba(27, 73, 101, 0.05);
   padding: 1rem;
   border-radius: 20px;
+  width: 200px; 
+  min-height: 120px; 
 }
 
 .services-summary-number {
