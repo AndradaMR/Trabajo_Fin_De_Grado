@@ -2,6 +2,15 @@
 $titulo="<h1>Bienvenido a Body and Soul</h1>";
 require_once("head.php");
 
+function limpiarTexto($texto){
+    $texto = mb_strtolower($texto, 'UTF-8');
+
+    $acentos = ['á','é','í','ó','ú','ü','ñ'];
+    $sinAcentos = ['a','e','i','o','u','u','n'];
+
+    return str_replace($acentos, $sinAcentos, $texto);
+}
+
 //Comprobamos los parametros que nos han llegado
 $buscador = trim($_GET["buscador"] ?? "");
 $categoria = trim($_GET["categoria"] ?? "");
@@ -24,10 +33,12 @@ foreach ($datos as $empresa) {
         $coincide = true;
 
         if ($buscador !== "") {
-            $texto = strtolower(
-                $servicio["nombre_servicio"] . " " .
-                $servicio["descripcion"] . " " .
-                $servicio["lugar"]
+            $texto = limpiarTexto(
+              ($servicio["nombre_servicio"] ?? "") . " " .
+              ($servicio["descripcion"] ?? "") . " " .
+              ($servicio["lugar"] ?? "") . " " .
+              ($servicio["categoria"] ?? "") . " " .
+              ($servicio["subcategoria"] ?? "")
             );
 
             if (strpos($texto, strtolower($buscador)) === false) {
@@ -158,7 +169,9 @@ foreach ($datos as $empresa) {
       return !empty($act["latitud"]) && !empty($act["longitud"]);
   })), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
 
-  if(document.getElementById("mapa-resultados") && actividadesMapa.length > 0){
+  const contenedorMapa = document.getElementById("mapa-resultados");
+
+  if (contenedorMapa) {
 
       const mapa = L.map("mapa-resultados").setView([40.4168, -3.7038], 9);
 
