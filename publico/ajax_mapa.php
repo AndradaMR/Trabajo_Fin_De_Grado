@@ -13,11 +13,12 @@ $ubicacion = trim($_GET["ubicacion"] ?? "");
 $resultados = [];
 
 function limpiarTexto($texto){
+    $texto = mb_strtolower($texto, 'UTF-8');
 
-    $texto = strtolower($texto);
-    $texto = iconv('UTF-8', 'ASCII//TRANSLIT', $texto);
+    $acentos = ['á','é','í','ó','ú','ü','ñ'];
+    $sinAcentos = ['a','e','i','o','u','u','n'];
 
-    return $texto;
+    return str_replace($acentos, $sinAcentos, $texto);
 }
 
 foreach($datos as $empresa){
@@ -35,16 +36,18 @@ foreach($datos as $empresa){
         $coincide = true;
 
         $texto = limpiarTexto(
-            $servicio["nombre_servicio"] . " " .
-            $servicio["descripcion"] . " " .
-            $servicio["lugar"]
+            ($servicio["nombre_servicio"] ?? "") . " " .
+            ($servicio["descripcion"] ?? "") . " " .
+            ($servicio["lugar"] ?? "") . " " .
+            ($servicio["categoria"] ?? "") . " " .
+            ($servicio["subcategoria"] ?? "")
         );
 
         if($buscador != "" && strpos($texto, limpiarTexto($buscador)) === false){
             $coincide = false;
         }
 
-        if($categoria != "" && $servicio["categoria"] != $categoria){
+        if($categoria != "" && limpiarTexto($servicio["categoria"] ?? "") != limpiarTexto($categoria)){
             $coincide = false;
         }
 
