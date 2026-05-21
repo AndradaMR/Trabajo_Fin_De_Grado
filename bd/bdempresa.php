@@ -348,6 +348,8 @@ public function CancelarServicioEmpresa($idServicio, $idEmpresa){
             ":idServicio" => $idServicio,
             ":idEmpresa" => $idEmpresa
         ]);
+        //Obtenemos los usuarios con reservas
+        $usuariosAfectados = $this->ObtenerUsuariosReservasServicio($idServicio);
 
         // Cancelar todas las reservas confirmadas de ese servicio
         $sentencia = "UPDATE reserva
@@ -362,12 +364,77 @@ public function CancelarServicioEmpresa($idServicio, $idEmpresa){
 
         $this->pdo->commit();
 
+        require_once("../utils/mailer.php");
+
+        foreach($usuariosAfectados as $usuario){
+
+            $datosReserva = [
+
+                "actividad" => $usuario["nombre_servicio"],
+                "fecha" => $usuario["fecha"],
+                "hora" => $usuario["hora_inicio"],
+                "duracion" => $usuario["duracion"],
+                "ubicacion" => $usuario["lugar"],
+                "empresa" => $usuario["nombre_empresa"],
+                "telefono" => $usuario["telefono_empresa"]
+
+            ];
+
+            enviarCorreoCancelacion(
+                $usuario["email"],
+                $usuario["nombre"],
+                $datosReserva
+            );
+        }
+
         return true;
 
     }catch(Exception $e){
         $this->pdo->rollBack();
         return false;
     }
+}
+
+public function ObtenerUsuariosReservasServicio($idServicio){
+
+    $sentencia = "SELECT 
+                    u.nombre,
+                    u.email,
+
+                    s.nombre_servicio,
+                    s.lugar,
+                    s.duracion,
+
+                    d.fecha,
+                    d.hora_inicio,
+
+                    e.nombre_empresa,
+                    e.telefono AS telefono_empresa
+
+                  FROM reserva r
+
+                  INNER JOIN usuario u
+                    ON r.id_usuario = u.id_usuario
+
+                  INNER JOIN servicio s
+                    ON r.id_servicio = s.id_servicio
+
+                  INNER JOIN detalle_actividad d
+                    ON r.id_detalle_actividad = d.id
+
+                  INNER JOIN empresa e
+                    ON s.id_empresa = e.id_empresa
+
+                  WHERE r.id_servicio = :idServicio
+                  AND r.estado = 'confirmada'";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+
+    $ejecucion->execute([
+        ":idServicio" => $idServicio
+    ]);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }
 
 public function ExisteServicioEmpresa($idEmpresa, $nombreServicio){

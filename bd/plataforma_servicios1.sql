@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-05-2026 a las 22:37:51
+-- Tiempo de generación: 21-05-2026 a las 23:52:16
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -50,8 +50,7 @@ INSERT INTO `categoria` (`id_categoria`, `nombre`, `id_categoria_padre`) VALUES
 (11, 'Spa', 2),
 (12, 'Masajes', 2),
 (13, 'Meditación', 2),
-(14, 'Aromaterapia', 2),
-(18, 'categoria NUEVA PRUEBA', NULL);
+(14, 'Aromaterapia', 2);
 
 -- --------------------------------------------------------
 
@@ -5731,7 +5730,7 @@ INSERT INTO `detalle_actividad` (`id`, `id_servicio`, `fecha`, `hora_inicio`, `h
 (8257, 86, '2026-05-12', '18:00:00', '18:00:00', 15),
 (8260, 86, '2026-05-11', '16:30:00', '18:30:00', 12),
 (8261, 87, '2026-06-15', '10:00:00', '11:30:00', 12),
-(8262, 88, '2026-06-11', '11:00:00', '12:15:00', 8),
+(8262, 88, '2026-06-11', '11:00:00', '12:15:00', 1),
 (8263, 88, '2026-06-11', '19:00:00', '20:15:00', 8);
 
 -- --------------------------------------------------------
@@ -5759,8 +5758,8 @@ CREATE TABLE `empresa` (
 --
 
 INSERT INTO `empresa` (`id_empresa`, `nombre_empresa`, `categoria_empresa`, `email`, `contrasena`, `direccion`, `telefono`, `ciudad_empresa`, `descripcion_empresa`, `logo_empresa`, `estado`) VALUES
-(1, 'Aventura Madrid', 'deporte', 'contacto@aventuramadrid.com', 'empresa1', 'Calle Mayor 10', '910000111', 'Madrid', 'Empresa de actividades de aventura al aire libre', '../img/logos/1711403945_aventuramadrid_logo.jpg', 'activa'),
-(2, 'Nature Escape', 'bienestar', 'info@natureescape.com', 'empresa2', 'Av. Sierra 45', '910000222', 'Segovia', '', '../img/logos/4111403945_nature_logo.jpg', 'activa'),
+(1, 'Aventura Madrid', 'deporte', 'contacto@aventuramadrid.com', '$2y$10$f1usyDReJxQ.NU2w2TRHn.OlKYiFPuAb2fiYcFQzm4viT.yY6q0ym', 'Calle Mayor 10', '910000111', 'Madrid', 'Empresa de actividades de aventura al aire libre', '../img/logos/1711403945_aventuramadrid_logo.jpg', 'activa'),
+(2, 'Nature Escape', 'bienestar', 'info@natureescape.com', '$2y$10$5aFZosWO38pem.hDMNxiSeZxGcTKQTJOw4hU54lDMnauhO2enpdgC', 'Av. Sierra 45', '910000222', 'Segovia', '', '../img/logos/4111403945_nature_logo.jpg', 'activa'),
 (3, 'Aura', 'bienestar', 'aura@gmail.com', '$2y$10$SPoBSTTB5HO85vAa3WIqVejIl1hKeXAC5Ii3M8Z5mNEFe5L1.E4rS', 'Avenida de Londres, 2C', '657664762', 'Arganda del Rey', 'Nos dedicamos a la meditación', '../img/logos/aura.png', 'activa'),
 (4, 'Begin', 'bienestar', 'begin@gmail.com', '$2y$10$W57ph8hwButVgvvStDp/4eZ/MAfauDrMwdn0520AMBuA75IEdOyMe', 'Calle Azahar 3', '675887876', 'Madrid', 'Empresa de mindfulness y relajacion', '../img/logos/IMG_4446.JPG', 'activa'),
 (5, 'Vital Move Studio', 'bienestar', 'contacto@vitalmove.com', '$2y$10$atrmWIMTy3DB6fFfDOSXMOSxxXLlnrdsVOL43cJ5DQT8kSW1y9zfW', 'Calle Mayor 7', '687452319', 'Collado-Mediano', 'Centro especializado en yoga, pilates y actividades de bienestar enfocadas en mejorar la salud f&iacute;sica y mental. Ofrecemos clases para todos los niveles, sesiones guiadas y talleres de relajaci&oacute;n.', '../img/logos/1715203945_vital-move-studio_logo.png', 'suspendida');
@@ -14219,7 +14218,7 @@ INSERT INTO `reserva` (`id_reserva`, `id_usuario`, `id_servicio`, `fecha_hora`, 
 (3, 4, 2, '2026-04-12 09:00:00', 'confirmada', 3),
 (4, 12, 3, '2026-04-13 19:00:00', 'cancelada', 4),
 (5, 12, 2, '2026-04-12 09:00:00', 'confirmada', 3),
-(6, 12, 4, '2026-04-22 18:30:00', 'confirmada', 35),
+(6, 12, 4, '2026-04-22 18:30:00', 'cancelada', 35),
 (7, 12, 5, '2026-04-21 16:00:00', 'confirmada', 21),
 (8, 12, 3, '2026-06-01 10:00:00', 'cancelada', 214),
 (9, 12, 24, '2026-05-29 17:00:00', 'cancelada', 1683),
@@ -14230,7 +14229,14 @@ INSERT INTO `reserva` (`id_reserva`, `id_usuario`, `id_servicio`, `fecha_hora`, 
 (14, 12, 71, '2026-05-20 17:00:00', 'confirmada', 4967),
 (15, 13, 5, '2026-04-21 16:00:00', 'confirmada', 21),
 (16, 13, 58, '2026-05-20 10:00:00', 'confirmada', 4056),
-(17, 12, 69, '2026-05-20 10:00:00', 'confirmada', 4826);
+(17, 12, 69, '2026-05-20 10:00:00', 'confirmada', 4826),
+(18, 12, 88, '2026-06-11 11:00:00', 'confirmada', 8262),
+(19, 13, 88, '2026-06-11 19:00:00', 'confirmada', 8263),
+(20, 13, 58, '2026-06-07 10:00:00', 'confirmada', 4068),
+(26, 15, 88, '2026-06-11 19:00:00', 'cancelada', 8263),
+(27, 15, 4, '2026-06-10 10:00:00', 'cancelada', 290),
+(28, 16, 4, '2026-06-10 10:00:00', 'cancelada', 290),
+(29, 17, 4, '2026-06-10 10:00:00', 'cancelada', 290);
 
 -- --------------------------------------------------------
 
@@ -14280,90 +14286,90 @@ CREATE TABLE `servicio` (
 --
 
 INSERT INTO `servicio` (`id_servicio`, `id_empresa`, `nombre_servicio`, `descripcion`, `lugar`, `id_categoria`, `precio`, `duracion`, `materiales`, `estado`, `id_municipio`, `codigo_postal`, `latitud`, `longitud`) VALUES
-(1, 1, 'Ruta guiada de senderismo', 'Excursión guiada por la sierra con monitor especializado', 'Aventura Madrid Outdoor, Carretera de las Dehesas, 12, Cercedilla', 5, 25.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4328, '28470', 40.74200000, -4.05500000),
-(2, 1, 'Escalada para principiantes', 'Curso de iniciación a la escalada en roca', 'Aventura Madrid Climb, Avenida de La Pedriza, 8, Manzanares el Real', 4, 40.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4371, '28410', 40.72830000, -3.86070000),
-(3, 3, 'Clase de Yoga al aire libre', 'Sesión de yoga para todos los niveles', 'Aura Experience, Avenida de Madrid, 24, Arganda del Rey', 6, 15.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'cancelado', 4304, '28500', 40.30380000, -3.43420000),
-(4, 1, 'Ruta de senderismo al atardecer', 'Ruta guiada por montaña con vistas panorámicas al atardecer.', 'Aventura Madrid Trek, Carretera de las Dehesas, 14, Cercedilla', 5, 30.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4328, '28470', 40.74500000, -4.05200000),
-(5, 1, 'Senderismo en familia', 'Excursión de dificultad baja pensada para familias con niños.', 'Aventura Madrid Family, Paseo de los Españoles, 5, Navacerrada', 5, 18.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'cancelado', 4382, '28491', 40.72910000, -4.01120000),
-(6, 1, 'Ruta de senderismo con picnic', 'Actividad de senderismo suave con parada para picnic incluido.', 'Aventura Madrid Nature, Plaza de la Constitución, 3, Bustarviejo', 5, 35.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4318, '28720', 40.85820000, -3.70170000),
-(7, 1, 'Escalada nivel intermedio', 'Sesión guiada para personas con conocimientos básicos de escalada.', 'Aventura Madrid Indoor, Avenida de los Encuartes, 18, Tres Cantos', 4, 45.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4440, '28760', 40.60290000, -3.70840000),
-(8, 1, 'Escalada en rocódromo', 'Clase práctica de escalada en interior con monitor.', 'Aventura Madrid Rocódromo, Calle Real, 22, Las Rozas de Madrid', 4, 22.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4414, '28231', 40.49530000, -3.87270000),
-(9, 1, 'Bautismo de escalada', 'Primera toma de contacto con la escalada en entorno seguro.', 'Aventura Madrid Experience, Calle Real, 7, Patones', 4, 38.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4393, '28189', 40.85980000, -3.48250000),
-(10, 3, 'Yoga relajante', 'Clase enfocada en respiración, estiramientos y relajación.', 'Aura Yoga Studio, Avenida de Madrid, 15, Arganda del Rey', 6, 12.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4304, '28500', 40.30080000, -3.43420000),
-(11, 3, 'Hatha Yoga', 'Sesión de yoga tradicional para mejorar flexibilidad y concentración.', 'Aura Wellness Center, Calle Real, 8, Arganda del Rey', 6, 14.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4304, '28500', 40.30180000, -3.43320000),
-(12, 2, 'Yoga para principiantes', 'Clase suave para personas que quieren iniciarse en yoga.', 'Nature Escape Studio, Avenida del Acueducto, 45, Segovia', 6, 13.50, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 6038, '40001', 40.94490000, -4.10380000),
-(13, 3, 'Yoga al amanecer', 'Clase al aire libre en horario de mañana para empezar el día con calma.', 'Aura Outdoor Yoga, Calle del Sol, 15, Arganda del Rey', 6, 16.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4304, '28500', 40.30380000, -3.43120000),
-(14, 2, 'Pilates suelo', 'Clase de pilates enfocada en fuerza, control corporal y flexibilidad.', 'Nature Escape Wellness, Plaza Mayor, 6, Segovia', 7, 14.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 6038, '40001', 40.94690000, -4.10880000),
-(15, 2, 'Pilates para principiantes', 'Sesión suave para personas que comienzan en pilates.', 'Nature Escape Yoga, Calle de Ibiza, 21, Madrid', 7, 13.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4369, '28009', 40.41680000, -3.70280000),
-(16, 2, 'Pilates al aire libre', 'Clase guiada de pilates en un entorno natural.', 'Nature Escape Pilates, Calle de Velázquez, 30, Madrid', 7, 16.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4369, '28001', 40.41780000, -3.70180000),
-(17, 1, 'Running iniciación', 'Entrenamiento guiado para empezar a correr de forma progresiva.', 'Aventura Madrid Running, Paseo del Prado, 9, Madrid', 8, 12.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28014', 40.41880000, -3.70080000),
-(18, 1, 'Grupo de running urbano', 'Sesión grupal para mejorar resistencia y técnica de carrera.', 'Aventura Madrid Run Club, Calle de Fuencarral, 40, Madrid', 8, 15.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28004', 40.41980000, -3.69980000),
-(19, 1, 'Running al amanecer', 'Actividad matinal para activar cuerpo y mente corriendo.', 'Aventura Madrid Amanecer, Avenida de América, 55, Madrid', 8, 14.50, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28028', 40.42080000, -3.69880000),
-(20, 1, 'Clases de pádel iniciación', 'Aprende los golpes básicos y la dinámica del juego.', 'Aventura Madrid Pádel Club, Calle de la Raqueta, 14, Madrid', 9, 20.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4369, '28043', 40.41680000, -3.69780000),
-(21, 1, 'Pádel nivel intermedio', 'Sesión orientada a mejorar técnica y táctica de juego.', 'Aventura Madrid Pádel Pro, Avenida de Europa, 22, Las Rozas de Madrid', 9, 24.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4414, '28232', 40.49330000, -3.87370000),
-(22, 1, 'Partido de pádel guiado', 'Partido supervisado con consejos de monitor.', 'Aventura Madrid Pádel Center, Calle de los Pinos, 4, Guadarrama', 9, 18.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4358, '28440', 40.67470000, -4.08850000),
-(23, 1, 'Ruta ciclista de montaña', 'Salida en bicicleta por senderos de dificultad media.', 'Aventura Madrid Bike Trail, Camino del Monte, 16, Cercedilla', 10, 28.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4328, '28470', 40.74400000, -4.05400000),
-(24, 1, 'Ciclismo urbano', 'Ruta guiada para descubrir la ciudad en bicicleta.', 'Aventura Madrid Cycling, Avenida del Manzanares, 10, Madrid', 10, 18.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4369, '28011', 40.42080000, -3.70080000),
-(25, 1, 'Ciclismo familiar', 'Recorrido en bici adaptado para familias y principiantes.', 'Aventura Madrid Bike Family, Calle del Parque, 8, Rivas-Vaciamadrid', 10, 16.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4410, '28521', 40.33900000, -3.51440000),
-(26, 2, 'Circuito termal', 'Experiencia de spa con piscina activa, chorros y zona de relax.', 'Nature Escape Zen, Calle de Luchana, 19, Madrid', 11, 35.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 4369, '28010', 40.41780000, -3.69880000),
-(27, 2, 'Spa con sauna', 'Sesión de bienestar con sauna y circuito de aguas.', 'Nature Escape Alma, Avenida del Acueducto, 22, Segovia', 11, 40.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 6038, '40001', 40.94490000, -4.10280000),
-(28, 2, 'Spa en pareja', 'Experiencia relajante para dos personas con acceso completo al spa.', 'Nature Escape Spa Parejas, Calle Jardines, 11, Segovia', 11, 65.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 6038, '40002', 40.94590000, -4.10880000),
-(29, 2, 'Masaje relajante', 'Masaje corporal para aliviar tensión y favorecer el descanso.', 'Nature Escape Masajes, Calle de Velázquez, 30, Madrid', 12, 32.00, '45 minutos', 'No se requieren materiales', 'activo', 4369, '28001', 40.42080000, -3.70280000),
-(30, 2, 'Masaje descontracturante', 'Tratamiento enfocado en zonas de tensión muscular.', 'Nature Escape Fisio Relax, Calle Real, 9, Segovia', 12, 38.00, '45 minutos', 'No se requieren materiales', 'activo', 6038, '40003', 40.94290000, -4.10680000),
-(31, 2, 'Masaje con piedras calientes', 'Sesión de masaje combinada con calor terapéutico.', 'Nature Escape Piedras, Calle de Serrano, 62, Madrid', 12, 42.00, '45 minutos', 'No se requieren materiales', 'activo', 4369, '28001', 40.41780000, -3.70080000),
-(32, 2, 'Meditación guiada', 'Sesión dirigida para reducir estrés y mejorar concentración.', 'Nature Escape Meditación, Calle del Lago, 7, Segovia', 13, 10.00, '45 minutos', 'Ropa cómoda', 'activo', 6038, '40005', 40.94490000, -4.10480000),
-(33, 2, 'Mindfulness para principiantes', 'Introducción práctica a la atención plena.', 'Nature Escape Mindfulness, Calle del Lago, 7, Segovia', 13, 11.50, '45 minutos', 'Ropa cómoda', 'activo', 6038, '40005', 40.94590000, -4.10380000),
-(34, 2, 'Meditación con cuencos', 'Sesión relajante acompañada de sonido de cuencos tibetanos.', 'Nature Escape Sonora, Calle Real, 18, Segovia', 13, 18.00, '45 minutos', 'Ropa cómoda', 'activo', 6038, '40001', 40.94690000, -4.10280000),
-(35, 2, 'Aromaterapia relajante', 'Sesión de bienestar con aceites esenciales calmantes.', 'Nature Escape Aroma Studio, Calle Jardines, 11, Segovia', 14, 22.00, '1 hora', 'No se requieren materiales', 'activo', 6038, '40002', 40.94290000, -4.10880000),
-(36, 2, 'Ritual sensorial', 'Experiencia de aromaterapia centrada en relajación profunda.', 'Nature Escape Ritual Room, Avenida Sierra, 45, Segovia', 14, 26.00, '1 hora', 'No se requieren materiales', 'activo', 6038, '40006', 40.94390000, -4.10780000),
-(37, 2, 'Aromaterapia para dormir mejor', 'Sesión enfocada en descanso, calma y equilibrio.', 'Nature Escape Sueño, Calle Cervantes, 16, Segovia', 14, 24.00, '1 hora', 'No se requieren materiales', 'activo', 6038, '40004', 40.94490000, -4.10680000),
-(38, 1, 'Escalada deportiva', 'Sesión guiada de escalada deportiva en roca para nivel básico e intermedio.', 'Aventura Madrid Vertical, Calle del Peñón, 6, Patones', 4, 42.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4393, '28189', 40.85880000, -3.48150000),
-(39, 1, 'Escalada en familia', 'Actividad de escalada adaptada para familias con monitor especializado.', 'Aventura Madrid Family Climb, Calle Rocódromo, 2, San Sebastián de los Reyes', 4, 36.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4421, '28701', 40.55150000, -3.62250000),
-(40, 1, 'Taller de técnica de escalada', 'Perfecciona agarres, apoyos y equilibrio en pared natural.', 'Aventura Madrid Técnica, Camino del Pantano, 8, San Martín de Valdeiglesias', 4, 39.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4420, '28680', 40.36190000, -4.39330000),
-(41, 1, 'Ruta de senderismo entre pinares', 'Caminata guiada por senderos naturales rodeados de bosque.', 'Aventura Madrid Forest, Calle de los Pinos, 3, Cercedilla', 5, 22.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4328, '28470', 40.74200000, -4.05000000),
-(42, 1, 'Senderismo con interpretación ambiental', 'Ruta suave con explicaciones sobre flora, fauna y entorno.', 'Aventura Madrid Eco Trek, Camino Verde, 10, Montejo de la Sierra', 5, 20.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4377, '28190', 41.06150000, -3.52980000),
-(43, 1, 'Senderismo de montaña', 'Actividad para amantes de la naturaleza con recorrido de dificultad media.', 'Aventura Madrid Mountain, Avenida del Puerto, 13, Navacerrada', 5, 27.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4382, '28491', 40.73210000, -4.01520000),
-(44, 1, 'Ruta guiada en fin de semana', 'Excursión organizada para desconectar y hacer ejercicio al aire libre.', 'Aventura Madrid Weekend, Camino del Valle, 5, Rascafría', 5, 24.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4407, '28740', 40.90880000, -3.87790000),
-(45, 2, 'Vinyasa Yoga', 'Clase dinámica de yoga con secuencias fluidas y respiración consciente.', 'Nature Escape Yoga Flow, Calle de Alcalá, 88, Madrid', 6, 16.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4369, '28009', 40.41680000, -3.70080000),
-(46, 3, 'Yoga Flow', 'Sesión de yoga activo para mejorar movilidad, fuerza y equilibrio.', 'Aura Flow Studio, Calle Lago Azul, 10, Rivas-Vaciamadrid', 6, 15.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4410, '28521', 40.34000000, -3.51440000),
-(47, 3, 'Yoga Relax', 'Clase orientada a relajación profunda y liberación de tensión.', 'Aura Relax Room, Calle Roma, 4, Arganda del Rey', 6, 14.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4304, '28500', 40.30280000, -3.43220000),
-(48, 2, 'Yoga al atardecer', 'Experiencia de yoga suave al aire libre en horario de tarde.', 'Nature Escape Sunset Yoga, Paseo del Embarcadero, 4, Rascafría', 6, 17.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4407, '28740', 40.90780000, -3.87390000),
-(49, 2, 'Pilates core', 'Clase centrada en abdomen, control postural y estabilidad.', 'Nature Escape Pilates Core, Calle de Núñez de Balboa, 25, Madrid', 7, 15.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4369, '28001', 40.42080000, -3.70380000),
-(50, 2, 'Pilates equilibrio', 'Trabajo corporal enfocado en coordinación, fuerza y flexibilidad.', 'Nature Escape Stability, Calle Real, 9, Segovia', 7, 14.50, '1 hora', 'Esterilla y ropa cómoda', 'activo', 6038, '40003', 40.94290000, -4.10780000),
-(51, 2, 'Pilates suave', 'Sesión tranquila ideal para comenzar o retomar actividad física.', 'Nature Escape Control Studio, Calle de Goya, 41, Madrid', 7, 13.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4369, '28001', 40.41780000, -3.70180000),
-(52, 2, 'Pilates de mañana', 'Actividad de pilates para activar el cuerpo al empezar el día.', 'Nature Escape Postural, Avenida de la Constitución, 17, Alcobendas', 7, 14.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4296, '28100', 40.54200000, -3.63200000),
-(53, 1, 'Running resistencia', 'Entrenamiento guiado para mejorar fondo y capacidad aeróbica.', 'Aventura Madrid Running Club, Paseo del Prado, 9, Madrid', 8, 14.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28014', 40.41980000, -3.69980000),
-(54, 1, 'Running técnica de carrera', 'Sesión para trabajar postura, apoyo y eficiencia al correr.', 'Aventura Madrid Técnica Run, Avenida del Manzanares, 12, Madrid', 8, 16.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28011', 40.42080000, -3.69880000),
-(55, 1, 'Grupo running principiantes', 'Entrenamiento adaptado para quienes empiezan desde cero.', 'Aventura Madrid Run Inicio, Calle de Alcalá, 88, Madrid', 8, 11.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28009', 40.41680000, -3.69780000),
-(56, 1, 'Running intervalos', 'Trabajo por series para mejorar velocidad y resistencia.', 'Aventura Madrid Intervalos, Calle Velódromo, 4, Madrid', 8, 15.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28045', 40.41780000, -3.70380000),
-(57, 1, 'Pádel para principiantes', 'Clase para aprender posiciones, golpes básicos y dinámica de juego.', 'Aventura Madrid Pádel Club, Calle de la Raqueta, 14, Madrid', 9, 19.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4369, '28043', 40.41880000, -3.70280000),
-(58, 1, 'Pádel perfeccionamiento', 'Sesión técnica para mejorar control, volea y bandeja.', 'Aventura Madrid Pádel Pro, Avenida de Europa, 22, Las Rozas de Madrid', 9, 23.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4414, '28232', 40.49530000, -3.87170000),
-(59, 1, 'Pádel en pareja', 'Entrenamiento compartido con ejercicios y partido guiado.', 'Aventura Madrid Pádel Dúo, Calle del Deporte, 9, Guadarrama', 9, 21.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4358, '28440', 40.67670000, -4.08650000),
-(60, 1, 'Pádel intensivo', 'Clase más exigente para trabajar táctica y ritmo de juego.', 'Aventura Madrid Pádel Intensivo, Calle Olímpica, 5, San Sebastián de los Reyes', 9, 26.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4421, '28701', 40.54750000, -3.62250000),
-(61, 1, 'Ruta ciclista por vía verde', 'Recorrido guiado en bicicleta por un entorno natural accesible.', 'Aventura Madrid Bike Green, Camino Verde, 10, Arganda del Rey', 10, 19.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4304, '28500', 40.30180000, -3.43220000),
-(62, 1, 'Ciclismo de resistencia', 'Salida de media distancia para mejorar forma física y técnica.', 'Aventura Madrid Cycling, Avenida de Europa, 17, Pozuelo de Alarcón', 10, 29.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4401, '28224', 40.43720000, -3.80800000),
-(63, 1, 'Ciclismo para principiantes', 'Ruta suave para personas que quieren empezar en bici.', 'Aventura Madrid Bike Inicio, Calle Velódromo, 4, Madrid', 10, 15.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4369, '28045', 40.41980000, -3.70380000),
-(64, 1, 'Ruta ciclista al amanecer', 'Experiencia en bici a primera hora con monitor y grupo reducido.', 'Aventura Madrid Amanecer Bike, Camino del Río, 8, Rascafría', 10, 21.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4407, '28740', 40.90880000, -3.87890000),
-(65, 2, 'Spa premium', 'Acceso a zona termal premium con piscinas, sauna y relax.', 'Nature Escape Spa Premium, Plaza Mayor, 11, Segovia', 11, 48.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 6038, '40001', 40.94290000, -4.10680000),
-(66, 2, 'Balneario relax', 'Experiencia de bienestar con circuito completo y zona de descanso.', 'Nature Escape Balneario, Calle Sierra, 4, Guadarrama', 11, 44.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 4358, '28440', 40.67370000, -4.08650000),
-(67, 2, 'Spa urbano', 'Sesión de desconexión en un spa moderno en pleno entorno urbano.', 'Nature Escape Spa Urbano, Calle Gran Vía, 55, Madrid', 11, 33.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 4369, '28013', 40.41880000, -3.69980000),
-(68, 2, 'Spa con hidromasaje', 'Circuito de bienestar con jacuzzi, sauna y piscina activa.', 'Nature Escape Hidro Spa, Calle Jardines, 15, Segovia', 11, 39.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 6038, '40002', 40.94590000, -4.10380000),
-(69, 2, 'Masaje de espalda y cuello', 'Masaje localizado para aliviar tensión acumulada en la parte superior.', 'Nature Escape Masajes, Calle de Velázquez, 30, Madrid', 12, 28.00, '45 minutos', 'No se requieren materiales', 'activo', 4369, '28001', 40.42080000, -3.69780000),
-(70, 2, 'Masaje corporal completo', 'Sesión integral enfocada en descanso, circulación y bienestar.', 'Nature Escape Corporal, Calle Real, 9, Segovia', 12, 40.00, '45 minutos', 'No se requieren materiales', 'activo', 6038, '40003', 40.94290000, -4.10880000),
-(71, 2, 'Masaje aromático', 'Tratamiento relajante con aceites esenciales y ambiente sensorial.', 'Nature Escape Masaje Aromático, Calle de Serrano, 62, Madrid', 12, 35.00, '45 minutos', 'No se requieren materiales', 'activo', 4369, '28001', 40.41780000, -3.70280000),
-(72, 2, 'Masaje facial relajante', 'Sesión suave para relajar la musculatura facial y descargar tensión.', 'Nature Escape Facial Relax, Avenida del Acueducto, 22, Segovia', 12, 24.00, '45 minutos', 'No se requieren materiales', 'activo', 6038, '40001', 40.94490000, -4.10680000),
-(73, 2, 'Meditación de mañanas conscientes', 'Sesión guiada para empezar el día con calma y claridad mental.', 'Nature Escape Meditación, Calle del Lago, 3, Segovia', 13, 9.50, '45 minutos', 'Ropa cómoda', 'activo', 6038, '40005', 40.94590000, -4.10580000),
-(74, 2, 'Meditación antiestrés', 'Práctica orientada a reducir estrés, tensión y ruido mental.', 'Nature Escape Respira, Calle de Ibiza, 14, Madrid', 13, 12.00, '45 minutos', 'Ropa cómoda', 'activo', 4369, '28009', 40.42080000, -3.69980000),
-(75, 2, 'Meditación en grupo', 'Encuentro grupal para trabajar respiración, presencia y equilibrio.', 'Nature Escape Mind Center, Avenida Levante, 20, Rivas-Vaciamadrid', 13, 10.50, '45 minutos', 'Ropa cómoda', 'activo', 4410, '28521', 40.33900000, -3.51340000),
-(76, 2, 'Meditación al aire libre', 'Sesión de conexión y calma en entorno natural.', 'Nature Escape Outdoor Calm, Paseo del Embarcadero, 6, Rascafría', 13, 11.00, '45 minutos', 'Ropa cómoda', 'activo', 4407, '28740', 40.90580000, -3.87390000),
-(77, 2, 'Aromaterapia calmante', 'Sesión centrada en relajación mediante aceites esenciales suaves.', 'Nature Escape Aroma Studio, Calle de Serrano, 62, Madrid', 14, 21.00, '1 hora', 'No se requieren materiales', 'activo', 4369, '28001', 40.41880000, -3.70380000),
-(78, 2, 'Aromaterapia energizante', 'Experiencia sensorial con fragancias cítricas y estimulantes.', 'Nature Escape Wellness Room, Avenida Sierra, 21, Segovia', 14, 23.00, '1 hora', 'No se requieren materiales', 'activo', 6038, '40006', 40.94590000, -4.10780000),
-(79, 2, 'Ritual de aceites esenciales', 'Tratamiento de bienestar con enfoque sensorial y relajante.', 'Nature Escape Relax Center, Calle Mayor, 18, Madrid', 14, 27.00, '1 hora', 'No se requieren materiales', 'activo', 4369, '28013', 40.42080000, -3.70180000),
-(80, 2, 'Aromaterapia premium', 'Experiencia completa con aceites, ambiente guiado y descanso final.', 'Nature Escape Premium Experience, Calle de Alcalá, 120, Madrid', 14, 29.00, '1 hora', 'No se requieren materiales', 'activo', 4369, '28009', 40.41680000, -3.70080000),
-(82, 3, 'Meditación consciente guiada', 'Sesión de meditación consciente guiada orientada a reducir el estrés y mejorar el bienestar emocional. A través de técnicas de respiración y atención plena, aprenderás a centrarte en el momento presente en un entorno tranquilo y relajante. No se requiere experiencia previa, ideal tanto para principiantes como para personas que quieran profundizar en su práctica.', 'Aura Experience, Calle Mayor 5, Velilla de San Antonio', 13, 22.50, '1 hora y 20 minutos', 'Esterilla y ropa cómoda', 'activo', 4453, '28500', 40.30280000, -3.43220000),
-(85, 3, 'Estiramientos relajantes', 'Estiramientos específicos para relajar y todos los musculos del cuerpo y sentirse totalmente renovada', 'Aura Wellness Center, Calle Mayor, 24, Móstoles', 6, 14.99, '1 hora', 'Esterilla, cintas.', 'activo', 4381, '28931', 40.32230000, -3.86390000),
-(86, 3, 'Meditación para principiantes', 'Clase de meditación y mindfulness pensado para personas que deseen experimentar este ejercicio por primera vez.', 'Aura Experience, Avenida de Madrid, 24, Arganda del Rey', 13, 20.00, '2 horas', 'Esterilla', 'cancelado', 4304, '28500', 40.30180000, -3.43520000),
-(87, 3, 'Sesión de mindfulness al atardecer', 'Actividad guiada de mindfulness y relajación enfocada en reducir el estrés y mejorar el bienestar emocional.', 'Espacio Alma Serena, Calle Floridablanca, 20, San Lorenzo de El Escorial', 13, 18.00, '1 hora y 30 minutos', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4418, '28200', 40.59340000, -4.14440000),
+(1, 1, 'Ruta guiada de senderismo', 'Excursión guiada por la sierra con monitor especializado', 'Aventura Madrid Outdoor, Carretera de las Dehesas, 12, Cercedilla', 5, 25.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4328, '28470', 40.65400000, -4.02200000),
+(2, 1, 'Escalada para principiantes', 'Curso de iniciación a la escalada en roca', 'Aventura Madrid Climb, Avenida de La Pedriza, 8, Manzanares el Real', 4, 40.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4371, '28410', 40.72310000, -3.86470000),
+(3, 3, 'Clase de Yoga al aire libre', 'Sesión de yoga para todos los niveles', 'Aura Experience, Avenida de Madrid, 24, Arganda del Rey', 6, 15.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'cancelado', 4304, '28500', 40.30810000, -3.43890000),
+(4, 1, 'Ruta de senderismo al atardecer', 'Ruta guiada por montaña con vistas panorámicas al atardecer.', 'Aventura Madrid Trek, Carretera de las Dehesas, 14, Cercedilla', 5, 30.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'cancelado', 4328, '28470', 40.65400000, -4.02200000),
+(5, 1, 'Senderismo en familia', 'Excursión de dificultad baja pensada para familias con niños.', 'Aventura Madrid Family, Paseo de los Españoles, 5, Navacerrada', 5, 18.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'cancelado', 4382, '28491', 40.72920000, -4.01000000),
+(6, 1, 'Ruta de senderismo con picnic', 'Actividad de senderismo suave con parada para picnic incluido.', 'Aventura Madrid Nature, Plaza de la Constitución, 3, Bustarviejo', 5, 35.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4318, '28720', 40.80040000, -3.69340000),
+(7, 1, 'Escalada nivel intermedio', 'Sesión guiada para personas con conocimientos básicos de escalada.', 'Aventura Madrid Indoor, Avenida de los Encuartes, 18, Tres Cantos', 4, 45.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4440, '28760', 40.59940000, -3.70840000),
+(8, 1, 'Escalada en rocódromo', 'Clase práctica de escalada en interior con monitor.', 'Aventura Madrid Rocódromo, Calle Real, 22, Las Rozas de Madrid', 4, 22.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4414, '28231', 40.49340000, -3.87400000),
+(9, 1, 'Bautismo de escalada', 'Primera toma de contacto con la escalada en entorno seguro.', 'Aventura Madrid Experience, Calle Real, 7, Patones', 4, 38.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4393, '28189', 40.88250000, -3.52120000),
+(10, 3, 'Yoga relajante', 'Clase enfocada en respiración, estiramientos y relajación.', 'Aura Yoga Studio, Avenida de Madrid, 15, Arganda del Rey', 6, 12.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4304, '28500', 40.30810000, -3.43890000),
+(11, 3, 'Hatha Yoga', 'Sesión de yoga tradicional para mejorar flexibilidad y concentración.', 'Aura Wellness Center, Calle Real, 8, Arganda del Rey', 6, 14.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4304, '28500', 40.30600000, -3.43700000),
+(12, 2, 'Yoga para principiantes', 'Clase suave para personas que quieren iniciarse en yoga.', 'Nature Escape Studio, Avenida del Acueducto, 45, Segovia', 6, 13.50, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 6038, '40001', 40.94290000, -4.10880000),
+(13, 3, 'Yoga al amanecer', 'Clase al aire libre en horario de mañana para empezar el día con calma.', 'Aura Outdoor Yoga, Calle del Sol, 15, Arganda del Rey', 6, 16.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4304, '28500', 40.30900000, -3.44000000),
+(14, 2, 'Pilates suelo', 'Clase de pilates enfocada en fuerza, control corporal y flexibilidad.', 'Nature Escape Wellness, Plaza Mayor, 6, Segovia', 7, 14.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 6038, '40001', 40.94810000, -4.11840000),
+(15, 2, 'Pilates para principiantes', 'Sesión suave para personas que comienzan en pilates.', 'Nature Escape Yoga, Calle de Ibiza, 21, Madrid', 7, 13.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4369, '28009', 40.40870000, -3.67590000),
+(16, 2, 'Pilates al aire libre', 'Clase guiada de pilates en un entorno natural.', 'Nature Escape Pilates, Calle de Velázquez, 30, Madrid', 7, 16.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4369, '28001', 40.42430000, -3.68870000),
+(17, 1, 'Running iniciación', 'Entrenamiento guiado para empezar a correr de forma progresiva.', 'Aventura Madrid Running, Paseo del Prado, 9, Madrid', 8, 12.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28014', 40.41380000, -3.69210000),
+(18, 1, 'Grupo de running urbano', 'Sesión grupal para mejorar resistencia y técnica de carrera.', 'Aventura Madrid Run Club, Calle de Fuencarral, 40, Madrid', 8, 15.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28004', 40.42270000, -3.70170000),
+(19, 1, 'Running al amanecer', 'Actividad matinal para activar cuerpo y mente corriendo.', 'Aventura Madrid Amanecer, Avenida de América, 55, Madrid', 8, 14.50, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28028', 40.45160000, -3.67690000),
+(20, 1, 'Clases de pádel iniciación', 'Aprende los golpes básicos y la dinámica del juego.', 'Aventura Madrid Pádel Club, Calle de la Raqueta, 14, Madrid', 9, 20.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4369, '28043', 40.43500000, -3.65000000),
+(21, 1, 'Pádel nivel intermedio', 'Sesión orientada a mejorar técnica y táctica de juego.', 'Aventura Madrid Pádel Pro, Avenida de Europa, 22, Las Rozas de Madrid', 9, 24.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4414, '28232', 40.48550000, -3.87390000),
+(22, 1, 'Partido de pádel guiado', 'Partido supervisado con consejos de monitor.', 'Aventura Madrid Pádel Center, Calle de los Pinos, 4, Guadarrama', 9, 18.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4358, '28440', 40.65840000, -4.07880000),
+(23, 1, 'Ruta ciclista de montaña', 'Salida en bicicleta por senderos de dificultad media.', 'Aventura Madrid Bike Trail, Camino del Monte, 16, Cercedilla', 10, 28.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4328, '28470', 40.65500000, -4.02300000),
+(24, 1, 'Ciclismo urbano', 'Ruta guiada para descubrir la ciudad en bicicleta.', 'Aventura Madrid Cycling, Avenida del Manzanares, 10, Madrid', 10, 18.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4369, '28011', 40.39010000, -3.71530000),
+(25, 1, 'Ciclismo familiar', 'Recorrido en bici adaptado para familias y principiantes.', 'Aventura Madrid Bike Family, Calle del Parque, 8, Rivas-Vaciamadrid', 10, 16.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4410, '28521', 40.36140000, -3.52800000),
+(26, 2, 'Circuito termal', 'Experiencia de spa con piscina activa, chorros y zona de relax.', 'Nature Escape Zen, Calle de Luchana, 19, Madrid', 11, 35.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 4369, '28010', 40.42800000, -3.70400000),
+(27, 2, 'Spa con sauna', 'Sesión de bienestar con sauna y circuito de aguas.', 'Nature Escape Alma, Avenida del Acueducto, 22, Segovia', 11, 40.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 6038, '40001', 40.94190000, -4.10680000),
+(28, 2, 'Spa en pareja', 'Experiencia relajante para dos personas con acceso completo al spa.', 'Nature Escape Spa Parejas, Calle Jardines, 11, Segovia', 11, 65.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 6038, '40002', 40.94700000, -4.11700000),
+(29, 2, 'Masaje relajante', 'Masaje corporal para aliviar tensión y favorecer el descanso.', 'Nature Escape Masajes, Calle de Velázquez, 30, Madrid', 12, 32.00, '45 minutos', 'No se requieren materiales', 'activo', 4369, '28001', 40.42430000, -3.68870000),
+(30, 2, 'Masaje descontracturante', 'Tratamiento enfocado en zonas de tensión muscular.', 'Nature Escape Fisio Relax, Calle Real, 9, Segovia', 12, 38.00, '45 minutos', 'No se requieren materiales', 'activo', 6038, '40003', 40.94810000, -4.11850000),
+(31, 2, 'Masaje con piedras calientes', 'Sesión de masaje combinada con calor terapéutico.', 'Nature Escape Piedras, Calle de Serrano, 62, Madrid', 12, 42.00, '45 minutos', 'No se requieren materiales', 'activo', 4369, '28001', 40.42740000, -3.68720000),
+(32, 2, 'Meditación guiada', 'Sesión dirigida para reducir estrés y mejorar concentración.', 'Nature Escape Meditación, Calle del Lago, 7, Segovia', 13, 10.00, '45 minutos', 'Ropa cómoda', 'activo', 6038, '40005', 40.93500000, -4.11000000),
+(33, 2, 'Mindfulness para principiantes', 'Introducción práctica a la atención plena.', 'Nature Escape Mindfulness, Calle del Lago, 7, Segovia', 13, 11.50, '45 minutos', 'Ropa cómoda', 'activo', 6038, '40005', 40.93500000, -4.11000000),
+(34, 2, 'Meditación con cuencos', 'Sesión relajante acompañada de sonido de cuencos tibetanos.', 'Nature Escape Sonora, Calle Real, 18, Segovia', 13, 18.00, '45 minutos', 'Ropa cómoda', 'activo', 6038, '40001', 40.94750000, -4.11820000),
+(35, 2, 'Aromaterapia relajante', 'Sesión de bienestar con aceites esenciales calmantes.', 'Nature Escape Aroma Studio, Calle Jardines, 11, Segovia', 14, 22.00, '1 hora', 'No se requieren materiales', 'activo', 6038, '40002', 40.94700000, -4.11700000),
+(36, 2, 'Ritual sensorial', 'Experiencia de aromaterapia centrada en relajación profunda.', 'Nature Escape Ritual Room, Avenida Sierra, 45, Segovia', 14, 26.00, '1 hora', 'No se requieren materiales', 'activo', 6038, '40006', 40.95000000, -4.10500000),
+(37, 2, 'Aromaterapia para dormir mejor', 'Sesión enfocada en descanso, calma y equilibrio.', 'Nature Escape Sueño, Calle Cervantes, 16, Segovia', 14, 24.00, '1 hora', 'No se requieren materiales', 'activo', 6038, '40004', 40.94600000, -4.11600000),
+(38, 1, 'Escalada deportiva', 'Sesión guiada de escalada deportiva en roca para nivel básico e intermedio.', 'Aventura Madrid Vertical, Calle del Peñón, 6, Patones', 4, 42.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4393, '28189', 40.88200000, -3.52000000),
+(39, 1, 'Escalada en familia', 'Actividad de escalada adaptada para familias con monitor especializado.', 'Aventura Madrid Family Climb, Calle Rocódromo, 2, San Sebastián de los Reyes', 4, 36.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4421, '28701', 40.54860000, -3.62700000),
+(40, 1, 'Taller de técnica de escalada', 'Perfecciona agarres, apoyos y equilibrio en pared natural.', 'Aventura Madrid Técnica, Camino del Pantano, 8, San Martín de Valdeiglesias', 4, 39.00, '2 horas', 'Arnés, casco y pies de gato (incluidos)', 'activo', 4420, '28680', 40.36570000, -4.39600000),
+(41, 1, 'Ruta de senderismo entre pinares', 'Caminata guiada por senderos naturales rodeados de bosque.', 'Aventura Madrid Forest, Calle de los Pinos, 3, Cercedilla', 5, 22.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4328, '28470', 40.65450000, -4.02250000),
+(42, 1, 'Senderismo con interpretación ambiental', 'Ruta suave con explicaciones sobre flora, fauna y entorno.', 'Aventura Madrid Eco Trek, Camino Verde, 10, Montejo de la Sierra', 5, 20.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4377, '28190', 41.08030000, -3.59370000),
+(43, 1, 'Senderismo de montaña', 'Actividad para amantes de la naturaleza con recorrido de dificultad media.', 'Aventura Madrid Mountain, Avenida del Puerto, 13, Navacerrada', 5, 27.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4382, '28491', 40.72950000, -4.01050000),
+(44, 1, 'Ruta guiada en fin de semana', 'Excursión organizada para desconectar y hacer ejercicio al aire libre.', 'Aventura Madrid Weekend, Camino del Valle, 5, Rascafría', 5, 24.00, '4 horas', 'Calzado de montaña, agua y protección solar', 'activo', 4407, '28740', 40.90130000, -3.86710000),
+(45, 2, 'Vinyasa Yoga', 'Clase dinámica de yoga con secuencias fluidas y respiración consciente.', 'Nature Escape Yoga Flow, Calle de Alcalá, 88, Madrid', 6, 16.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4369, '28009', 40.41930000, -3.69210000),
+(46, 3, 'Yoga Flow', 'Sesión de yoga activo para mejorar movilidad, fuerza y equilibrio.', 'Aura Flow Studio, Calle Lago Azul, 10, Rivas-Vaciamadrid', 6, 15.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4410, '28521', 40.36180000, -3.52700000),
+(47, 3, 'Yoga Relax', 'Clase orientada a relajación profunda y liberación de tensión.', 'Aura Relax Room, Calle Roma, 4, Arganda del Rey', 6, 14.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4304, '28500', 40.30650000, -3.43800000),
+(48, 2, 'Yoga al atardecer', 'Experiencia de yoga suave al aire libre en horario de tarde.', 'Nature Escape Sunset Yoga, Paseo del Embarcadero, 4, Rascafría', 6, 17.00, '1 hora', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4407, '28740', 40.90080000, -3.86650000),
+(49, 2, 'Pilates core', 'Clase centrada en abdomen, control postural y estabilidad.', 'Nature Escape Pilates Core, Calle de Núñez de Balboa, 25, Madrid', 7, 15.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4369, '28001', 40.42710000, -3.68620000),
+(50, 2, 'Pilates equilibrio', 'Trabajo corporal enfocado en coordinación, fuerza y flexibilidad.', 'Nature Escape Stability, Calle Real, 9, Segovia', 7, 14.50, '1 hora', 'Esterilla y ropa cómoda', 'activo', 6038, '40003', 40.94810000, -4.11850000),
+(51, 2, 'Pilates suave', 'Sesión tranquila ideal para comenzar o retomar actividad física.', 'Nature Escape Control Studio, Calle de Goya, 41, Madrid', 7, 13.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4369, '28001', 40.42300000, -3.68200000),
+(52, 2, 'Pilates de mañana', 'Actividad de pilates para activar el cuerpo al empezar el día.', 'Nature Escape Postural, Avenida de la Constitución, 17, Alcobendas', 7, 14.00, '1 hora', 'Esterilla y ropa cómoda', 'activo', 4296, '28100', 40.54670000, -3.64120000),
+(53, 1, 'Running resistencia', 'Entrenamiento guiado para mejorar fondo y capacidad aeróbica.', 'Aventura Madrid Running Club, Paseo del Prado, 9, Madrid', 8, 14.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28014', 40.41380000, -3.69210000),
+(54, 1, 'Running técnica de carrera', 'Sesión para trabajar postura, apoyo y eficiencia al correr.', 'Aventura Madrid Técnica Run, Avenida del Manzanares, 12, Madrid', 8, 16.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28011', 40.39050000, -3.71550000),
+(55, 1, 'Grupo running principiantes', 'Entrenamiento adaptado para quienes empiezan desde cero.', 'Aventura Madrid Run Inicio, Calle de Alcalá, 88, Madrid', 8, 11.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28009', 40.41930000, -3.69210000),
+(56, 1, 'Running intervalos', 'Trabajo por series para mejorar velocidad y resistencia.', 'Aventura Madrid Intervalos, Calle Velódromo, 4, Madrid', 8, 15.00, '1 hora', 'Zapatillas deportivas y ropa cómoda', 'activo', 4369, '28045', 40.41000000, -3.66800000),
+(57, 1, 'Pádel para principiantes', 'Clase para aprender posiciones, golpes básicos y dinámica de juego.', 'Aventura Madrid Pádel Club, Calle de la Raqueta, 14, Madrid', 9, 19.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4369, '28043', 40.43500000, -3.65000000),
+(58, 1, 'Pádel perfeccionamiento', 'Sesión técnica para mejorar control, volea y bandeja.', 'Aventura Madrid Pádel Pro, Avenida de Europa, 22, Las Rozas de Madrid', 9, 23.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4414, '28232', 40.48550000, -3.87390000),
+(59, 1, 'Pádel en pareja', 'Entrenamiento compartido con ejercicios y partido guiado.', 'Aventura Madrid Pádel Dúo, Calle del Deporte, 9, Guadarrama', 9, 21.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4358, '28440', 40.65800000, -4.07900000),
+(60, 1, 'Pádel intensivo', 'Clase más exigente para trabajar táctica y ritmo de juego.', 'Aventura Madrid Pádel Intensivo, Calle Olímpica, 5, San Sebastián de los Reyes', 9, 26.00, '1 hora y 30 minutos', 'Pala de pádel y ropa deportiva', 'activo', 4421, '28701', 40.54880000, -3.62720000),
+(61, 1, 'Ruta ciclista por vía verde', 'Recorrido guiado en bicicleta por un entorno natural accesible.', 'Aventura Madrid Bike Green, Camino Verde, 10, Arganda del Rey', 10, 19.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4304, '28500', 40.30950000, -3.44100000),
+(62, 1, 'Ciclismo de resistencia', 'Salida de media distancia para mejorar forma física y técnica.', 'Aventura Madrid Cycling, Avenida de Europa, 17, Pozuelo de Alarcón', 10, 29.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4401, '28224', 40.43550000, -3.87300000),
+(63, 1, 'Ciclismo para principiantes', 'Ruta suave para personas que quieren empezar en bici.', 'Aventura Madrid Bike Inicio, Calle Velódromo, 4, Madrid', 10, 15.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4369, '28045', 40.41000000, -3.66800000),
+(64, 1, 'Ruta ciclista al amanecer', 'Experiencia en bici a primera hora con monitor y grupo reducido.', 'Aventura Madrid Amanecer Bike, Camino del Río, 8, Rascafría', 10, 21.00, '3 horas', 'Bicicleta, casco y agua', 'activo', 4407, '28740', 40.90150000, -3.86800000),
+(65, 2, 'Spa premium', 'Acceso a zona termal premium con piscinas, sauna y relax.', 'Nature Escape Spa Premium, Plaza Mayor, 11, Segovia', 11, 48.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 6038, '40001', 40.94810000, -4.11840000),
+(66, 2, 'Balneario relax', 'Experiencia de bienestar con circuito completo y zona de descanso.', 'Nature Escape Balneario, Calle Sierra, 4, Guadarrama', 11, 44.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 4358, '28440', 40.65820000, -4.07850000),
+(67, 2, 'Spa urbano', 'Sesión de desconexión en un spa moderno en pleno entorno urbano.', 'Nature Escape Spa Urbano, Calle Gran Vía, 55, Madrid', 11, 33.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 4369, '28013', 40.42030000, -3.70570000),
+(68, 2, 'Spa con hidromasaje', 'Circuito de bienestar con jacuzzi, sauna y piscina activa.', 'Nature Escape Hidro Spa, Calle Jardines, 15, Segovia', 11, 39.00, '2 horas', 'Bañador, chanclas y toalla', 'activo', 6038, '40002', 40.94720000, -4.11720000),
+(69, 2, 'Masaje de espalda y cuello', 'Masaje localizado para aliviar tensión acumulada en la parte superior.', 'Nature Escape Masajes, Calle de Velázquez, 30, Madrid', 12, 28.00, '45 minutos', 'No se requieren materiales', 'activo', 4369, '28001', 40.42430000, -3.68870000),
+(70, 2, 'Masaje corporal completo', 'Sesión integral enfocada en descanso, circulación y bienestar.', 'Nature Escape Corporal, Calle Real, 9, Segovia', 12, 40.00, '45 minutos', 'No se requieren materiales', 'activo', 6038, '40003', 40.94810000, -4.11850000),
+(71, 2, 'Masaje aromático', 'Tratamiento relajante con aceites esenciales y ambiente sensorial.', 'Nature Escape Masaje Aromático, Calle de Serrano, 62, Madrid', 12, 35.00, '45 minutos', 'No se requieren materiales', 'activo', 4369, '28001', 40.42740000, -3.68720000),
+(72, 2, 'Masaje facial relajante', 'Sesión suave para relajar la musculatura facial y descargar tensión.', 'Nature Escape Facial Relax, Avenida del Acueducto, 22, Segovia', 12, 24.00, '45 minutos', 'No se requieren materiales', 'activo', 6038, '40001', 40.94190000, -4.10680000),
+(73, 2, 'Meditación de mañanas conscientes', 'Sesión guiada para empezar el día con calma y claridad mental.', 'Nature Escape Meditación, Calle del Lago, 3, Segovia', 13, 9.50, '45 minutos', 'Ropa cómoda', 'activo', 6038, '40005', 40.93480000, -4.10980000),
+(74, 2, 'Meditación antiestrés', 'Práctica orientada a reducir estrés, tensión y ruido mental.', 'Nature Escape Respira, Calle de Ibiza, 14, Madrid', 13, 12.00, '45 minutos', 'Ropa cómoda', 'activo', 4369, '28009', 40.40830000, -3.67550000),
+(75, 2, 'Meditación en grupo', 'Encuentro grupal para trabajar respiración, presencia y equilibrio.', 'Nature Escape Mind Center, Avenida Levante, 20, Rivas-Vaciamadrid', 13, 10.50, '45 minutos', 'Ropa cómoda', 'activo', 4410, '28521', 40.36200000, -3.52680000),
+(76, 2, 'Meditación al aire libre', 'Sesión de conexión y calma en entorno natural.', 'Nature Escape Outdoor Calm, Paseo del Embarcadero, 6, Rascafría', 13, 11.00, '45 minutos', 'Ropa cómoda', 'activo', 4407, '28740', 40.90100000, -3.86680000),
+(77, 2, 'Aromaterapia calmante', 'Sesión centrada en relajación mediante aceites esenciales suaves.', 'Nature Escape Aroma Studio, Calle de Serrano, 62, Madrid', 14, 21.00, '1 hora', 'No se requieren materiales', 'activo', 4369, '28001', 40.42740000, -3.68720000),
+(78, 2, 'Aromaterapia energizante', 'Experiencia sensorial con fragancias cítricas y estimulantes.', 'Nature Escape Wellness Room, Avenida Sierra, 21, Segovia', 14, 23.00, '1 hora', 'No se requieren materiales', 'activo', 6038, '40006', 40.94980000, -4.10480000),
+(79, 2, 'Ritual de aceites esenciales', 'Tratamiento de bienestar con enfoque sensorial y relajante.', 'Nature Escape Relax Center, Calle Mayor, 18, Madrid', 14, 27.00, '1 hora', 'No se requieren materiales', 'activo', 4369, '28013', 40.41530000, -3.70390000),
+(80, 2, 'Aromaterapia premium', 'Experiencia completa con aceites, ambiente guiado y descanso final.', 'Nature Escape Premium Experience, Calle de Alcalá, 120, Madrid', 14, 29.00, '1 hora', 'No se requieren materiales', 'activo', 4369, '28009', 40.41650000, -3.68540000),
+(82, 3, 'Meditación consciente guiada', 'Sesión de meditación consciente guiada orientada a reducir el estrés y mejorar el bienestar emocional. A través de técnicas de respiración y atención plena, aprenderás a centrarte en el momento presente en un entorno tranquilo y relajante. No se requiere experiencia previa, ideal tanto para principiantes como para personas que quieran profundizar en su práctica.', 'Aura Experience, Calle Mayor 5, Velilla de San Antonio', 13, 22.50, '1 hora y 20 minutos', 'Esterilla y ropa cómoda', 'activo', 4453, '28500', 40.36830000, -3.48800000),
+(85, 3, 'Estiramientos relajantes', 'Estiramientos específicos para relajar y todos los musculos del cuerpo y sentirse totalmente renovada', 'Aura Wellness Center, Calle Mayor, 24, Móstoles', 6, 14.99, '1 hora', 'Esterilla, cintas.', 'activo', 4381, '28931', 40.32280000, -3.86410000),
+(86, 3, 'Meditación para principiantes', 'Clase de meditación y mindfulness pensado para personas que deseen experimentar este ejercicio por primera vez.', 'Aura Experience, Avenida de Madrid, 24, Arganda del Rey', 13, 20.00, '2 horas', 'Esterilla', 'cancelado', 4304, '28500', 40.30810000, -3.43890000),
+(87, 3, 'Sesión de mindfulness al atardecer', 'Actividad guiada de mindfulness y relajación enfocada en reducir el estrés y mejorar el bienestar emocional.', 'Espacio Alma Serena, Calle Floridablanca, 20, San Lorenzo de El Escorial', 13, 18.00, '1 hora y 30 minutos', 'Esterilla, ropa cómoda y botella de agua', 'activo', 4418, '28200', 40.59400000, -4.14840000),
 (88, 3, 'Clase de yoga restaurativo', 'Sesión de yoga enfocada en relajación, respiración consciente y reducción del estrés.', 'Centro Armonía Natural, Calle del Pez, 6, Madrid', 6, 22.00, '1 hora y 15 minutos', 'Esterilla, ropa cómoda y manta ligera', 'activo', 4369, '28004', 40.42283960, -3.70401270);
 
 -- --------------------------------------------------------
@@ -14429,7 +14435,10 @@ INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`
 (11, 'laura', 'bas', 'lau@gmail.com', '$2y$10$rjJa4NeRTpdx1jGrXwcj1ONNN3My.yvVTzPm3RO3tTyD9DcGVg3rO', '876879876', 2, '2026-03-27 14:11:09', 1, 'activo'),
 (12, 'Cris', 'Gzlez', 'cris22@gmail.com', '$2y$10$9tspqlpKDHvVhEMzOeXY5u.0ER7M9sEGUz/2pexsfbwbtGxJOOuxK', '666666666', 1, '2026-04-14 23:04:22', 0, 'activo'),
 (13, 'pepe', 'pepe', 'pepe@gmail.com', '$2y$10$XDn96/TA4QKjhBfgtIU6pOTIHFE9i34BNNHq/mZ5Oe9mPLbEkQFZy', '666666665', 1, '2026-04-29 23:06:46', 0, 'activo'),
-(14, 'Cristina', 'Gonzalez', 'cris@gmail.com', '$2y$10$CRSx43h.6XNFoXyGwQQ6DOZnaiItxewVfaZQryEHWElPoZmcgpV92', '699999999', 3, '2026-05-06 10:53:50', 0, 'activo');
+(14, 'Cristina', 'Gonzalez', 'cris@gmail.com', '$2y$10$CRSx43h.6XNFoXyGwQQ6DOZnaiItxewVfaZQryEHWElPoZmcgpV92', '699999999', 3, '2026-05-06 10:53:50', 0, 'activo'),
+(15, 'Cristina', 'Gonz&aacute;lez', 'cristinagonzalez22daw@gmail.com', '$2y$10$T.sBCokByq1M/pEV3H/1VurpN.4uNnk41dNe4Sqiz9YBYjNVCfL/e', '635041285', 1, '2026-05-21 22:52:05', 0, 'activo'),
+(16, 'Andrada', 'Robitu', 'andrada.robitu@gmail.com', '$2y$10$.FiOV6L9OoCci7m1JuYg2OTDb8D.zmZ9L/GioTOMzwm818CYvWoBO', '644887755', 1, '2026-05-21 23:15:41', 0, 'activo'),
+(17, 'Laura', 'Basurto', 'lauritabasurtoteno@gmail.com', '$2y$10$TAyvsG6vNa3OczjE.Y8qwORCVnkEleK6JcbN6hW2vureJ.3F7dXhO', '699885566', 1, '2026-05-21 23:20:25', 0, 'activo');
 
 --
 -- Índices para tablas volcadas
@@ -14585,7 +14594,7 @@ ALTER TABLE `resena`
 -- AUTO_INCREMENT de la tabla `reserva`
 --
 ALTER TABLE `reserva`
-  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -14609,7 +14618,7 @@ ALTER TABLE `solicitud_empresa`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Restricciones para tablas volcadas
