@@ -13,7 +13,7 @@ $banderaerror = false;
 $email = "";
 $emailerror = "";
 if(isset($_POST["email"])){
-    $email = htmlentities($_POST["email"]);
+    $email = trim($_POST["email"]);
     if($email == ""){
         $emailerror = "El campo email no puede estar vacío";
         $banderaerror = true;
@@ -23,7 +23,7 @@ if(isset($_POST["email"])){
 $contraseña = "";
 $contraerror = "";
 if(isset($_POST["contraseña"])){
-    $contraseña = htmlentities($_POST["contraseña"]);
+    $contraseña = $_POST["contraseña"];
     if($contraseña == ""){
         $contraerror = "El campo contraseña no puede estar vacío";
         $banderaerror = true;

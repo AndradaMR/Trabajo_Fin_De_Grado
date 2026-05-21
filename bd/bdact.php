@@ -214,7 +214,14 @@ public function filtrarActividades($buscador = "", $categoria = "", $subcategori
 }
 
 public function obtenerActividadPorId($idServicio){
-    $sentencia = "SELECT * FROM servicio WHERE id_servicio = :id_servicio AND estado = 'activo'";
+    $sentencia = "SELECT 
+            s.*,
+            e.nombre_empresa,
+            e.telefono AS telefono_empresa,
+            e.email AS email_empresa
+        FROM servicio s
+        INNER JOIN empresa e ON s.id_empresa = e.id_empresa
+        WHERE s.id_servicio = :id_servicio";
     $ejecucion = $this->pdo->prepare($sentencia);
     $ejecucion->execute([
         ":id_servicio" => $idServicio
@@ -376,19 +383,28 @@ public function ObtenerReservaUsuarioPorId($idUsuario, $idReserva){
                     r.id_servicio,
                     r.fecha_hora,
                     r.id_detalle_actividad,
+
                     s.nombre_servicio,
                     s.descripcion,
                     s.lugar,
                     s.precio,
                     s.duracion,
+
                     d.fecha,
                     d.hora_inicio,
-                    d.hora_fin
+                    d.hora_fin,
+
+                    e.nombre_empresa,
+                    e.telefono AS telefono_empresa,
+                    e.email AS email_empresa
+
                   FROM reserva r
                   INNER JOIN servicio s 
                     ON r.id_servicio = s.id_servicio
                   INNER JOIN detalle_actividad d 
                     ON r.id_detalle_actividad = d.id
+                  INNER JOIN empresa e
+                    ON s.id_empresa = e.id_empresa
                   WHERE r.id_usuario = :id_usuario
                   AND r.id_reserva = :id_reserva
                   LIMIT 1";
@@ -399,8 +415,7 @@ public function ObtenerReservaUsuarioPorId($idUsuario, $idReserva){
         ":id_reserva" => $idReserva
     ]);
 
-    $fila = $ejecucion->fetch(PDO::FETCH_ASSOC);
-    return $fila;
+    return $ejecucion->fetch(PDO::FETCH_ASSOC);
 }
 
 public function ModificarReserva($idUsuario, $idReserva, $idDetalle, $fechaHora){
@@ -657,6 +672,37 @@ public function obtenerResenasServicio($idServicio){
     $ejecucion->execute([
         ":id_servicio" => $idServicio
     ]);
+
+    return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function obtenerActividadesMapaInicio(){
+    $sentencia = "SELECT 
+                    s.id_servicio,
+                    s.nombre_servicio,
+                    s.lugar,
+                    s.precio,
+                    s.latitud,
+                    s.longitud,
+                    c.nombre AS subcategoria,
+                    e.nombre_empresa,
+                    COUNT(r.id_reserva) AS total_reservas
+                  FROM servicio s
+                  INNER JOIN empresa e ON s.id_empresa = e.id_empresa
+                  INNER JOIN categoria c ON s.id_categoria = c.id_categoria
+                  LEFT JOIN reserva r 
+                    ON s.id_servicio = r.id_servicio 
+                    AND r.estado = 'confirmada'
+                  WHERE s.estado = 'activo'
+                    AND e.estado = 'activa'
+                    AND s.latitud IS NOT NULL
+                    AND s.longitud IS NOT NULL
+                  GROUP BY s.id_servicio
+                  ORDER BY total_reservas DESC
+                  LIMIT 12";
+
+    $ejecucion = $this->pdo->prepare($sentencia);
+    $ejecucion->execute();
 
     return $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 }

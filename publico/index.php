@@ -1,7 +1,8 @@
 <?php
 $titulo="<h1>Bienvenido a Body and Soul</h1>";
-require_once("head.php");
 
+require_once("head.php");
+$actividadesMapa = $bdact->obtenerActividadesMapaInicio();
 ?>
 
   <main>
@@ -131,6 +132,7 @@ require_once("head.php");
 <script>
 //Necesitamos pasar a mi script las subcategorias organizadas para usarlas con el filtro
 let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAPED_UNICODE); ?>;
+const actividadesMapa = <?= json_encode($actividadesMapa, JSON_UNESCAPED_UNICODE); ?>;
 </script>
 
 <script>
@@ -265,6 +267,33 @@ let subcategoriasPorPadre = <?= json_encode($subcategoriasPorPadre, JSON_UNESCAP
 
       buscar();
     });
+
+    actividadesMapa.forEach(actividad => {
+      if(!actividad.latitud || !actividad.longitud){
+          return;
+      }
+      const marker = L.marker([
+        parseFloat(actividad.latitud),
+        parseFloat(actividad.longitud)
+      ]).addTo(mapaIndex);
+
+      marker.bindPopup(`
+        <strong>${actividad.nombre_servicio}</strong><br>
+        ${actividad.nombre_empresa}<br>
+        ${actividad.lugar}<br>
+        ${actividad.precio} €<br>
+        <a href="actividad.php?idact=${actividad.id_servicio}">
+          Ver actividad
+        </a>
+      `);
+
+      marcadoresMapa.push(marker);
+    });
+
+    if(marcadoresMapa.length > 0){
+      const grupo = L.featureGroup(marcadoresMapa);
+      mapaIndex.fitBounds(grupo.getBounds().pad(0.2));
+    }
 
   });
 </script>

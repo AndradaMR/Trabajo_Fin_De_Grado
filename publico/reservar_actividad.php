@@ -61,6 +61,29 @@ $fechaHora = $franja["fecha"] . " " . $franja["hora_inicio"];
 
 $reservaOk = $bdact->crearReserva($idUsuario, $idServicio, $fechaHora, $idDetalle);
 
+if($reservaOk){
+    require_once("../utils/mailer.php");
+    $actividad = $bdact->obtenerActividadPorId($idServicio);
+    $usuario = $bbdd->ObtenerUsuario($idUsuario);
+    $datosReserva = [
+
+        "actividad" => $actividad["nombre_servicio"],
+        "fecha" => $franja["fecha"],
+        "hora" => $franja["hora_inicio"],
+        "duracion" => $actividad["duracion"],
+        "ubicacion" => $actividad["lugar"],
+        "empresa" => $actividad["nombre_empresa"],
+        "telefono" => $actividad["telefono_empresa"]
+
+    ];
+
+    enviarCorreoReserva(
+        $usuario["email"],
+        $usuario["nombre"],
+        $datosReserva
+    );  
+}
+
 if ($reservaOk) {
     header("Location: mis-reservas.php");
     exit;
